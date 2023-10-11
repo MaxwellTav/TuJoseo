@@ -8,5 +8,20 @@ namespace TuJoseo.Controllers
         {
             return View();
         }
+
+        public IActionResult ForgotPassword()
+        {
+            return View();
+        }
+
+        public IActionResult RealForgotPassword()
+        {
+            return View();
+        }
+
+        public IActionResult RegisterNewUser()
+        {
+            return View();
+        }
     }
 }

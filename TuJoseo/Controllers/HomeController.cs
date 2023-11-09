@@ -18,6 +18,11 @@ namespace TuJoseo.Controllers
             return View();
         }
 
+        public IActionResult IndexHTML()
+        {
+            return View();
+        }
+
         public IActionResult Privacy()
         {
             return View();

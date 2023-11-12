@@ -29,5 +29,7 @@
         public string UserLocation { get; set; }
         public string UserHabilities { get; set; }
         public string UserNotes { get; set; }
+
+        public string UserRol { get; set; }
     }
 }

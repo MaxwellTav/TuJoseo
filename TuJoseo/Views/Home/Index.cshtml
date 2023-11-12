@@ -1,4 +1,5 @@
-﻿@{
+﻿@model UserModel
+@{
     ViewData["Title"] = "Principal";
 }
 <html>
@@ -35,10 +36,10 @@
 </head>
 
 <body class="hold-transition sidebar-mini layout-fixed">
-    @*<!-- Preloader -->
-    <div class="preloader flex-column justify-content-center align-items-center">
+    <!-- Preloader -->
+    <div id="preloader" class="preloader flex-column justify-content-center align-items-center">
         <img class="animation__shake" src="~/adminlte/dist/img/JoseoIcon.png" alt="AdminLTELogo" height="60" width="60">
-    </div>*@
+    </div>
 
 <!-- Content Wrapper. Contains page content -->
 <div class="content-wrapper">
@@ -47,8 +48,7 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1 class="m-0 justify-content-center">Tu Joseo - ¡El trabajo viene a ti!</h1>
-                    <h5 class="m-0 justify-content-center">Bienvenido</h5>
+                    <h5 class="m-0 justify-content-center">Tu Joseo - ¡El trabajo viene a ti!</h5>
                 </div><!-- /.col -->
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
@@ -69,7 +69,7 @@
             <!-- small box -->
             <div class="small-box bg-info">
               <div class="inner">
-                <h3>150</h3>
+                <h3>@Model.UserJoseosRealized</h3>
 
                 <p>Joseos realizados</p>
               </div>
@@ -84,7 +84,7 @@
             <!-- small box -->
             <div class="small-box bg-success">
               <div class="inner">
-                <h3>97.5<sup style="font-size: 20px">%</sup></h3>
+                <h3>@Model.UserJobQuality<sup style="font-size: 20px">%</sup></h3>
 
                 <p>Calidad de trabajo</p>
               </div>
@@ -99,7 +99,7 @@
             <!-- small box -->
             <div class="small-box bg-warning">
               <div class="inner">
-                <h3>44</h3>
+                <h3>@Model.UserSimpaty</h3>
 
                 <p>Simpatía</p>
               </div>
@@ -114,7 +114,7 @@
             <!-- small box -->
             <div class="small-box bg-danger">
               <div class="inner">
-                <h3>65</h3>
+                <h3>@Model.UserStalkers</h3>
 
                 <p>Stalkers</p>
               </div>
@@ -658,4 +658,18 @@
 
 </body>
 
+
+<script>
+    // JavaScript para verificar el tamaño de la pantalla y mostrar/ocultar el preloader
+    window.onload = function () {
+        var preloader = document.getElementById('preloader');
+
+        // Si el ancho de la pantalla es menor que 768px (puedes ajustar este valor según tus necesidades)
+        if (window.innerWidth < 768) {
+            preloader.style.display = 'none'; // Oculta el preloader en dispositivos móviles
+        } else {
+            preloader.style.display = 'block'; // Muestra el preloader en PC
+        }
+    };
+</script>
 </html>

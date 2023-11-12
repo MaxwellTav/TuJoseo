@@ -13,7 +13,7 @@ namespace TuJoseo.Controllers
         public LoginController(IConfiguration configuration)
         {
             _configuration = configuration;
-            ConnectionString = _configuration.GetConnectionString("TestDB");
+            ConnectionString = _configuration.GetConnectionString("DB");
         }
 
         public IActionResult Index()
@@ -71,32 +71,33 @@ namespace TuJoseo.Controllers
                                 while (reader.Read())
                                 {
                                     user.UserID = reader.GetInt32(0);
-                                    user.UserName = reader.GetString(1);
-                                    user.UserCompleteName = reader.GetString(2);
-                                    user.UserPassword = reader.GetString(3);
-                                    user.UserEmail = reader.GetString(4);
+                                    //user.UserName = reader.GetString(1);
+                                    //user.UserCompleteName = reader.GetString(2);
+                                    //user.UserPassword = reader.GetString(3);
+                                    //user.UserEmail = reader.GetString(4);
 
-                                    user.UserRememberMe = Convert.ToBoolean(reader.GetInt32(5));
-                                    user.UserJoseosRealized = reader.GetInt32(6);
-                                    user.UserJobQuality = reader.GetInt32(7);
-                                    user.UserSimpaty = reader.GetInt32(8);
-                                    user.UserStalkers = reader.GetInt32(9);
-                                    user.UserRelevance = reader.GetInt32(10);
-                                    user.UserKnowledge = reader.GetString(11);
-                                    user.UserLastLogin = reader.GetInt32(12);
+                                    //user.UserRememberMe = Convert.ToBoolean(reader.GetInt32(5));
+                                    //user.UserJoseosRealized = reader.GetInt32(6);
+                                    //user.UserJobQuality = reader.GetInt32(7);
+                                    //user.UserSimpaty = reader.GetInt32(8);
+                                    //user.UserStalkers = reader.GetInt32(9);
+                                    //user.UserRelevance = reader.GetInt32(10);
+                                    //user.UserKnowledge = reader.GetString(11);
+                                    //user.UserLastLogin = reader.GetInt32(12);
 
-                                    user.UserUnreadNotification = reader.GetInt32(13);
-                                    user.UserUnreadNotificationTime = reader.GetInt32(14);
-                                    user.UserUnreadMessages = reader.GetInt32(15);
-                                    user.UserUnreadMessagesTime = reader.GetInt32(16);
-                                    user.UserUnreadReports = reader.GetInt32(17);
+                                    //user.UserUnreadNotification = reader.GetInt32(13);
+                                    //user.UserUnreadNotificationTime = reader.GetInt32(14);
+                                    //user.UserUnreadMessages = reader.GetInt32(15);
+                                    //user.UserUnreadMessagesTime = reader.GetInt32(16);
+                                    //user.UserUnreadReports = reader.GetInt32(17);
 
-                                    user.UserEducation = reader.GetValue(18).ToString();
-                                    user.UserLocation = reader.GetValue(19).ToString();
-                                    user.UserHabilities = reader.GetValue(20).ToString();
-                                    user.UserNotes = reader.GetValue(21).ToString();
+                                    //user.UserEducation = reader.GetValue(18).ToString();
+                                    //user.UserLocation = reader.GetValue(19).ToString();
+                                    //user.UserHabilities = reader.GetValue(20).ToString();
+                                    //user.UserNotes = reader.GetValue(21).ToString();
                                 }
 
+                                TempData["UserID"] = user.UserID;
                                 return RedirectToAction("Index", "Home");
                             }
                             else

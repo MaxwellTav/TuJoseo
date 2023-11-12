@@ -1,4 +1,5 @@
-﻿@{
+﻿@model UserModel
+@{
     ViewData["Title"] = "Perfil";
 }
 
@@ -34,19 +35,19 @@
                                              alt="User profile picture">
                                     </div>
 
-                                    <h3 class="profile-username text-center">Nina Mcintire</h3>
+                                    <h3 class="profile-username text-center">@Model.UserName</h3>
 
-                                    <p class="text-muted text-center">Software Engineer</p>
+                                    <p class="text-muted text-center">@Model.UserRol</p>
 
                                     <ul class="list-group list-group-unbordered mb-3">
                                         <li class="list-group-item">
-                                            <b>Calidad de trabajo</b> <a class="float-right">97.5%</a>
+                                            <b>Calidad de trabajo</b> <a class="float-right">@(Model.UserJobQuality)%</a>
                                         </li>
                                         <li class="list-group-item">
-                                            <b>Simpatía</b> <a class="float-right">44%</a>
+                                            <b>Simpatía</b> <a class="float-right">@(Model.UserSimpaty)%</a>
                                         </li>
                                         <li class="list-group-item">
-                                            <b>Stalkers</b> <a class="float-right">65 personas</a>
+                                            <b>Stalkers</b> <a class="float-right">@(Model.UserStalkers) personas</a>
                                         </li>
                                     </ul>
 
@@ -65,36 +66,28 @@
                                     <strong><i class="fas fa-book mr-1"></i> Educación</strong>
 
                                     <p class="text-muted">
-                                        B.S. in Computer Science from the University of Tennessee at Knoxville
+                                        @Model.UserEducation
                                     </p>
 
                                     <hr>
 
                                     <strong><i class="fas fa-map-marker-alt mr-1"></i> Ubicación</strong>
 
-                                    <p class="text-muted">Santo Domingo, República Dominicana.</p>
+                                    <p class="text-muted">@Model.UserLocation</p>
 
                                     <hr>
 
                                     <strong><i class="fas fa-pencil-alt mr-1"></i> Skills / Habilidades</strong>
 
                                     <p class="text-muted">
-                                        <span class="tag tag-danger">UI Design</span>
-                                        <span class="tag tag-success">Coding</span>
-                                        <span class="tag tag-info">Javascript</span>
-                                        <span class="tag tag-warning">PHP</span>
-                                        <span class="tag tag-primary">Node.js</span>
-                                        <span class="tag tag-primary">C#</span>
-                                        <span class="tag tag-primary">Asp .Net</span>
-                                        <span class="tag tag-primary">Asp .Net Core</span>
-                                        <span class="tag tag-primary">SQL</span>
+                                        @Model.UserHabilities
                                     </p>
 
                                     <hr>
 
                                     <strong><i class="far fa-file-alt mr-1"></i> Notes</strong>
 
-                                    <p class="text-muted">Programación y soporte técnico.</p>
+                                    <p class="text-muted">@Model.UserNotes</p>
                                 </div>
                                 <!-- /.card-body -->
                             </div>

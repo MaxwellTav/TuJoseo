@@ -16,7 +16,6 @@
     @await RenderSectionAsync("Styles", required: false)
 </head>
 <body>
-
     @if (!ViewContext.RouteData.Values["controller"].ToString().Equals("Login", StringComparison.OrdinalIgnoreCase))
     {
         <partial name="_Navbar" />

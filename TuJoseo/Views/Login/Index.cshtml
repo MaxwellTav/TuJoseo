@@ -80,6 +80,32 @@
         <!-- /.card -->
     </div>
     <!-- /.login-box -->
+    @if (TempData["Error"] != null)
+    {
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: '@TempData["Error"]',
+                    confirmButtonText: 'OK'
+                });
+            });
+        </script>
+    }
+    @if (TempData["Success"] != null)
+    {
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Chevere',
+                    text: '@TempData["Success"]',
+                    confirmButtonText: 'OK'
+                });
+            });
+        </script>
+    }
 
     <!-- SweetAlert2 -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10/dist/sweetalert2.all.min.js"></script>

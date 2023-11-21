@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
-using Newtonsoft.Json;
 using TuJoseo.Models;
 
 namespace TuJoseo.Controllers
@@ -71,6 +70,7 @@ namespace TuJoseo.Controllers
                                 while (reader.Read())
                                 {
                                     user.UserID = reader.GetInt32(0);
+                                    #region .
                                     //user.UserName = reader.GetString(1);
                                     //user.UserCompleteName = reader.GetString(2);
                                     //user.UserPassword = reader.GetString(3);
@@ -95,25 +95,25 @@ namespace TuJoseo.Controllers
                                     //user.UserLocation = reader.GetValue(19).ToString();
                                     //user.UserHabilities = reader.GetValue(20).ToString();
                                     //user.UserNotes = reader.GetValue(21).ToString();
+                                    #endregion
                                 }
 
-                                TempData["UserID"] = user.UserID;
+                                TempData["Success"] = "Bienvenido " + user.UserName;
                                 return RedirectToAction("Index", "Home");
                             }
                             else
                             {
-                                TempData["ErrorMessage"] = "Usuario o contraseña incorrectos.";
+                                TempData["Error"] = "Nada concuerda, verifica bien...";
                                 return RedirectToAction("Index", "Login");
                             }
                         }
                     }
                 }
-
             }
             catch (Exception ex)
             {
                 // Log the exception for debugging purposes
-                TempData["ErrorMessage"] = "Ocurrió un error durante el inicio de sesión.";
+                TempData["Error"] = "Ocurrió un error durante el inicio de sesión. " + ex.Message;
                 return RedirectToAction("Index", "Login");
             }
         }
@@ -132,5 +132,67 @@ namespace TuJoseo.Controllers
         {
             return View();
         }
+
+        [HttpPost]
+        public async Task<IActionResult> RegisterNewUser(UserModel user)
+        {
+            int trueorfalseformatted;
+            if (user.Terms)
+                trueorfalseformatted = 1;
+            else
+                trueorfalseformatted = 0;
+
+
+            string query = @$"
+        INSERT INTO UserTable 
+        (UserName, UserCompleteName, UserPassword, UserEmail, UserRememberMe,
+         UserJoseosRealized, UserJobQuality, UserSimpaty, UserStalkers, UserRelevance,
+         UserKnowlegde, UserLastLogin, UserUnreadNotifications, UserUnreadNotificationsTime,
+         UserUnreadMessages, UserUnreadMessagesTime, UserUnreadReports, UserUnreadReportsTime,
+         UserEducation, UserLocation, UserHabilities, UserNotes, UserRol)
+        VALUES 
+        ('{user.UserName}', '{user.UserCompleteName}', '{user.UserPassword}', '{user.UserEmail}', {trueorfalseformatted},
+         {user.UserJoseosRealized}, {user.UserJobQuality}, {user.UserSimpaty}, {user.UserStalkers}, {user.UserRelevance},
+         '{user.UserKnowledge}', {user.UserLastLogin}, {user.UserUnreadNotification}, {user.UserUnreadNotificationTime},
+         {user.UserUnreadMessages}, {user.UserUnreadMessagesTime}, {user.UserUnreadReports}, {user.UserUnreadReportsTime},
+         '{user.UserEducation}', '{user.UserLocation}', '{user.UserHabilities}', '{user.UserNotes}', '{user.UserRol}');";
+
+            try
+            {
+                if (user.UserConfirmPassword != user.UserPassword)
+                {
+                    TempData["Error"] = "Las contrasenas no coinciden";
+                }
+                else if (string.IsNullOrEmpty(user.UserName) || string.IsNullOrEmpty(user.UserPassword) || string.IsNullOrEmpty(user.UserConfirmPassword) || string.IsNullOrEmpty(user.UserCompleteName))
+                {
+                    TempData["Error"] = "Por que hay campos vacios?";
+                }
+                else if (!user.Terms)
+                {
+                    TempData["Error"] = "Es obligatorio aceptar todos nuestros terminos y condiciones.";
+                }
+                else
+                {
+                    using (SqlConnection con = new SqlConnection(ConnectionString))
+                    {
+                        using (SqlCommand cmd = new SqlCommand(query, con))
+                        {
+                            con.Open();
+                            cmd.ExecuteNonQuery();
+                            TempData["Success"] = "El usuario ha sido creado con exito.";
+                            return RedirectToAction("Index", "Login");
+                        }
+                    }
+                }
+            }
+            catch (Exception error)
+            {
+                TempData["Error"] = "Hubo un error grave " + error.Message;
+                return View();
+            }
+
+            return View();
+        }
+
     }
 }

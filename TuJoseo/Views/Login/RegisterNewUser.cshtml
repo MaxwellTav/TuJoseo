@@ -1,4 +1,7 @@
-﻿<!DOCTYPE html>
+﻿@model UserModel
+<!DOCTYPE html>
+
+
 <html lang="en">
 <head>
     <meta charset="utf-8">
@@ -23,9 +26,9 @@
             <div class="card-body">
                 <p class="login-box-msg">Regístrese aquí</p>
 
-                <form action="../../index.html" method="post">
+                <form method="post">
                     <div class="input-group mb-3">
-                        <input type="text" class="form-control" placeholder="Nombre completo">
+                        <input type="text" class="form-control" placeholder="Nombre completo" asp-for="UserCompleteName">
                         <div class="input-group-append">
                             <div class="input-group-text">
                                 <span class="fas fa-user"></span>
@@ -33,7 +36,7 @@
                         </div>
                     </div>
                     <div class="input-group mb-3">
-                        <input type="text" class="form-control" placeholder="Nickname">
+                        <input type="text" class="form-control" placeholder="Nickname" asp-for="UserName">
                         <div class="input-group-append">
                             <div class="input-group-text">
                                 <span class="fas fa-user"></span>
@@ -41,7 +44,7 @@
                         </div>
                     </div>
                     <div class="input-group mb-3">
-                        <input type="email" class="form-control" placeholder="Email">
+                        <input type="email" class="form-control" placeholder="Email" asp-for="UserEmail">
                         <div class="input-group-append">
                             <div class="input-group-text">
                                 <span class="fas fa-envelope"></span>
@@ -49,7 +52,7 @@
                         </div>
                     </div>
                     <div class="input-group mb-3">
-                        <input type="password" class="form-control" placeholder="Contraseña">
+                        <input type="password" class="form-control" placeholder="Contraseña" asp-for="UserPassword">
                         <div class="input-group-append">
                             <div class="input-group-text">
                                 <span class="fas fa-lock"></span>
@@ -57,37 +60,53 @@
                         </div>
                     </div>
                     <div class="input-group mb-3">
-                        <input type="password" class="form-control" placeholder="Confirmar contraseña">
+                        <input type="password" class="form-control" placeholder="Confirmar contraseña" asp-for="UserConfirmPassword">
                         <div class="input-group-append">
                             <div class="input-group-text">
                                 <span class="fas fa-lock"></span>
                             </div>
-                        </div>
+                        </div>  
                     </div>
                     <div class="row">
                         <div>
                             <div class="icheck-primary">
-                                <input type="checkbox" id="agreeTerms" name="terms" value="agree">
+
+                                <input type="checkbox" id="agreeTerms" asp-for="@Model.Terms">
                                 <label for="agreeTerms">
                                     Acepto todos los <a href="#">términos y condiciones</a>
                                 </label>
                             </div>
+
                         </div>
+                    </div>
+
+                    <div class="social-auth-links text-center">
+                        <button href="#" class="btn btn-block btn-primary" type="submit">
+                            <i class="fab fa- mr-2"></i>
+                            QUIERO COMENZAR AHORA
+                        </button>
                     </div>
                 </form>
 
-                <div class="social-auth-links text-center">
-                    <a href="#" class="btn btn-block btn-primary">
-                        <i class="fab fa- mr-2"></i>
-                        QUIERO COMENZAR AHORA
-                    </a>
-                </div>
-
-                <a href="@Url.Action("Index", "Login")" class="text-center">Ya tengo una cuenta registrada.</a>
+                <a href="@Url.Action("Index", "Login")" class="text-center">¡Ya tengo una cuenta registrada!</a>
             </div>
+            
             <!-- /.form-box -->
         </div><!-- /.card -->
     </div>
+    @if (TempData["Error"] != null)
+    {
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: '@TempData["Error"]',
+                    confirmButtonText: 'OK'
+                });
+            });
+        </script>
+    }
     <!-- /.register-box -->
     <!-- jQuery -->
     <script src="../../plugins/jquery/jquery.min.js"></script>
@@ -95,5 +114,7 @@
     <script src="../../plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
     <!-- AdminLTE App -->
     <script src="../../dist/js/adminlte.min.js"></script>
+    <!-- SweetAlert2 JS -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </body>
 </html>

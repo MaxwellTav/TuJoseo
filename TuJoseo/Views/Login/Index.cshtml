@@ -20,12 +20,16 @@
     <!-- Theme style -->
     <link rel="stylesheet" href="../../dist/css/adminlte.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@10/dist/sweetalert2.min.css">
-
 </head>
-<body class="hold-transition login-page">
+<body class="hold-transition login-page" sidebar-mini layout-fixed style='background-image: url(@Url.Content("~/dist/img/4140038.jpg")); background-size: cover; background-position: center;'>
+    <!-- Preloader -->
+    <div id="preloader" class="preloader flex-column justify-content-center align-items-center">
+        <img class="animation__shake" src="~/adminlte/dist/img/JoseoIcon.png" alt="AdminLTELogo" height="60" width="60">
+    </div>
+
     <div class="login-box">
         <!-- /.login-logo -->
-        <div class="card card-outline card-primary">
+        <div class="card card-outline card-danger">
             <div class="card-header text-center">
                 <a class="h1">Iniciar <b>Sesión</b></a>
             </div>
@@ -106,6 +110,20 @@
             });
         </script>
     }
+
+    <script>
+        // JavaScript para verificar el tamaño de la pantalla y mostrar/ocultar el preloader
+        window.onload = function () {
+            var preloader = document.getElementById('preloader');
+
+            // Si el ancho de la pantalla es menor que 768px (puedes ajustar este valor según tus necesidades)
+            if (window.innerWidth < 768) {
+                preloader.style.display = 'none'; // Oculta el preloader en dispositivos móviles
+            } else {
+                preloader.style.display = 'block'; // Muestra el preloader en PC
+            }
+        };
+    </script>
 
     <!-- SweetAlert2 -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10/dist/sweetalert2.all.min.js"></script>

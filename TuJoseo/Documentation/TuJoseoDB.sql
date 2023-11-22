@@ -14,7 +14,7 @@ Create Table UserTable
 UserName Varchar(30) Not Null Unique,
 UserCompleteName Varchar(100) Not Null Unique,
 UserPassword Varchar(30) Not Null,
-UserEmail Varchar(100) Not Null,
+UserEmail Varchar(100) Not Null Unique,
 
 UserRememberMe int,
 
@@ -97,7 +97,6 @@ values (
 'Programador y soporte técnico'
 );
 
-
 --Ejecutar pruebas.
 SELECT
       [UserName] as 'Usuario'
@@ -123,7 +122,5 @@ SELECT
       ,[UserHabilities] as 'Habilidades'
       ,[UserNotes] as 'Notas'
       ,[UserRol] as 'Rol'
-  FROM [TuJoseoDB].[dbo].[UserTable]
-  Where [TuJoseoDB].[dbo].[UserTable].[UserEmail] = 'admin@gmail.com' 
-  And [TuJoseoDB].[dbo].[UserTable].[UserPassword] = 'Admin';
+  FROM [TuJoseoDB].[dbo].[UserTable];
 --_________________________________________________________________________________________________________

@@ -98,7 +98,7 @@ namespace TuJoseo.Controllers
                                     #endregion
                                 }
 
-                                TempData["Success"] = "Bienvenido " + user.UserName;
+                                TempData["Success"] = "Nos alegra tenerte de vuelta.";
                                 return RedirectToAction("Index", "Home");
                             }
                             else

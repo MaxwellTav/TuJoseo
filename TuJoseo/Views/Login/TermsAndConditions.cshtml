@@ -12,7 +12,12 @@
     <!-- Theme style -->
     <link rel="stylesheet" href="../../dist/css/adminlte.min.css">
 </head>
-<body class="hold-transition sidebar-mini">
+<body class="hold-transition login-page" sidebar-mini layout-fixed style='background-image: url(@Url.Content("~/dist/img/4140038.jpg")); background-size: cover; background-position: center;'>
+    <!-- Preloader -->
+    <div id="preloader" class="preloader flex-column justify-content-center align-items-center">
+        <img class="animation__shake" src="~/adminlte/dist/img/JoseoIcon.png" alt="AdminLTELogo" height="60" width="60">
+    </div>
+
     <!-- Site wrapper -->
     <div class="wrapper">
         
@@ -185,6 +190,21 @@
         </aside>
         <!-- /.control-sidebar -->
     </div>
+
+    <script>
+        // JavaScript para verificar el tamaño de la pantalla y mostrar/ocultar el preloader
+        window.onload = function () {
+            var preloader = document.getElementById('preloader');
+
+            // Si el ancho de la pantalla es menor que 768px (puedes ajustar este valor según tus necesidades)
+            if (window.innerWidth < 768) {
+                preloader.style.display = 'none'; // Oculta el preloader en dispositivos móviles
+            } else {
+                preloader.style.display = 'block'; // Muestra el preloader en PC
+            }
+        };
+    </script>
+
     <!-- ./wrapper -->
     <!-- jQuery -->
     <script src="../../plugins/jquery/jquery.min.js"></script>
@@ -192,7 +212,5 @@
     <script src="../../plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
     <!-- AdminLTE App -->
     <script src="../../dist/js/adminlte.min.js"></script>
-    <!-- AdminLTE for demo purposes -->
-    <script src="../../dist/js/demo.js"></script>
 </body>
 </html>

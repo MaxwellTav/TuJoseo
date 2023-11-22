@@ -128,6 +128,12 @@ namespace TuJoseo.Controllers
             return View();
         }
 
+        [HttpPost]
+        public async Task<IActionResult> RealForgotPassword(UserModel user)
+        {
+            return View();
+        }
+
         public IActionResult RegisterNewUser()
         {
             return View();
@@ -194,5 +200,9 @@ namespace TuJoseo.Controllers
             return View();
         }
 
+        public async Task<IActionResult> TermsAndConditions()
+        {
+            return View();
+        }
     }
 }

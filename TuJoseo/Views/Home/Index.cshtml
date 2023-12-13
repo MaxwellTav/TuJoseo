@@ -1,4 +1,4 @@
-﻿@model UserModel
+﻿@model MainHomeModel
 @{
     ViewData["Title"] = "Principal";
 }
@@ -32,6 +32,7 @@
     <!-- summernote -->
     <link rel="stylesheet" href="~/adminlte/plugins/summernote/summernote-bs4.min.css">
     <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 
 </head>
 
@@ -69,7 +70,7 @@
             <!-- small box -->
             <div class="small-box bg-info">
               <div class="inner">
-                <h3>@Model.UserJoseosRealized</h3>
+                <h3>@Model.USER.UserJoseosRealized</h3>
 
                 <p>Joseos realizados</p>
               </div>
@@ -84,7 +85,7 @@
             <!-- small box -->
             <div class="small-box bg-success">
               <div class="inner">
-                <h3>@Model.UserJobQuality<sup style="font-size: 20px">%</sup></h3>
+                <h3>@Model.USER.UserJobQuality<sup style="font-size: 20px">%</sup></h3>
 
                 <p>Calidad de trabajo</p>
               </div>
@@ -99,7 +100,7 @@
             <!-- small box -->
             <div class="small-box bg-warning">
               <div class="inner">
-                <h3>@Model.UserSimpaty</h3>
+                  <h3>@Model.USER.UserSimpaty</h3>
 
                 <p>Simpatía</p>
               </div>
@@ -114,7 +115,7 @@
             <!-- small box -->
             <div class="small-box bg-danger">
               <div class="inner">
-                <h3>@Model.UserStalkers</h3>
+                <h3>@Model.USER.UserStalkers</h3>
 
                 <p>Stalkers</p>
               </div>
@@ -380,8 +381,8 @@
                           </a>
                       </div>
                   </div>
-                                <!-- /.card-body -->
-                            </div>
+               <!-- /.card-body -->
+               </div>
             </div>
             <!-- /.Carousel -->
           </section>
@@ -395,134 +396,84 @@
                                     <i class="ion ion-clipboard mr-1"></i>
                                     Anotaciones y pendientes
                                 </h3>
-
                             </div>
 
                             <!-- /.card-header -->
                             <div class="card-body">
                                 <ul class="todo-list" data-widget="todo-list">
-                                    <li>
-                                        <!-- drag handle -->
-                                        <span class="handle">
-                                            <i class="fas fa-ellipsis-v"></i>
-                                            <i class="fas fa-ellipsis-v"></i>
-                                        </span>
-                                        <!-- checkbox -->
-                                        <div class="icheck-primary d-inline ml-2">
-                                            <input type="checkbox" value="" name="todo1" id="todoCheck1">
-                                            <label for="todoCheck1"></label>
-                                        </div>
-                                        <!-- todo text -->
-                                        <span class="text">Hacer el diseño del formulario de respuesta.</span>
-                                        <!-- Emphasis label -->
-                                        <small class="badge badge-danger"><i class="far fa-clock"></i> 2 Minutos</small>
-                                        <!-- General tools such as edit or delete-->
-                                        <div class="tools">
-                                            <i class="fas fa-edit"></i>
-                                            <i class="fas fa-trash-o"></i>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <span class="handle">
-                                            <i class="fas fa-ellipsis-v"></i>
-                                            <i class="fas fa-ellipsis-v"></i>
-                                        </span>
-                                        <div class="icheck-primary d-inline ml-2">
-                                            <input type="checkbox" value="" name="todo2" id="todoCheck2" checked>
-                                            <label for="todoCheck2"></label>
-                                        </div>
-                                        <span class="text">Hacer la página responsiva</span>
-                                        <small class="badge badge-info"><i class="far fa-clock"></i> 4 Horas</small>
-                                        <div class="tools">
-                                            <i class="fas fa-edit"></i>
-                                            <i class="fas fa-trash-o"></i>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <span class="handle">
-                                            <i class="fas fa-ellipsis-v"></i>
-                                            <i class="fas fa-ellipsis-v"></i>
-                                        </span>
-                                        <div class="icheck-primary d-inline ml-2">
-                                            <input type="checkbox" value="" name="todo3" id="todoCheck3" checked>
-                                            <label for="todoCheck3"></label>
-                                        </div>
-                                        <span class="text">Conectar la API y hacer pruebas</span>
-                                        <small class="badge badge-warning"><i class="far fa-clock"></i> 1 Día</small>
-                                        <div class="tools">
-                                            <i class="fas fa-edit"></i>
-                                            <i class="fas fa-trash-o"></i>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <span class="handle">
-                                            <i class="fas fa-ellipsis-v"></i>
-                                            <i class="fas fa-ellipsis-v"></i>
-                                        </span>
-                                        <div class="icheck-primary d-inline ml-2">
-                                            <input type="checkbox" value="" name="todo4" id="todoCheck4">
-                                            <label for="todoCheck4"></label>
-                                        </div>
-                                        <span class="text">Nueva tabla de los usuarios.</span>
-                                        <small class="badge badge-success"><i class="far fa-clock"></i> 3 Días</small>
-                                        <div class="tools">
-                                            <i class="fas fa-edit"></i>
-                                            <i class="fas fa-trash-o"></i>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <span class="handle">
-                                            <i class="fas fa-ellipsis-v"></i>
-                                            <i class="fas fa-ellipsis-v"></i>
-                                        </span>
-                                        <div class="icheck-primary d-inline ml-2">
-                                            <input type="checkbox" value="" name="todo5" id="todoCheck5" checked>
-                                            <label for="todoCheck5"></label>
-                                        </div>
-                                        <span class="text">Crear página para el TimeLine</span>
-                                        <small class="badge badge-primary"><i class="far fa-clock"></i> 1 Semana</small>
-                                        <div class="tools">
-                                            <i class="fas fa-edit"></i>
-                                            <i class="fas fa-trash-o"></i>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <span class="handle">
-                                            <i class="fas fa-ellipsis-v"></i>
-                                            <i class="fas fa-ellipsis-v"></i>
-                                        </span>
-                                        <div class="icheck-primary d-inline ml-2">
-                                            <input type="checkbox" value="" name="todo6" id="todoCheck6">
-                                            <label for="todoCheck6"></label>
-                                        </div>
-                                        <span class="text">Charts no funciona correctamente (No se muestra)</span>
-                                        <small class="badge badge-secondary"><i class="far fa-clock"></i> 1 mes</small>
-                                        <div class="tools">
-                                            <i class="fas fa-edit"></i>
-                                            <i class="fas fa-trash-o"></i>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <span class="handle">
-                                            <i class="fas fa-ellipsis-v"></i>
-                                            <i class="fas fa-ellipsis-v"></i>
-                                        </span>
-                                        <div class="icheck-primary d-inline ml-2">
-                                            <input type="checkbox" value="" name="todo6" id="todoCheck6" checked>
-                                            <label for="todoCheck6"></label>
-                                        </div>
-                                        <span class="text">Integrar tablas de la base de datos</span>
-                                        <small class="badge badge-secondary"><i class="far fa-clock"></i> 1 mes</small>
-                                        <div class="tools">
-                                            <i class="fas fa-edit"></i>
-                                            <i class="fas fa-trash-o"></i>
-                                        </div>
-                                    </li>
+                                    @if (Model.NOTES.NoteList.Count > 0)
+                                    {
+                                        @foreach (var note in Model.NOTES.NoteList)
+                                        {
+                                            <li>
+                                                <!-- checkbox -->
+                                                <div class="icheck-primary d-inline ml-2">
+                                                    <input type="checkbox" asp-for="@note.NoteDone" name=" todo1" id="@note.NoteID">
+                                                    <label for="@note.NoteID"></label>
+                                                </div>
+                                                <!-- todo text -->
+                                                <span class="text">@note.NoteDescription</span>
+                                                <!-- Emphasis label -->
+                                                <small class="badge badge-dark">
+                                                    <i class="far fa-clock"></i>
+
+                                                    @{
+                                                        var tiempoTranscurrido = DateTime.Now - note.NoteTime;
+                                                        var tiempoTranscurridoStr = "";
+
+                                                        if (tiempoTranscurrido.TotalMinutes < 1)
+                                                        {
+                                                            // Mostrar segundos si han pasado menos de 1 minuto
+                                                            var segundos = (int)tiempoTranscurrido.TotalSeconds;
+                                                            tiempoTranscurridoStr = $"{segundos} {(segundos == 1 ? "segundo" : "segundos")}";
+                                                        }
+                                                        else if (tiempoTranscurrido.TotalHours < 1)
+                                                        {
+                                                            // Mostrar minutos si han pasado menos de 1 hora
+                                                            var minutos = (int)tiempoTranscurrido.TotalMinutes;
+                                                            tiempoTranscurridoStr = $"{minutos} {(minutos == 1 ? "minuto" : "minutos")}";
+                                                        }
+                                                        else if (tiempoTranscurrido.TotalDays < 1)
+                                                        {
+                                                            // Mostrar horas si han pasado menos de 1 día
+                                                            var horas = (int)tiempoTranscurrido.TotalHours;
+                                                            tiempoTranscurridoStr = $"{horas} {(horas == 1 ? "hora" : "horas")}";
+                                                        }
+                                                        else
+                                                        {
+                                                            // Mostrar días si ha pasado 1 día o más
+                                                            var dias = (int)tiempoTranscurrido.TotalDays;
+                                                            tiempoTranscurridoStr = $"{dias} {(dias == 1 ? "día" : "días")}";
+                                                        }
+                                                    }
+                                                    @tiempoTranscurridoStr
+                                                </small>
+
+                                                <!-- General tools such as edit or delete-->
+                                                <div class="tools">
+                                                    @* <i class="fas fa-edit" id="@note.NoteID"></i> *@
+                                                    @* <a href="@Url.Action("DeleteNote", "Home")" class="fas fa-trash"></a> *@
+
+                                                    <form method="post" action="@Url.Action("DeleteNote", "Home")">
+                                                        <input type="hidden" name="noteID" value="@note.NoteID" />
+                                                        <button type="submit" class="btn btn-danger" onclick="return confirm('¿Estás seguro de que deseas eliminar esta nota?')"><iconify-icon icon="bi:trash3-fill"></iconify-icon></button>
+                                                    </form>
+                                                </div>
+                                            </li>
+                                        }
+                                    }
                                 </ul>
                             </div>
                             <!-- /.card-body -->
-                            <div class="card-footer clearfix">
-                                <button type="button" class="btn btn-primary float-right"><i class="fas fa-plus"></i> Agregar item</button>
+                            <div class="card-footer">
+                                <form action="@Url.Action("AddNote", "Home")" method="post">
+                                    <div class="input-group">
+                                        <input type="text" name="noteDescription" placeholder="Escribe una nota..." class="form-control">
+                                        <span class="input-group-append">
+                                            <button type="submit" class="btn btn-success">Agregar nota</button>
+                                        </span>
+                                    </div>
+                                </form>
                             </div>
                         </div>
 
@@ -655,9 +606,7 @@
     <!-- /.content -->
 </div>
 <!-- /.content-wrapper -->
-
 </body>
-
 
 <script>
     // JavaScript para verificar el tamaño de la pantalla y mostrar/ocultar el preloader
@@ -671,5 +620,19 @@
             preloader.style.display = 'block'; // Muestra el preloader en PC
         }
     };
+
+    document.getElementById("message").addEventListener("keydown", function (e) {
+        if (e.key === "Enter") {
+            e.preventDefault(); // Evitar el comportamiento predeterminado (recargar la página)
+            // Puedes agregar aquí tu lógica adicional si es necesario
+        }
+    });
+
+    document.getElementById("note").addEventListener("keydown", function (e) {
+        if (e.key === "Enter") {
+            e.preventDefault(); // Evitar el comportamiento predeterminado (recargar la página)
+            // Puedes agregar aquí tu lógica adicional si es necesario
+        }
+    });
 </script>
 </html>

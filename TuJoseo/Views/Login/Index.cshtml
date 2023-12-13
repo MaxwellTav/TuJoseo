@@ -84,19 +84,6 @@
         <!-- /.card -->
     </div>
     <!-- /.login-box -->
-    @if (TempData["Error"] != null)
-    {
-        <script>
-            document.addEventListener('DOMContentLoaded', function () {
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Error',
-                    text: '@TempData["Error"]',
-                    confirmButtonText: 'OK'
-                });
-            });
-        </script>
-    }
     @if (TempData["Success"] != null)
     {
         <script>
@@ -110,7 +97,20 @@
             });
         </script>
     }
-
+    @if (TempData["Error"] != null)
+    {
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: '@TempData["Error"]',
+                    confirmButtonText: 'OK'
+                });
+            });
+        </script>
+    }
+    
     <script>
         // JavaScript para verificar el tamaño de la pantalla y mostrar/ocultar el preloader
         window.onload = function () {

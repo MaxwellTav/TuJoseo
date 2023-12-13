@@ -97,6 +97,15 @@ values (
 'Programador y soporte técnico'
 );
 
+--_________________________________________________________________________________________________________
+--Notas
+Create Table NotesTable
+(NoteID int Primary Key Identity,
+NoteUserID int,
+NoteDescription Varchar(Max),
+NoteTime DATETIME DEFAULT GETDATE(),
+NoteDone Bit Default 0)
+
 --Ejecutar pruebas.
 SELECT
       [UserName] as 'Usuario'

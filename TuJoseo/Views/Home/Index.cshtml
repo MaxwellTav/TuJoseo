@@ -401,7 +401,7 @@
                             <!-- /.card-header -->
                             <div class="card-body">
                                 <ul class="todo-list" data-widget="todo-list">
-                                    @if (Model.NOTES.NoteList.Count > 0)
+                                    @if (Model.NOTES != null && Model.NOTES.NoteList.Count > 0)
                                     {
                                         @foreach (var note in Model.NOTES.NoteList)
                                         {
@@ -423,9 +423,7 @@
 
                                                         if (tiempoTranscurrido.TotalMinutes < 1)
                                                         {
-                                                            // Mostrar segundos si han pasado menos de 1 minuto
-                                                            var segundos = (int)tiempoTranscurrido.TotalSeconds;
-                                                            tiempoTranscurridoStr = $"{segundos} {(segundos == 1 ? "segundo" : "segundos")}";
+                                                            tiempoTranscurridoStr = "Justo Ahora";
                                                         }
                                                         else if (tiempoTranscurrido.TotalHours < 1)
                                                         {
@@ -461,6 +459,50 @@
                                                 </div>
                                             </li>
                                         }
+                                    }
+                                    else
+                                    {
+                                        <li>
+                                            <!-- checkbox -->
+                                            <div class="icheck-primary d-inline ml-2">
+                                                <input type="checkbox" name=" todo1" id="" checked>
+                                                <label for=""></label>
+                                            </div>
+                                            <!-- todo text -->
+                                            <span class="text">Agregar una nueva nota</span>
+                                            <!-- Emphasis label -->
+                                            <small class="badge badge-primary">
+                                                <i class="far fa-clock"></i>
+                                                Creado ahora
+                                            </small>
+
+                                            <!-- General tools such as edit or delete-->
+                                            <div class="tools">
+                                                <input type="hidden" name="noteID" value="" />
+                                                <button type="submit" class="btn btn-danger"><iconify-icon icon="bi:trash3-fill"></iconify-icon></button>
+                                            </div>
+                                        </li>
+
+                                        <li>
+                                            <!-- checkbox -->
+                                            <div class="icheck-primary d-inline ml-2">
+                                                <input type="checkbox" name=" todo1" id="">
+                                                <label for=""></label>
+                                            </div>
+                                            <!-- todo text -->
+                                            <span class="text">Buscar un joseo</span>
+                                            <!-- Emphasis label -->
+                                            <small class="badge badge-warning">
+                                                <i class="far fa-clock"></i>
+                                                Hace 5 minutos
+                                            </small>
+
+                                            <!-- General tools such as edit or delete-->
+                                            <div class="tools">
+                                                <input type="hidden" name="noteID" value="" />
+                                                <button type="submit" class="btn btn-danger"><iconify-icon icon="bi:trash3-fill"></iconify-icon></button>
+                                            </div>
+                                        </li>
                                     }
                                 </ul>
                             </div>

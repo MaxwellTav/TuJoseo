@@ -106,6 +106,13 @@ NoteDescription Varchar(Max),
 NoteTime DATETIME DEFAULT GETDATE(),
 NoteDone Bit Default 0)
 
+INSERT INTO NotesTable (NoteUserID, NoteDescription, NoteTime, NoteDone)
+VALUES (1, 'Tarea hecha', GETDATE(), 0);
+
+Select * From NotesTable Where NoteUserID = 1;
+
+Drop Table NotesTable;
+
 --Ejecutar pruebas.
 SELECT
       [UserName] as 'Usuario'

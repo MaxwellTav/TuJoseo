@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Formatters;
 using Microsoft.Data.SqlClient;
 using System.Diagnostics;
 using TuJoseo.Models;
@@ -169,7 +168,55 @@ namespace TuJoseo.Controllers
             }
             #endregion
 
-            #region Claims
+            #region Joseos
+            string queryJoseo = "SELECT TOP 5 * FROM JoseosTable;";
+
+            try
+            {
+                using (SqlConnection con = new SqlConnection(ConnectionString))
+                {
+                    con.Open();
+                    using (SqlCommand cmd = new SqlCommand(queryJoseo, con))
+                    {
+                        using (SqlDataReader reader = cmd.ExecuteReader())
+                        {
+                            if (reader.HasRows)
+                            {
+                                List<JoseoModel> joseos = new List<JoseoModel>();
+
+                                while (reader.Read())
+                                {
+                                    JoseoModel joseo = new JoseoModel()
+                                    {
+                                        JoseoID = reader.GetInt32(0),
+                                        JoseoTitle = reader.GetString(1),
+                                        JoseoDescription = reader.GetString(2),
+                                        JoseoPrice = reader.GetString(3),
+                                        JoseadorID = reader.GetString(4),
+                                        JoseoStartTime = reader.GetDateTime(5),
+                                        JoseoEstimatedTime = reader.GetDateTime(6),
+                                        JoseoFinishTime = reader.GetDateTime(7),
+                                        JoseoContratoID = reader.GetString(8),
+                                        JoseoStatus = reader.GetString(9)
+                                    };
+
+                                    joseos.Add(joseo);
+                                }
+                                homeModel.JOSEOS = new List<JoseoModel>();
+                                homeModel.JOSEOS = joseos;
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+            #endregion
+
+            #region Claims (Deprecated)
             //ClaimsPrincipal c = HttpContext.User;
             //if (c.Identity != null)
             //{
@@ -193,9 +240,11 @@ namespace TuJoseo.Controllers
 
             #endregion
 
+            #region Mandar usuario a TempData
             _mainHomeModel = homeModel;
             TempData["UserID"] = homeModel.USER.UserID;
             return View(homeModel);
+            #endregion
         }
 
         public IActionResult IndexHTML()
@@ -228,7 +277,7 @@ namespace TuJoseo.Controllers
                     con.Open();
                     using (SqlCommand cmd = new SqlCommand(query, con))
                     {
-                         cmd.ExecuteNonQuery();
+                        cmd.ExecuteNonQuery();
                     }
                 }
                 catch

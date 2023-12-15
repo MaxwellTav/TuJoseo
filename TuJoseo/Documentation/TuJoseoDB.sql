@@ -108,12 +108,25 @@ NoteDone Bit Default 0)
 
 INSERT INTO NotesTable (NoteUserID, NoteDescription, NoteTime, NoteDone)
 VALUES (1, 'Tarea hecha', GETDATE(), 0);
+--_________________________________________________________________________________________________________
 
-Select * From NotesTable Where NoteUserID = 1;
 
-Drop Table NotesTable;
+--Joseos
+Create Table JoseosTable
+(JoseoID int Primary Key Identity,
+JoseoTitle Varchar(30) Not Null,
+JoseoDescription Varchar(Max) Not Null,
+JoseoPrice float Not Null,
+JoseadorID int Not Null,
+JoseoStartTime DATETIME DEFAULT GETDATE() Not Null,
+JoseoEstimatedTime DateTime Not Null,
+JoseoFinishTime DateTime,
+JoseoContratoID int,
+JoseoStatus Varchar(10) Not Null);
 
+--_________________________________________________________________________________________________________
 --Ejecutar pruebas.
+--Pueba de los usuarios
 SELECT
       [UserName] as 'Usuario'
       ,[UserCompleteName] as 'Nombre Completo'
@@ -139,4 +152,7 @@ SELECT
       ,[UserNotes] as 'Notas'
       ,[UserRol] as 'Rol'
   FROM [TuJoseoDB].[dbo].[UserTable];
+
+--Prueba de la tabla de notas.
+Select * From NotesTable Where NoteUserID = 1;
 --_________________________________________________________________________________________________________

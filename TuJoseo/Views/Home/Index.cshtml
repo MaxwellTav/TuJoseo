@@ -587,11 +587,12 @@
             <div class="card-header">
                 <h1 class="m-0">Trabajos especialmente para ti</h1>
             </div>
+                
             <div class="card-body">
                 <div class="tab-pane fade show active" id="custom-tabs-five-overlay" role="tabpanel" aria-labelledby="custom-tabs-five-overlay-tab">
                     <div class="overlay-wrapper">
-                        Encontrando y mostrando el trabajo ideal para ti.
-                        <div class="overlay"><i class="fas fa-3x fa-sync-alt fa-spin"></i><div class="text-bold pt-2">Cargando...</div></div>
+                        Se han encontrado @(Model.JOSEOS.Count) joseos en los que puedes trabajar.
+                        <div class="overlay"><i class="fas fa-3x fa-sync-alt fa-spin"></i><div class="text-bold pt-2">Analizando y buscando...</div></div>
                     </div>
                 </div>
             </div>
@@ -601,45 +602,46 @@
             <div>
                 <div>
                     <div class="card">
-                        <div class="card card-primary card-outline">
-                            <h3 class="m-2">Un CRUD en Asp .Net Core</h3>
-                            <p class="card-text">
-                               ¿Crées que podrías hacerme una conexión de una API
-                                a una data table mediante un Json?
-                            </p>
-                            <div class="text-center">
-                                <a class="btn btn-app btn-lg">
-                                    <i class="fas fa-heart text-danger fa-lg"></i> ME AGRADA LA IDEA
-                                </a>
+                            @if (Model.JOSEOS != null && Model.JOSEOS.Count > 0)
+                            {
+                                @foreach (var joseo in Model.JOSEOS)
+                                {
+                                    <div class="card card-primary card-outline">
+                                        <h3 class="m-2">@joseo.JoseoTitle</h3>
+                                        <p class="card-text">
+                                            @joseo.JoseoDescription
+                                        </p>
+                                        <div class="text-center">
+                                            <a class="btn btn-app btn-lg">
+                                                <i class="fas fa-heart text-danger fa-lg"></i> ESTOY INTERESADO
+                                            </a>
 
-                                <a class="btn btn-app btn-lg">
-                                    <i class="fas fa-dollar-sign text-success fa-lg"></i> 40,000$ Dop
-                                </a>
-                            </div>
-                        </div>
+                                            <a class="btn btn-app btn-lg">
+                                                <i class="fas fa-dollar-sign text-success fa-lg"></i> @(joseo.JoseoPrice)$ Dop
+                                            </a>
 
-                            <div class="card card-primary card-outline">
-                                <h3 class="m-2">Se solicita programador</h3>
-                                <p class="card-text">
-                                    Se necesita un programador Full Stack para nuestra empresa Nutriciosa.
-
-                                    Tiempo completo.
-                                    Que domine el idioma inglés.
-                                    Conocimientos en Angular.
-                                    Conocimientos en React.
-                                </p>
-                                <div class="text-center">
-                                    <a class="btn btn-app btn-lg">
-                                        <i class="fas fa-heart text-danger fa-lg"></i> ME AGRADA LA IDEA
-                                    </a>
-
-                                    <a class="btn btn-app btn-lg">
-                                        <i class="fas fa-dollar-sign text-success fa-lg"></i> 40,000$ Dop
-                                    </a>
-
+                                            <a class="btn btn-app btn-lg">
+                                                <i class="fas fa-dollar-sign text-success fa-lg"></i> Detales del joseo
+                                            </a>
+                                        </div>
+                                    </div>
+                                }
+                            }
+                            else
+                            {
+                                <div class="card card-primary card-outline">
+                                        <h3 class="m-2">¡AQUÍ NO HAY NADA!</h3>
+                                        <p class="card-text">
+                                            No se ha encontrado joseos por el momento, te mantendremos informado.
+                                        </p>
+                                        <div class="text-center">
+                                            <a class="btn btn-app btn-lg btn-warning">
+                                            <iconify-icon icon="tabler:file-sad" width="35" height="35"></iconify-icon>
+                                            </a>
+                                        </div> 
                                 </div>
-                            </div>
-                    </div>
+                            }
+                        </div>
                 </div>
             </div>
             <!-- /.row -->

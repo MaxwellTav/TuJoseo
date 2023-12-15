@@ -39,6 +39,34 @@ UserHabilities Varchar(500),
 UserNotes Varchar(500),
 UserRol Varchar(100)
 );
+
+--Ejecutar pruebas.
+--Pueba de los usuarios
+SELECT
+      [UserName] as 'Usuario'
+      ,[UserCompleteName] as 'Nombre Completo'
+      ,[UserPassword] as 'Contraseña'
+      ,[UserEmail] as 'Correo'
+      ,[UserRememberMe] as 'Mantener sesión'
+      ,[UserJoseosRealized] as 'Joseos realizados'
+      ,[UserJobQuality] as 'Calidad de trabajo'
+      ,[UserSimpaty] as 'Simpatía'
+      ,[UserStalkers] as 'Stalkers'
+      ,[UserRelevance] as 'Relevancia'
+      ,[UserKnowlegde] as 'Conocimientos'
+      ,[UserLastLogin] as 'Última vez'
+      ,[UserUnreadNotifications] as 'Notificaciones sin leer'
+      ,[UserUnreadNotificationsTime] as 'Última notificación'
+      ,[UserUnreadMessages] as 'Mensajes sin leer'
+      ,[UserUnreadMessagesTime] as 'Último mensaje'
+      ,[UserUnreadReports] as 'Reportes sin leer'
+      ,[UserUnreadReportsTime] as 'Último reporte'
+      ,[UserEducation] as 'Educación'
+      ,[UserLocation] as 'Ubicación'
+      ,[UserHabilities] as 'Habilidades'
+      ,[UserNotes] as 'Notas'
+      ,[UserRol] as 'Rol'
+  FROM [TuJoseoDB].[dbo].[UserTable];
 --_________________________________________________________________________________________________________
 
 --Insertarle datos de prueba a la tabla.
@@ -108,51 +136,40 @@ NoteDone Bit Default 0)
 
 INSERT INTO NotesTable (NoteUserID, NoteDescription, NoteTime, NoteDone)
 VALUES (1, 'Tarea hecha', GETDATE(), 0);
---_________________________________________________________________________________________________________
 
+--Prueba de la tabla de notas.
+Select * From NotesTable Where NoteUserID = 1;
+
+--_________________________________________________________________________________________________________
 
 --Joseos
 Create Table JoseosTable
 (JoseoID int Primary Key Identity,
 JoseoTitle Varchar(30) Not Null,
 JoseoDescription Varchar(Max) Not Null,
-JoseoPrice float Not Null,
-JoseadorID int Not Null,
+JoseoPrice Varchar(10) Not Null,
+JoseadorID Varchar(10) Not Null,
 JoseoStartTime DATETIME DEFAULT GETDATE() Not Null,
 JoseoEstimatedTime DateTime Not Null,
 JoseoFinishTime DateTime,
-JoseoContratoID int,
+JoseoContratoID Varchar(10),
 JoseoStatus Varchar(10) Not Null);
 
---_________________________________________________________________________________________________________
---Ejecutar pruebas.
---Pueba de los usuarios
-SELECT
-      [UserName] as 'Usuario'
-      ,[UserCompleteName] as 'Nombre Completo'
-      ,[UserPassword] as 'Contraseña'
-      ,[UserEmail] as 'Correo'
-      ,[UserRememberMe] as 'Mantener sesión'
-      ,[UserJoseosRealized] as 'Joseos realizados'
-      ,[UserJobQuality] as 'Calidad de trabajo'
-      ,[UserSimpaty] as 'Simpatía'
-      ,[UserStalkers] as 'Stalkers'
-      ,[UserRelevance] as 'Relevancia'
-      ,[UserKnowlegde] as 'Conocimientos'
-      ,[UserLastLogin] as 'Última vez'
-      ,[UserUnreadNotifications] as 'Notificaciones sin leer'
-      ,[UserUnreadNotificationsTime] as 'Última notificación'
-      ,[UserUnreadMessages] as 'Mensajes sin leer'
-      ,[UserUnreadMessagesTime] as 'Último mensaje'
-      ,[UserUnreadReports] as 'Reportes sin leer'
-      ,[UserUnreadReportsTime] as 'Último reporte'
-      ,[UserEducation] as 'Educación'
-      ,[UserLocation] as 'Ubicación'
-      ,[UserHabilities] as 'Habilidades'
-      ,[UserNotes] as 'Notas'
-      ,[UserRol] as 'Rol'
-  FROM [TuJoseoDB].[dbo].[UserTable];
+INSERT INTO JoseosTable
+    (JoseoTitle, JoseoDescription, JoseoPrice, JoseadorID, JoseoStartTime, JoseoEstimatedTime, JoseoFinishTime, JoseoContratoID, JoseoStatus)
+VALUES
+    ('Ejemplo de título3',
+     'Ejemplo de descripción3',
+     10000,
+     2,
+     GETDATE(), -- Esto es opcional, ya que tiene un valor predeterminado
+     '2001-09-07',
+     '2001-09-07',
+     2,
+     'Activo');
 
---Prueba de la tabla de notas.
-Select * From NotesTable Where NoteUserID = 1;
+
+	 Drop Table JoseosTable;
+SELECT TOP 5 * FROM JoseosTable;
+
 --_________________________________________________________________________________________________________

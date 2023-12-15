@@ -606,25 +606,31 @@
                             {
                                 @foreach (var joseo in Model.JOSEOS)
                                 {
-                                    <div class="card card-primary card-outline">
-                                        <h3 class="m-2">@joseo.JoseoTitle</h3>
-                                        <p class="card-text">
+                                    <div class="card card-primary card-outline mx-4 my-3">
+                                        <h3 class="mx-2">@joseo.JoseoTitle</h3>
+                                        <p class="card-text mx-2">
                                             @joseo.JoseoDescription
                                         </p>
-                                        <div class="text-center">
-                                            <a class="btn btn-app btn-lg">
+                                        <div class="text-center mx-2 my-3">
+                                            <a class="btn btn-app btn-lg mx-2">
                                                 <i class="fas fa-heart text-danger fa-lg"></i> ESTOY INTERESADO
                                             </a>
 
-                                            <a class="btn btn-app btn-lg">
+                                            <a class="btn btn-app btn-lg mx-2">
                                                 <i class="fas fa-dollar-sign text-success fa-lg"></i> @(joseo.JoseoPrice)$ Dop
                                             </a>
 
-                                            <a class="btn btn-app btn-lg">
-                                                <i class="fas fa-dollar-sign text-success fa-lg"></i> Detales del joseo
-                                            </a>
+                                            <form method="post" action="@Url.Action("SeeJoseo", "Joseos")" class="mt-2">
+                                                <button type="submit" class="btn btn-outline-dark mx-2">
+                                                    <iconify-icon icon="tabler:list-details" width="25" height="25" class="fa-lg"></iconify-icon>
+                                                    <br />
+                                                    Detalles del joseo
+                                                </button>
+                                                <input type="hidden" name="joseoID" value="@joseo.JoseoID" />
+                                            </form>
                                         </div>
                                     </div>
+
                                 }
                             }
                             else
@@ -673,6 +679,13 @@
     });
 
     document.getElementById("note").addEventListener("keydown", function (e) {
+        if (e.key === "Enter") {
+            e.preventDefault(); // Evitar el comportamiento predeterminado (recargar la página)
+            // Puedes agregar aquí tu lógica adicional si es necesario
+        }
+    });
+
+    document.getElementById("joseoID").addEventListener("keydown", function (e) {
         if (e.key === "Enter") {
             e.preventDefault(); // Evitar el comportamiento predeterminado (recargar la página)
             // Puedes agregar aquí tu lógica adicional si es necesario

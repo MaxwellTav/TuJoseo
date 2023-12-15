@@ -37,7 +37,8 @@ UserEducation Varchar(500),
 UserLocation Varchar(500),
 UserHabilities Varchar(500),
 UserNotes Varchar(500),
-UserRol Varchar(100)
+UserRol Varchar(100),
+UserPhone Varchar(50)
 );
 
 --Ejecutar pruebas.
@@ -122,7 +123,9 @@ values (
 --UserNotes
 'Soporte técnico, programador y dominio del idioma inglés B1.',
 --UserRol
-'Programador y soporte técnico'
+'Programador y soporte técnico',
+--Teléfono
+'8296820160'
 );
 
 --_________________________________________________________________________________________________________
@@ -145,7 +148,7 @@ Select * From NotesTable Where NoteUserID = 1;
 --Joseos
 Create Table JoseosTable
 (JoseoID int Primary Key Identity,
-JoseoTitle Varchar(30) Not Null,
+JoseoTitle Varchar(Max) Not Null,
 JoseoDescription Varchar(Max) Not Null,
 JoseoPrice Varchar(10) Not Null,
 JoseadorID Varchar(10) Not Null,
@@ -155,21 +158,42 @@ JoseoFinishTime DateTime,
 JoseoContratoID Varchar(10),
 JoseoStatus Varchar(10) Not Null);
 
-INSERT INTO JoseosTable
-    (JoseoTitle, JoseoDescription, JoseoPrice, JoseadorID, JoseoStartTime, JoseoEstimatedTime, JoseoFinishTime, JoseoContratoID, JoseoStatus)
-VALUES
-    ('Ejemplo de título3',
-     'Ejemplo de descripción3',
-     10000,
-     2,
-     GETDATE(), -- Esto es opcional, ya que tiene un valor predeterminado
-     '2001-09-07',
-     '2001-09-07',
-     2,
-     'Activo');
+-- Ejemplo 1
+INSERT INTO JoseosTable (JoseoTitle, JoseoDescription, JoseoPrice, JoseadorID, JoseoStartTime, JoseoEstimatedTime, JoseoFinishTime, JoseoContratoID, JoseoStatus)
+VALUES ('Desarrollador Full Stack para Plataforma Educativa Online', 'Buscamos un desarrollador Full Stack apasionado por la educación online...', '55000', 'J001', GETDATE(), DATEADD(MONTH, 3, GETDATE()), '2023-07-01', 'C001', 'Abierto');
+
+-- Ejemplo 2
+INSERT INTO JoseosTable (JoseoTitle, JoseoDescription, JoseoPrice, JoseadorID, JoseoStartTime, JoseoEstimatedTime, JoseoFinishTime, JoseoContratoID, JoseoStatus)
+VALUES ('Ingeniero de Datos para Proyecto de Análisis de Big Data en Ciencias Biomédicas', 'Únete a nuestro equipo como ingeniero de datos para un proyecto innovador en el análisis de Big Data en el campo de las ciencias biomédicas...', '70000', 'J002', GETDATE(), DATEADD(MONTH, 1, GETDATE()), '2023-09-01', 'C002', 'Abierto');
+
+-- Ejemplo 3
+INSERT INTO JoseosTable (JoseoTitle, JoseoDescription, JoseoPrice, JoseadorID, JoseoStartTime, JoseoEstimatedTime, JoseoFinishTime, JoseoContratoID, JoseoStatus)
+VALUES ('Desarrollador de Aplicaciones Móviles para Proyecto de Salud Mental', 'Estamos en busca de un desarrollador móvil experto para contribuir a un proyecto centrado en la salud mental...', '65000', 'J003', GETDATE(), DATEADD(MONTH, 1, GETDATE()), '2023-08-01', 'C003', 'Abierto');
+
+-- Ejemplo 4
+INSERT INTO JoseosTable (JoseoTitle, JoseoDescription, JoseoPrice, JoseadorID, JoseoStartTime, JoseoEstimatedTime, JoseoFinishTime, JoseoContratoID, JoseoStatus)
+VALUES ('Desarrollador Blockchain para Plataforma de Contratos Inteligentes', 'Únete a nuestro equipo como desarrollador especializado en blockchain. Participarás en el desarrollo de una plataforma de contratos inteligentes para facilitar transacciones seguras y transparentes...', '75000', 'J004', GETDATE(), DATEADD(MONTH, 3, GETDATE()), '2023-10-01', 'C004', 'Abierto');
+
+-- Ejemplo 5
+INSERT INTO JoseosTable (JoseoTitle, JoseoDescription, JoseoPrice, JoseadorID, JoseoStartTime, JoseoEstimatedTime, JoseoFinishTime, JoseoContratoID, JoseoStatus)
+VALUES ('Diseñador UX/UI para Plataforma de Realidad Virtual en Educación', 'Buscamos un diseñador UX/UI apasionado por la realidad virtual y la educación. Serás responsable de crear interfaces inmersivas y atractivas para una plataforma educativa basada en realidad virtual...', '60000', 'J005', GETDATE(), DATEADD(MONTH, 1, GETDATE()), '2023-09-01', 'C005', 'Abierto');
+
+-- Ejemplo 6
+INSERT INTO JoseosTable (JoseoTitle, JoseoDescription, JoseoPrice, JoseadorID, JoseoStartTime, JoseoEstimatedTime, JoseoFinishTime, JoseoContratoID, JoseoStatus)
+VALUES ('Ingeniero de Seguridad Cibernética para Protección de Datos de Investigación', 'Únete a nuestro equipo como ingeniero de seguridad cibernética para un proyecto crítico en la protección de datos de investigación...', '80000', 'J006', GETDATE(), DATEADD(MONTH, 3, GETDATE()), '2023-11-01', 'C006', 'Abierto');
+
+-- Ejemplo 7
+INSERT INTO JoseosTable (JoseoTitle, JoseoDescription, JoseoPrice, JoseadorID, JoseoStartTime, JoseoEstimatedTime, JoseoFinishTime, JoseoContratoID, JoseoStatus)
+VALUES ('Desarrollador de Juegos para Proyecto de Simulación Médica Interactiva', 'Estamos en busca de un desarrollador de juegos apasionado por la simulación médica. Serás parte de un equipo que desarrolla una plataforma interactiva para entrenamiento médico...', '70000', 'J007', GETDATE(), DATEADD(MONTH, 1, GETDATE()), '2023-10-01', 'C007', 'Abierto');
+
+
+INSERT INTO JoseosTable (JoseoTitle, JoseoDescription, JoseoPrice, JoseadorID, JoseoStartTime, JoseoEstimatedTime, JoseoFinishTime, JoseoContratoID, JoseoStatus)
+VALUES ('Desarrollador Full Stack para Plataforma Educativa Online', 'Buscamos un desarrollador Full Stack apasionado por la educación online...', '55000', 'J001', GETDATE(), DATEADD(YEAR, 2, GETDATE()), '2025-07-01', 'C001', 'Abierto');
 
 
 	 Drop Table JoseosTable;
 SELECT TOP 5 * FROM JoseosTable;
+SELECT * FROM JoseosTable Where JoseoID = '1';
+
 
 --_________________________________________________________________________________________________________

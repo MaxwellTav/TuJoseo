@@ -1,0 +1,279 @@
+﻿@model JoseoModel
+<html lang="es">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Ver Joseo</title>
+
+    <!-- Google Font: Source Sans Pro -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="../../plugins/fontawesome-free/css/all.min.css">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="../../dist/css/adminlte.min.css">
+</head>
+<body class="hold-transition sidebar-mini layout-fixed">
+    <!-- Site wrapper -->
+    <div class="wrapper">
+        <!-- Content Wrapper. Contains page content -->
+        <div class="content-wrapper">
+            <!-- Content Header (Page header) -->
+            <section class="content-header">
+                <div class="container-fluid">
+                    <div class="row mb-2">
+                        <div class="col-sm-6">
+                            <h1>@(Model.JoseoTitle)</h1>
+                        </div>
+                    </div>
+                </div><!-- /.container-fluid -->
+            </section>
+
+            <!-- Main content -->
+            <section class="content">
+                <!-- Default box -->
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Detalles del proyecto</h3>
+
+                        <div class="card-tools">
+                            <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
+                                <i class="fas fa-minus"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-3 col-md-12 col-lg-8 order-6 order-md-1">
+                                <div class="row">
+                                    <div class="col-12 col-sm-4">
+                                        <div class="info-box bg-light">
+                                            <div class="info-box-content">
+                                                <span class="info-box-text text-center text-muted">Tiempo estimado</span>
+                                                @{
+                                                    DateTime startTime = Model.JoseoStartTime;
+                                                    DateTime estimatedTime = Model.JoseoEstimatedTime;
+                                                    TimeSpan timeDifference = estimatedTime - startTime;
+
+                                                    string timeAgo;
+                                                    int days = timeDifference.Days;
+                                                    if (days < 1)
+                                                    {
+                                                        int hours = timeDifference.Hours;
+                                                        if (hours < 1)
+                                                        {
+                                                            int minutes = timeDifference.Minutes;
+                                                            timeAgo = $"{minutes} {(minutes == 1 ? "minuto" : "minutos")}";
+                                                        }
+                                                        else
+                                                        {
+                                                            timeAgo = $"{hours} {(hours == 1 ? "hora" : "horas")}";
+                                                        }
+                                                    }
+                                                    else if (days < 30)
+                                                    {
+                                                        timeAgo = $"{days} {(days == 1 ? "día" : "días")}";
+                                                    }
+                                                    else if (days < 365)
+                                                    {
+                                                        int months = days / 30;
+                                                        timeAgo = $"{months} {(months == 1 ? "mes" : "meses")}";
+                                                    }
+                                                    else
+                                                    {
+                                                        int years = days / 365;
+                                                        timeAgo = $"{years} {(years == 1 ? "año" : "años")}";
+                                                    }
+                                                }
+                                                <span class="info-box-number text-center text-muted mb-0">@timeAgo</span>
+                                                <a class="btn btn-outline-light">...</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-sm-4">
+                                        <div class="info-box bg-light">
+                                            <div class="info-box-content">
+                                                <span class="info-box-text text-center text-muted">Presupuesto estimado</span>
+                                                <span class="info-box-number text-center text-muted mb-0">@(Model.JoseoPrice)$ Dop</span>
+                                                <a href="#" class="btn btn-outline-success">Negociar con el cliente</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-sm-4">
+                                        <div class="info-box bg-light">
+                                            <div class="info-box-content">
+                                                <span class="info-box-text text-center text-muted">Estatus del joseo</span>
+                                                <span class="info-box-number text-center text-muted mb-0">@(Model.JoseoStatus)</span>
+                                                <a class="btn btn-outline-light">...</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div>
+                                    <div class="col-20">
+                                        <h4>Involucrados en el proyecto</h4>
+
+                                        <div class="row">
+                                            <!-- Primer elemento -->
+                                            <div class="col-md-6">
+                                                <div class="card card-widget widget-user shadow-lg">
+                                                    <!-- Contenido del primer elemento -->
+                                                    <div class="widget-user-header text-white"
+                                                         style="background: url('../dist/img/photo1.png') center center;">
+                                                        <h3 class="widget-user-username text-right">Elizabeth Pierce</h3>
+                                                        <h5 class="widget-user-desc text-right">Web Designer</h5>
+                                                    </div>
+                                                    <div class="widget-user-image">
+                                                        <img class="img-circle" src="../dist/img/user3-128x128.jpg" alt="User Avatar">
+                                                    </div>
+                                                    <div class="card-footer">
+                                                        <div class="row">
+                                                            <div class="col-sm-4 border-right">
+                                                                <div class="description-block">
+                                                                    <h5 class="description-header">3,200</h5>
+                                                                    <span class="description-text">SALES</span>
+                                                                </div>
+                                                                <!-- /.description-block -->
+                                                            </div>
+                                                            <!-- /.col -->
+                                                            <div class="col-sm-4 border-right">
+                                                                <div class="description-block">
+                                                                    <h5 class="description-header">13,000</h5>
+                                                                    <span class="description-text">FOLLOWERS</span>
+                                                                </div>
+                                                                <!-- /.description-block -->
+                                                            </div>
+                                                            <!-- /.col -->
+                                                            <div class="col-sm-4">
+                                                                <div class="description-block">
+                                                                    <h5 class="description-header">35</h5>
+                                                                    <span class="description-text">PRODUCTS</span>
+                                                                </div>
+                                                                <!-- /.description-block -->
+                                                            </div>
+                                                            <!-- /.col -->
+                                                        </div>
+                                                        <!-- /.row -->
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <!-- Segundo elemento -->
+                                            <div class="col-md-6">
+                                                <div class="card card-widget widget-user shadow-lg">
+                                                    <!-- Contenido del primer elemento -->
+                                                    <div class="widget-user-header text-white"
+                                                         style="background: url('../dist/img/photo1.png') center center;">
+                                                        <h3 class="widget-user-username text-right">Elizabeth Pierce</h3>
+                                                        <h5 class="widget-user-desc text-right">Web Designer</h5>
+                                                    </div>
+                                                    <div class="widget-user-image">
+                                                        <img class="img-circle" src="../dist/img/user3-128x128.jpg" alt="User Avatar">
+                                                    </div>
+                                                    <div class="card-footer">
+                                                        <div class="row">
+                                                            <div class="col-sm-4 border-right">
+                                                                <div class="description-block">
+                                                                    <h5 class="description-header">3,200</h5>
+                                                                    <span class="description-text">SALES</span>
+                                                                </div>
+                                                                <!-- /.description-block -->
+                                                            </div>
+                                                            <!-- /.col -->
+                                                            <div class="col-sm-4 border-right">
+                                                                <div class="description-block">
+                                                                    <h5 class="description-header">13,000</h5>
+                                                                    <span class="description-text">FOLLOWERS</span>
+                                                                </div>
+                                                                <!-- /.description-block -->
+                                                            </div>
+                                                            <!-- /.col -->
+                                                            <div class="col-sm-4">
+                                                                <div class="description-block">
+                                                                    <h5 class="description-header">35</h5>
+                                                                    <span class="description-text">PRODUCTS</span>
+                                                                </div>
+                                                                <!-- /.description-block -->
+                                                            </div>
+                                                            <!-- /.col -->
+                                                        </div>
+                                                        <!-- /.row -->
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <p>
+                                        Términos y Condiciones de Uso
+                                        <br />
+                                        Aceptación de los Términos: Al acceder y utilizar este sitio web, aceptas cumplir con estos Términos y Condiciones de Uso, así como con todas las leyes y regulaciones aplicables.
+
+                                        Uso del Contenido: El contenido de este sitio web es solo para información general. Nos reservamos el derecho de modificar, agregar o eliminar cualquier contenido sin previo aviso.
+
+                                        Registro de Usuario: Al registrarte en nuestro sitio, aceptas proporcionar información precisa y actualizada. Eres responsable de mantener la confidencialidad de tu cuenta y contraseña.
+
+                                        Privacidad: Nuestra política de privacidad describe cómo recopilamos, almacenamos y utilizamos la información personal. Al utilizar este sitio, aceptas nuestras prácticas de privacidad.
+
+                                        Propiedad Intelectual: Todos los derechos de propiedad intelectual del contenido y materiales de este sitio son propiedad nuestra o están licenciados para su uso. No puedes reproducir, distribuir ni modificar ningún contenido sin nuestro consentimiento.
+
+                                        Enlaces a Terceros: Este sitio puede contener enlaces a sitios web de terceros. No somos responsables del contenido o las prácticas de privacidad de estos sitios.
+
+                                        Limitación de Responsabilidad: Este sitio se proporciona "tal cual". No garantizamos la precisión, actualidad ni la idoneidad del contenido. En ningún caso seremos responsables por daños directos, indirectos, incidentales o consecuentes.
+
+                                        Modificaciones: Nos reservamos el derecho de modificar estos Términos y Condiciones en cualquier momento. Las modificaciones serán efectivas inmediatamente después de su publicación en el sitio.
+
+                                        Ley Aplicable: Estos Términos y Condiciones se rigen por las leyes de República Dominicana y cualquier disputa estará sujeta a la jurisdicción de los tribunales de República Dominicana.
+
+                                        Contacto: Si tienes alguna pregunta sobre estos Términos y Condiciones.
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="col-12 col-md-12 col-lg-4 order-1 order-md-2">
+                                <h3 class="text-primary text-center"><iconify-icon icon="material-symbols:description-outline" style="color: #219ebc;" width="50" height="50"></iconify-icon> <br />Descripción del proyecto</h3>
+                                <p class="text-muted">@(Model.JoseoDescription)</p>
+
+
+                                <h5 class="mt-5 text-muted">Documentos y recursos del proyecto</h5>
+                                <ul class="list-unstyled">
+                                    <li>
+                                        <a href="" class="btn-link text-secondary"><i class="far fa-fw fa-file-word"></i> Requisitos-funcionales.docx</a>
+                                    </li>
+                                    <li>
+                                        <a href="" class="btn-link text-secondary"><i class="far fa-fw fa-file-pdf"></i> UAT.pdf</a>
+                                    </li>
+                                    <li>
+                                        <a href="" class="btn-link text-secondary"><i class="far fa-fw fa-envelope"></i> Email-de-flatbal.mln</a>
+                                    </li>
+                                    <li>
+                                        <a href="" class="btn-link text-secondary"><i class="far fa-fw fa-image "></i> Logo.png</a>
+                                    </li>
+                                    <li>
+                                        <a href="" class="btn-link text-secondary"><i class="far fa-fw fa-file-word"></i> Contrato-actual.docx</a>
+                                    </li>
+                                </ul>
+                                <div class="text-center mt-5 mb-3">
+
+                                    <a href="#" class="btn btn-outline-primary">Aceptar el proyecto</a>
+                                    <a href="#" class="btn btn-outline-danger">REPORTAR CONTACTO</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /.card-body -->
+                </div>
+                <!-- /.card -->
+
+            </section>
+            <!-- /.content -->
+        </div>
+        <!-- /.control-sidebar -->
+    </div>
+    <!-- Iconify -->
+    <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
+    <!-- jQuery -->
+    <script src="../../plugins/jquery/jquery.min.js"></script>
+    <!-- Bootstrap 4 -->
+    <script src="../../plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

@@ -48,6 +48,7 @@ namespace TuJoseo.Controllers
       ,[UserHabilities] as 'Habilidades'
       ,[UserNotes] as 'Notas'
       ,[UserRol] as 'Rol'
+      ,[UserPhone] as 'Phone'
   FROM [TuJoseoDB].[dbo].[UserTable]
   Where [TuJoseoDB].[dbo].[UserTable].[UserID] = '{userID}';";
 
@@ -102,6 +103,7 @@ namespace TuJoseo.Controllers
                                     homeModel.USER.UserHabilities = reader.GetValue(21).ToString();
                                     homeModel.USER.UserNotes = reader.GetValue(22).ToString();
                                     homeModel.USER.UserRol = reader.GetValue(23).ToString();
+                                    homeModel.USER.UserPhone = reader.GetString(24);
                                 }
                             }
                             else
@@ -211,7 +213,6 @@ namespace TuJoseo.Controllers
             }
             catch (Exception)
             {
-
                 throw;
             }
             #endregion

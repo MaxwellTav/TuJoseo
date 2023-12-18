@@ -4,6 +4,6 @@
     {
         public JoseoModel JOSEO { get; set; }
         public UserModel ME { get; set; }
-        public int JOSEADOR { get; set; }
+        public UserModel JOSEADOR { get; set; }
     }
 }

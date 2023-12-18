@@ -36,5 +36,6 @@ namespace TuJoseo.Models
         public string UserRol { get; set; } = "Sin información.";
         public bool Terms { get; set; } = true;
         public string UserPhone { get; set; } = "Sin información.";
+        public string UserPhoto { get; set; } = "Sin información.";
     }
 }

@@ -1,4 +1,4 @@
-﻿@model JoseoModel
+﻿@model MainJoseoModel
 <html lang="es">
 <head>
     <meta charset="utf-8">
@@ -22,7 +22,7 @@
                 <div class="container-fluid">
                     <div class="row mb-2">
                         <div class="col-sm-6">
-                            <h1>@(Model.JoseoTitle)</h1>
+                            <h1>@(Model.JOSEO.JoseoTitle)</h1>
                         </div>
                     </div>
                 </div><!-- /.container-fluid -->
@@ -50,8 +50,8 @@
                                             <div class="info-box-content">
                                                 <span class="info-box-text text-center text-muted">Tiempo estimado</span>
                                                 @{
-                                                    DateTime startTime = Model.JoseoStartTime;
-                                                    DateTime estimatedTime = Model.JoseoEstimatedTime;
+                                                    DateTime startTime = Model.JOSEO.JoseoStartTime;
+                                                    DateTime estimatedTime = Model.JOSEO.JoseoEstimatedTime;
                                                     TimeSpan timeDifference = estimatedTime - startTime;
 
                                                     string timeAgo;
@@ -93,7 +93,7 @@
                                         <div class="info-box bg-light">
                                             <div class="info-box-content">
                                                 <span class="info-box-text text-center text-muted">Presupuesto estimado</span>
-                                                <span class="info-box-number text-center text-muted mb-0">@(Model.JoseoPrice)$ Dop</span>
+                                                <span class="info-box-number text-center text-muted mb-0">@(Model.JOSEO.JoseoPrice)$ Dop</span>
                                                 <a href="#" class="btn btn-outline-success">Negociar con el cliente</a>
                                             </div>
                                         </div>
@@ -102,95 +102,60 @@
                                         <div class="info-box bg-light">
                                             <div class="info-box-content">
                                                 <span class="info-box-text text-center text-muted">Estatus del joseo</span>
-                                                <span class="info-box-number text-center text-muted mb-0">@(Model.JoseoStatus)</span>
+                                                <span class="info-box-number text-center text-muted mb-0">@(Model.JOSEO.JoseoStatus)</span>
                                                 <a class="btn btn-outline-light">...</a>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                                 <div>
-                                    <div class="col-20">
+                                    <div class="col-12">
                                         <h4>Involucrados en el proyecto</h4>
 
                                         <div class="row">
                                             <!-- Primer elemento -->
-                                            <div class="col-md-6">
+                                            <div class="col-md-12">
                                                 <div class="card card-widget widget-user shadow-lg">
                                                     <!-- Contenido del primer elemento -->
                                                     <div class="widget-user-header text-white"
                                                          style="background: url('../dist/img/photo1.png') center center;">
-                                                        <h3 class="widget-user-username text-right">Elizabeth Pierce</h3>
-                                                        <h5 class="widget-user-desc text-right">Web Designer</h5>
+                                                        <h3 class="widget-user-username text-right">@Model.JOSEADOR.UserName</h3>
+                                                        <h5 class="widget-user-desc text-right">@Model.JOSEADOR.UserRol</h5>
                                                     </div>
                                                     <div class="widget-user-image">
                                                         <img class="img-circle" src="../dist/img/user3-128x128.jpg" alt="User Avatar">
-                                                    </div>
-                                                    <div class="card-footer">
-                                                        <div class="row">
-                                                            <div class="col-sm-4 border-right">
-                                                                <div class="description-block">
-                                                                    <h5 class="description-header">3,200</h5>
-                                                                    <span class="description-text">SALES</span>
-                                                                </div>
-                                                                <!-- /.description-block -->
-                                                            </div>
-                                                            <!-- /.col -->
-                                                            <div class="col-sm-4 border-right">
-                                                                <div class="description-block">
-                                                                    <h5 class="description-header">13,000</h5>
-                                                                    <span class="description-text">FOLLOWERS</span>
-                                                                </div>
-                                                                <!-- /.description-block -->
-                                                            </div>
-                                                            <!-- /.col -->
-                                                            <div class="col-sm-4">
-                                                                <div class="description-block">
-                                                                    <h5 class="description-header">35</h5>
-                                                                    <span class="description-text">PRODUCTS</span>
-                                                                </div>
-                                                                <!-- /.description-block -->
-                                                            </div>
-                                                            <!-- /.col -->
-                                                        </div>
-                                                        <!-- /.row -->
-                                                    </div>
-                                                </div>
-                                            </div>
 
-                                            <!-- Segundo elemento -->
-                                            <div class="col-md-6">
-                                                <div class="card card-widget widget-user shadow-lg">
-                                                    <!-- Contenido del primer elemento -->
-                                                    <div class="widget-user-header text-white"
-                                                         style="background: url('../dist/img/photo1.png') center center;">
-                                                        <h3 class="widget-user-username text-right">Elizabeth Pierce</h3>
-                                                        <h5 class="widget-user-desc text-right">Web Designer</h5>
-                                                    </div>
-                                                    <div class="widget-user-image">
-                                                        <img class="img-circle" src="../dist/img/user3-128x128.jpg" alt="User Avatar">
+                                                        @* @if(Model.JOSEADOR.UserPhoto == null)
+                                                        {
+                                                            <img class="img-circle" src="../dist/img/user3-128x128.jpg" alt="User Avatar">
+                                                        }
+                                                        else
+                                                        {
+                                                            <img class="img-circle" src="@Model.JOSEADOR.UserPhoto" alt="User Avatar">
+                                                        } *@
                                                     </div>
                                                     <div class="card-footer">
                                                         <div class="row">
                                                             <div class="col-sm-4 border-right">
                                                                 <div class="description-block">
-                                                                    <h5 class="description-header">3,200</h5>
-                                                                    <span class="description-text">SALES</span>
+                                                                    <h5 class="description-header">@(Model.JOSEADOR.UserJobQuality)%</h5>
+                                                                    <span class="description-text">Calidad de trabajo</span>
                                                                 </div>
                                                                 <!-- /.description-block -->
                                                             </div>
                                                             <!-- /.col -->
                                                             <div class="col-sm-4 border-right">
                                                                 <div class="description-block">
-                                                                    <h5 class="description-header">13,000</h5>
-                                                                    <span class="description-text">FOLLOWERS</span>
+                                                                    <h5 class="description-header">@(Model.JOSEADOR.UserJoseosRealized)</h5>
+                                                                    <span class="description-text">Joseos realizados</span>
                                                                 </div>
                                                                 <!-- /.description-block -->
                                                             </div>
                                                             <!-- /.col -->
                                                             <div class="col-sm-4">
                                                                 <div class="description-block">
-                                                                    <h5 class="description-header">35</h5>
-                                                                    <span class="description-text">PRODUCTS</span>
+                                                                    <h5 class="description-header">@(Model.JOSEADOR.UserSimpaty)%</h5>
+                                                                    <span class="description-text">Simpatía</span>
                                                                 </div>
                                                                 <!-- /.description-block -->
                                                             </div>
@@ -230,7 +195,7 @@
                             </div>
                             <div class="col-12 col-md-12 col-lg-4 order-1 order-md-2">
                                 <h3 class="text-primary text-center"><iconify-icon icon="material-symbols:description-outline" style="color: #219ebc;" width="50" height="50"></iconify-icon> <br />Descripción del proyecto</h3>
-                                <p class="text-muted">@(Model.JoseoDescription)</p>
+                                <p class="text-muted">@(Model.JOSEO.JoseoDescription)</p>
 
 
                                 <h5 class="mt-5 text-muted">Documentos y recursos del proyecto</h5>
@@ -253,8 +218,8 @@
                                 </ul>
                                 <div class="text-center mt-5 mb-3">
 
-                                    <a href="#" class="btn btn-outline-primary">Aceptar el proyecto</a>
-                                    <a href="#" class="btn btn-outline-danger">REPORTAR CONTACTO</a>
+                                    <a href="@Url.Action("Index", "Deal")" class="btn btn-outline-primary">Aceptar el proyecto</a>
+                                    <a href="#" class="btn btn-outline-danger">Reportar contacto</a>
                                 </div>
                             </div>
                         </div>

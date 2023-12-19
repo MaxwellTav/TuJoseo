@@ -38,35 +38,13 @@ UserLocation Varchar(500),
 UserHabilities Varchar(500),
 UserNotes Varchar(500),
 UserRol Varchar(100),
-UserPhone Varchar(50)
+UserPhone Varchar(50),
+UserPhoto Varchar(50)
 );
 
 --Ejecutar pruebas.
 --Pueba de los usuarios
-SELECT
-      [UserName] as 'Usuario'
-      ,[UserCompleteName] as 'Nombre Completo'
-      ,[UserPassword] as 'Contraseña'
-      ,[UserEmail] as 'Correo'
-      ,[UserRememberMe] as 'Mantener sesión'
-      ,[UserJoseosRealized] as 'Joseos realizados'
-      ,[UserJobQuality] as 'Calidad de trabajo'
-      ,[UserSimpaty] as 'Simpatía'
-      ,[UserStalkers] as 'Stalkers'
-      ,[UserRelevance] as 'Relevancia'
-      ,[UserKnowlegde] as 'Conocimientos'
-      ,[UserLastLogin] as 'Última vez'
-      ,[UserUnreadNotifications] as 'Notificaciones sin leer'
-      ,[UserUnreadNotificationsTime] as 'Última notificación'
-      ,[UserUnreadMessages] as 'Mensajes sin leer'
-      ,[UserUnreadMessagesTime] as 'Último mensaje'
-      ,[UserUnreadReports] as 'Reportes sin leer'
-      ,[UserUnreadReportsTime] as 'Último reporte'
-      ,[UserEducation] as 'Educación'
-      ,[UserLocation] as 'Ubicación'
-      ,[UserHabilities] as 'Habilidades'
-      ,[UserNotes] as 'Notas'
-      ,[UserRol] as 'Rol'
+SELECT *
   FROM [TuJoseoDB].[dbo].[UserTable];
 --_________________________________________________________________________________________________________
 
@@ -125,7 +103,9 @@ values (
 --UserRol
 'Programador y soporte técnico',
 --Teléfono
-'8296820160'
+'8296820160',
+--Foto
+'D:\Max\Desktop\Foto.jpg'
 );
 
 --_________________________________________________________________________________________________________
@@ -191,7 +171,7 @@ INSERT INTO JoseosTable (JoseoTitle, JoseoDescription, JoseoPrice, JoseadorID, J
 VALUES ('Desarrollador Full Stack para Plataforma Educativa Online', 'Buscamos un desarrollador Full Stack apasionado por la educación online...', '55000', 'J001', GETDATE(), DATEADD(YEAR, 2, GETDATE()), '2025-07-01', 'C001', 'Abierto');
 
 
-	 Drop Table JoseosTable;
+Drop Table JoseosTable;
 SELECT TOP 5 * FROM JoseosTable;
 SELECT * FROM JoseosTable Where JoseoID = '1';
 

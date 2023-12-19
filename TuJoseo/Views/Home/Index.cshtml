@@ -33,7 +33,8 @@
     <link rel="stylesheet" href="~/adminlte/plugins/summernote/summernote-bs4.min.css">
     <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-
+    <!-- SweetAlert2 -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10/dist/sweetalert2.all.min.js"></script>
 </head>
 
 <body class="hold-transition sidebar-mini layout-fixed">
@@ -657,6 +658,34 @@
 </div>
 <!-- /.content-wrapper -->
 </body>
+
+<!-- /.login-box -->
+@if (TempData["Error"] != null)
+{
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: '@TempData["Error"]',
+                confirmButtonText: 'OK'
+            });
+        });
+    </script>
+}
+@if (TempData["Success"] != null)
+{
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            Swal.fire({
+                icon: 'success',
+                title: 'Chevere',
+                text: '@TempData["Success"]',
+                confirmButtonText: 'OK'
+            });
+        });
+    </script>
+}
 
 <script>
     // JavaScript para verificar el tamaño de la pantalla y mostrar/ocultar el preloader

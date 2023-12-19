@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿@model MainJoseoModel
+<!DOCTYPE html>
 <html lang="en">
 
 @{
@@ -36,91 +37,92 @@
         <div class="container-fluid">
             <div class="row">
                 <div class="col-lg-12">
-                    <h1 class="m-0" style="text-align: center">Acuerdo de Trabajo</h1>
+                    <h1 class="m-0" style="text-align: center">Acuerdo de Trabajo - @Model.JOSEO.JoseoTitle</h1>
                     <hr class="line-divider border-bottom border-6">
 
                     <h2>1. OBJETIVO DEL CONTRATO</h2>
                     <p>
-                        El Cliente y el Programador acuerdan trabajar juntos en el desarrollo de un software específico: “Tu Joseo” con las siguientes características [Programa de gestión de empleadores como empleados los cuales estos últimos buscan un trabajo temporal independiente, qué el programa, a su vez, facilita y administra la comunicación entre ambas partes para un acuerdo mutuo, proporcionando así qué las dos partes estén satisfechas a la hora de cierre de dicho trato]. Ambas partes (programador “Maxwell Tavares” y el cliente: “Luis Alberto Moreno Hernández”) reconocen y aceptan que este contrato establece los términos y condiciones para llevar a cabo el Proyecto.
+                        El Cliente @Model.JOSEADOR.UserCompleteName y el Programador (usted) acuerdan trabajar juntos en el desarrollo de un software específico con las siguientes características @Model.JOSEO.JoseoDescription. Ambas partes reconocen y aceptan que este contrato establece los términos y condiciones para llevar a cabo el Proyecto.
                     </p>
-    
+
                     <h2>2. ALCANCE DEL TRABAJO</h2>
                     <p>
                         2.1 El Programador se compromete a realizar las siguientes tareas como parte del Proyecto:
-                        Páginas:
-                        1. Principal – La cuál será la que recibe al usuario sin cuenta.
-                        2. Login – Usada para iniciar sesión una vez el usuario esté creado.
-                        3. Crear cuenta – Para crear una cuenta a un usuario nuevo.
-                        4. Olvidó la contraseña – Para recuperar una cuenta a un usuario antiguo.
-                        5. Dashboard (Empleador) – Usada para recibir a un usuario con sesión iniciada.
-                        6. Dashboard (Empleado) – Usada para recibir a un usuario con sesión iniciada.
-                        7. Dashboard (Admin) – Usada para recibir a un usuario con sesión iniciada.
-                        8. Administrar perfil / configuraciones (Empleador) – Editar perfil ya creado.
-                        9. Administrar perfil / configuraciones (Empleado) – Editar perfil ya creado.
-                        10. Reseña del programador – Se mostrará al finalizar un trato.
-                        11. Filtrar (Empleador) – Usado para buscar.
-                        12. Filtrar (Empleado) – Usado para buscar.
-                        13. Pago (Simulado) – Para pagar y cerrar trato.
-                        14. Contrato (Simulado) – Para ver el acuerdo con el cliente | empleador.
-    
-                        • Características:
-                        1. Notificaciones.
-                        2. Cargar el CV (vista de empleado).
-                        3. Calendario de disponibilidad (vista de empleador).
+                        @Model.JOSEO.JoseoTitle |  con el precio de: @Model.JOSEO.JoseoPrice $DOP | @Model.JOSEO.JoseoDescription
                     </p>
                     <p>
-                        2.2 El Cliente se compromete a proporcionar al Programador todos los recursos necesarios para llevar a cabo el Proyecto, incluyendo [Logos, paletas de colores y datos de la empresa] en un plazo de [2 días].
+                        2.2 El Cliente se compromete a proporcionar al Programador todos los recursos necesarios para llevar a cabo el Proyecto, incluyendo assets y contrenido multimedia en un plazo de 3 días.
                         2.3 Si el cliente no proporciona todos los recursos necesarios, el programador tiene el derecho de omitir las partes en las que se requieran dichos recursos.
                     </p>
-    
+
                     <h2>3. HONORARIOS Y PAGO</h2>
                     <p>
-                        3.1 El Cliente acuerda pagar al Programador la cantidad de [40,000 DOP] por la realización del Proyecto.
-                        3.2 El pago se realizará de la siguiente manera:
-                        • [1er pago. 13,000$ DOP | 2do pago. 13,000$ DOP | 3er pago. 14,000$ DOP]
-                        • 3.3 Los pagos se realizarán a través de [Depósito a cuenta “1028867557” Nombre “Maxwell Tavares” | Asociación Popular de Ahorros y Préstamos | Cuenta de ahorros] en frecuencia de [3 pagos, el primero será al momento de comenzar el proyecto, el segundo será a la mitad del proyecto, y la tercera será al finalizar dicho proyecto].
+                        3.1 El Cliente acuerda pagar al Programador la cantidad de @Model.JOSEO.JoseoPrice por la realización del Proyecto.
+                        3.2 El pago se realizará con el intermediario de esta misma aplicación, la aplicación llevándose el 10% de los honorarios.
                     </p>
-    
+
                     <h2>4. PROPIEDAD INTELECTUAL</h2>
                     <p>
                         4.1 Todo el código fuente, diseño, documentación y otros activos generados como parte del Proyecto serán propiedad exclusiva del Cliente una vez que se haya completado el pago total.
                         4.2 El Programador retendrá el derecho de utilizar el código y las habilidades adquiridas durante la realización del Proyecto para fines personales y profesionales, a menos que se acuerde lo contrario por escrito.
                     </p>
-    
+
                     <h2>5. PLAZO Y TERMINACIÓN</h2>
                     <p>
-                        5.1 El Proyecto se llevará a cabo en un plazo estimado de [4 semanas]. Cualquier cambio significativo en el alcance o el calendario requerirá un acuerdo por escrito entre las partes.
+                        5.1 El Proyecto se llevará a cabo en un plazo estimado de [Duración del Proyecto]. Cualquier cambio significativo en el alcance o el calendario requerirá un acuerdo por escrito entre las partes.
                         5.2 En caso de incumplimiento grave por parte de una de las entidades, ambas partes tienen el derecho de dar por terminado este contrato mediante notificación por escrito. En tal caso, los pagos futuros no serán adeudados al programador y los pagos anteriores no serán reembolsados. Se mantendrán las disposiciones sobre propiedad intelectual según lo acordado.
                     </p>
-    
+
                     <h2>6. CONFIDENCIALIDAD</h2>
                     <p>
-                        Ambas partes acuerdan mantener la confidencialidad de cualquier información confidencial compartida durante la realización del Proyecto (EN CASO DE QUE EL CLIENTE LO REQUIERA, DE OTRO MODO ESTE PUNTO SE OMITIRÁ).
+                        Ambas partes acuerdan mantener la confidencialidad de cualquier información confidencial compartida durante la realización del Proyecto.
                     </p>
-    
+
                     <h2>7. MODIFICACIONES</h2>
                     <p>
                         Este contrato solo puede modificarse por escrito y firmado por ambas partes. Se aclara que el programador NO está obligado a llevar a cabo modificaciones esporádicas propuestas por el cliente después de la firma de este contrato. En caso de que el cliente desee realizar modificaciones adicionales, se reajustará el precio del proyecto y se acordarán los términos de estas modificaciones por escrito y mediante acuerdo mutuo.
                     </p>
-    
+
                     <div style="text-align: center;">
                         <hr>
-                        <p>Firma del Cliente: <input type="text" placeholder="Nombre completo" disabled /> Fecha: <input type="text" placeholder="Nombre completo" value="@DateTime.Now" disabled/></p>
-                        <p>Firma del Programador: <input type="text" placeholder="Nombre completo" /> Fecha: <input type="text" placeholder="Nombre completo" value="@DateTime.Now" disabled/></p>
+                        <p>Firma del Cliente: <input type="text" placeholder="Nombre completo" disabled value="@Model.JOSEADOR.UserCompleteName" /> Fecha: <input type="text" placeholder="Fecha" value="@DateTime.Now" disabled /></p>
+                        <p>Firma del Programador: <input type="text" placeholder="Nombre completo" /> Fecha: <input type="text" placeholder="Fecha" value="@DateTime.Now" disabled /></p>
                     </div>
 
                     <BR />
                     <div class="container-fluid">
                         <div class="row">
                             <div class="col-12 d-flex justify-content-center">
-                                <button type="submit" class="btn btn-primary">Aceptar</button>
-                                <button type="button" class="btn btn-danger">Cancelar</button>
+                                <a href="@Url.Action("Index", "Invoice")" class="btn btn-outline-primary" id="btnAceptarProyecto">Aceptar el proyecto</a>
+                                <a class="btn btn-danger" href="@Url.Action("Index", "Home")">Cancelar</a>
                             </div>
                         </div>
                     </div>
                 </div>
+
             </div>
         </div>
     </div>
 </body>
+
+@section scripts {
+    <script>
+        $(document).ready(function () {
+            $("#btnAceptarProyecto").on("click", function (e) {
+                e.preventDefault();
+                var modelData = '@Json.Serialize(Model)';
+                var encodedData = encodeURIComponent(modelData);
+
+                // Verificar si el tamaño de la cookie es aceptable antes de establecerla
+                if (encodedData.length < 4096) {
+                    document.cookie = "modelData=" + encodedData + "; path=/";
+                    window.location.href = $(this).attr("href");
+                } else {
+                    // Manejar el caso en que los datos superan el tamaño de la cookie
+                    console.error("Los datos del modelo son demasiado grandes para almacenar en una cookie.");
+                }
+            });
+        });
+    </script>
+}
 </html>

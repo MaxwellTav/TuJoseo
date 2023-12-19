@@ -16,12 +16,15 @@
     @await RenderSectionAsync("Styles", required: false)
 </head>
 <body>
-    @if (!ViewContext.RouteData.Values["controller"].ToString().Equals("Login", StringComparison.OrdinalIgnoreCase))
+    @if (!ViewContext.RouteData.Values["controller"].ToString().Equals("Login", StringComparison.OrdinalIgnoreCase) &&
+    !ViewContext.RouteData.Values["controller"].ToString().Equals("Deal", StringComparison.OrdinalIgnoreCase) &&
+    !ViewContext.RouteData.Values["controller"].ToString().Equals("Error", StringComparison.OrdinalIgnoreCase))
     {
         <partial name="_Navbar" />
         <partial name="_Sidebar" />
     }
-   @RenderBody()
+    @RenderBody()
+
 
     <!-- jQuery -->
     <script src="~/adminlte/plugins/jquery/jquery.min.js"></script>

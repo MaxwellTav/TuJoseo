@@ -8,6 +8,7 @@
 
   <ItemGroup>
     <None Remove="Controllers\JoseosController.cs~RF895370f.TMP" />
+    <None Remove="Views\Deal\Index.cshtml~RF192b8542.TMP" />
   </ItemGroup>
 
   <ItemGroup>

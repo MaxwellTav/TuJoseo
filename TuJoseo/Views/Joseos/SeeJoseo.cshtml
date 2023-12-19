@@ -217,8 +217,7 @@
                                     </li>
                                 </ul>
                                 <div class="text-center mt-5 mb-3">
-
-                                    <a href="@Url.Action("Index", "Deal")" class="btn btn-outline-primary">Aceptar el proyecto</a>
+                                    <a href="@Url.Action("Index", "Deal")" class="btn btn-outline-primary" id="btnAceptarProyecto">Aceptar el proyecto</a>
                                     <a href="#" class="btn btn-outline-danger">Reportar contacto</a>
                                 </div>
                             </div>
@@ -235,6 +234,9 @@
     </div>
     <!-- Iconify -->
     <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
+
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
     <!-- jQuery -->
     <script src="../../plugins/jquery/jquery.min.js"></script>
     <!-- Bootstrap 4 -->
@@ -242,3 +244,23 @@
 </body>
 
 </html>
+@section scripts {
+    <script>
+        $(document).ready(function () {
+            $("#btnAceptarProyecto").on("click", function (e) {
+                e.preventDefault();
+                var modelData = '@Json.Serialize(Model)';
+                var encodedData = encodeURIComponent(modelData);
+
+                // Verificar si el tamaño de la cookie es aceptable antes de establecerla
+                if (encodedData.length < 4096) {
+                    document.cookie = "modelData=" + encodedData + "; path=/";
+                    window.location.href = $(this).attr("href");
+                } else {
+                    // Manejar el caso en que los datos superan el tamaño de la cookie
+                    console.error("Los datos del modelo son demasiado grandes para almacenar en una cookie.");
+                }
+            });
+        });
+    </script>
+}

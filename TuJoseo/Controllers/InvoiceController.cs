@@ -4,7 +4,7 @@ using TuJoseo.Models;
 
 namespace TuJoseo.Controllers
 {
-    public class DealController : Controller
+    public class InvoiceController : Controller
     {
         public IActionResult Index()
         {
@@ -19,11 +19,15 @@ namespace TuJoseo.Controllers
                 // Limpiar la cookie después de usar los datos (opcional)
                 Response.Cookies.Delete("modelData");
 
-                return View(model);
+                TempData["Success"] = "JOSEO CONSEGUIDO";
+                return View(model); // Redirigir a una acción adecuada o manejar el caso según tus necesidades
             }
+
+            TempData["Error"] = "Error inesperado.";
 
             // Manejar el caso en que la cookie no contiene datos
             return RedirectToAction("Index", "Error"); // Redirigir a una acción adecuada o manejar el caso según tus necesidades
         }
+
     }
 }

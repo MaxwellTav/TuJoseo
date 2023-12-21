@@ -114,5 +114,12 @@ namespace TuJoseo.Controllers
             TempData["UserID"] = user.UserID;
             return View(user);
         }
+
+        [HttpPost]
+        public ActionResult GuardarUserID(string userID)
+        {
+            TempData["UserID"] = userID;
+            return Json(new { success = true });
+        }
     }
 }

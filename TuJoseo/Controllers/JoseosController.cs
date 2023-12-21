@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
+using System.Security.Cryptography.Xml;
 using TuJoseo.Models;
 
 namespace TuJoseo.Controllers
@@ -16,18 +17,85 @@ namespace TuJoseo.Controllers
             ConnectionString = _configuration.GetConnectionString("DB");
         }
 
+        //Buscar Joseador
         public IActionResult Index()
         {
-            return View();
+            List<UserModel> users = new List<UserModel>();
+            string query = "SELECT UserID, UserRol, UserName, UserHabilities, UserLocation, UserPhone, UserJoseosRealized, UserJobQuality, UserSimpaty FROM [TuJoseoDB].[dbo].[UserTable];";
+
+            using (SqlConnection con = new SqlConnection(ConnectionString))
+            {
+                using (SqlCommand cmd = new SqlCommand(query, con))
+                {
+                    con.Open();
+                    using (SqlDataReader reader = cmd.ExecuteReader())
+                    {
+                        if (reader.HasRows)
+                        {
+                            while (reader.Read())
+                            {
+                                UserModel user = new UserModel()
+                                {
+                                    UserID = reader.GetInt32(0),
+                                    UserRol = reader.GetString(1),
+                                    UserName = reader.GetString(2),
+                                    UserHabilities = reader.GetString(3),
+                                    UserLocation = reader.GetString(4),
+                                    UserPhone = reader.GetString(5),
+                                    UserJoseosRealized = reader.GetInt32(6),
+                                    UserJobQuality = reader.GetInt32(7),
+                                    UserSimpaty = reader.GetInt32(8),
+                                };
+
+                                users.Add(user);
+                            }
+                        }
+                    }
+                }
+            }
+
+            return View(users);
         }
 
         public IActionResult SearchJoseo()
         {
-            return View();
+            List<JoseoModel> joseos = new List<JoseoModel>();
+            string query = "SELECT * FROM JoseosTable;";
+
+            using (SqlConnection con = new SqlConnection(ConnectionString))
+            {
+                using (SqlCommand cmd = new SqlCommand(query, con))
+                {
+                    con.Open();
+                    using (SqlDataReader reader = cmd.ExecuteReader())
+                    {
+                        if (reader.HasRows)
+                        {
+                            while (reader.Read())
+                            {
+                                JoseoModel joseo = new JoseoModel()
+                                {
+                                    JoseoID = reader.GetInt32(0),
+                                    JoseoTitle = reader.GetString(1),
+                                    JoseoDescription = reader.GetString(2),
+                                    JoseoPrice = reader.GetString(3),
+                                    JoseadorID = reader.GetString(4)
+                                };
+
+                                joseos.Add(joseo);
+                            }
+                        }
+                    }
+                }
+            }
+
+            return View(joseos);
         }
 
         public IActionResult SearchJoseador()
         {
+
+
             return View();
         }
 

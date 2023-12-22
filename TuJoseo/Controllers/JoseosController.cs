@@ -174,6 +174,8 @@ namespace TuJoseo.Controllers
         [HttpPost]
         public IActionResult SeeJoseo(int joseoID)
         {
+            var userID = TempData["UserID"].ToString();
+
             MainJoseoModel mjm = new MainJoseoModel();
             JoseoModel joseo = new JoseoModel();
             string query = @$"SELECT * FROM JoseosTable Where JoseoID = '{joseoID}';";
@@ -270,6 +272,10 @@ namespace TuJoseo.Controllers
                 }
             }
 
+            mjm.ME = new UserModel()
+            {
+                UserID = Convert.ToInt32(userID),
+            };
             return View(mjm);
         }
 

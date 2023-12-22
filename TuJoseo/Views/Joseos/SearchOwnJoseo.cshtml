@@ -1,4 +1,4 @@
-﻿@model List<JoseoModel>
+﻿@model MainOwnJoseoModel
 
 @{
     ViewData["Title"] = "Ver | Joseos";
@@ -25,66 +25,117 @@
         <div class="content-wrapper">
             <!-- Main content -->
             <section class="content">
-                <!-- Default box -->
-                <div class="card card-solid">
-                    <div class="card-body pb-0">
-                        <div class="row">
-                            <div class="container-fluid">
-                                <div>
-                                    <div>
-                                        <div class="card">
-                                            @foreach (var joseo in Model)
-                                            {
-                                                <div class="card card-primary card-outline mx-4 my-3">
-                                                    <h3 class="mx-2">@joseo.JoseoTitle</h3> 
-                                                    <span class="right badge badge-success">Estado: EN PROCESO</span>
-                                                    <p class="card-text mx-2">
-                                                        @joseo.JoseoDescription
-                                                    </p>
-                                                    <div class="text-center mx-2 my-3">
-                                                        <a class="btn btn-app btn-lg mx-2">
-                                                            <i class="fas fa-dollar-sign text-success fa-lg"></i> @joseo.JoseoPrice $ Dop
-                                                        </a>
-                                                        <a class="btn btn-app btn-lg mx-2">
-                                                            <iconify-icon icon="ri:eye-line" width="20" height="20"></iconify-icon><br />Ver
-                                                        </a>
-                                                        <a class="btn btn-app btn-lg mx-2">
-                                                            <iconify-icon icon="ph:pencil-duotone" width="20" height="20" style="color: #ffb703;"></iconify-icon><br />Editar
-                                                        </a>
-                                                        <a class="btn btn-app btn-lg mx-2">
-                                                            <iconify-icon icon="gis:flag-finish" width="20" height="20"></iconify-icon><br />
-                                                            Dar por terminado
-                                                        </a>
-                                                    </div>
-                                                </div>
-                                            }
-                                        </div>
-                                    </div>
+                <section class="content">
+                        <div class="col-md-12">
+                            <!-- /.card -->
+                        <div class="card card-primary">
+                                <div class="card-header">
+                                    <h3 class="card-title">Mis joseos</h3>
                                 </div>
-                                <!-- /.row -->
-                            </div><!-- /.container-fluid -->
+
+                            <!-- /.Tab 1 -->
+                                <div class="card-body">
+                                    <!-- Default box -->
+                                <div class="card card-solid">
+                                        <div class="card-body pb-0">
+                                            <div class="row">
+                                                <div class="container-fluid">
+                                                    <div>
+                                                        <div>
+                                                            <div class="card">
+                                                                @foreach (var joseo in Model.MisJoseos)
+                                                                {
+                                                                    <div class="card card-primary card-outline mx-4 my-3">
+                                                                        <h3 class="mx-2">@joseo.JoseoTitle</h3>
+                                                                        <span class="right badge badge-success">Estado: EN PROCESO</span>
+                                                                        <p class="card-text mx-2">
+                                                                        <span class="right badge badge-warning">ROL: Trabajador</span> @joseo.JoseoDescription
+                                                                        </p>
+                                                                        <div class="text-center mx-2 my-3">
+                                                                            <a class="btn btn-app btn-lg mx-2">
+                                                                                <i class="fas fa-dollar-sign text-success fa-lg"></i> @joseo.JoseoPrice $ Dop
+                                                                            </a>
+                                                                            <a class="btn btn-app btn-lg mx-2">
+                                                                                <iconify-icon icon="ri:eye-line" width="20" height="20"></iconify-icon><br />Ver
+                                                                            </a>
+                                                                            <a class="btn btn-app btn-lg mx-2">
+                                                                                <iconify-icon icon="ph:pencil-duotone" width="20" height="20" style="color: #ffb703;"></iconify-icon><br />Editar
+                                                                            </a>
+                                                                            <a class="btn btn-app btn-lg mx-2">
+                                                                                <iconify-icon icon="gis:flag-finish" width="20" height="20"></iconify-icon><br />
+                                                                                Dar por terminado
+                                                                            </a>
+                                                                        </div>
+                                                                    </div>
+                                                                }
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <!-- /.row -->
+                                                </div><!-- /.container-fluid -->
+                                            </div>
+                                        </div>
+                                        <!-- /.card-body -->
+                                </div>
+                                <!-- /.Tab 1 -->
+                            </div>
+                            <br />
+                            <!-- /.card -->
+                            <!-- /.card -->
+                            <div class="card card-primary">
+                                <div class="card-header">
+                                    <h3 class="card-title">Joseos creados</h3>
+                                </div>
+
+                                <!-- /.Tab 1 -->
+                                <div class="card-body">
+                                    <!-- Default box -->
+                                    <div class="card card-solid">
+                                        <div class="card-body pb-0">
+                                            <div class="row">
+                                                <div class="container-fluid">
+                                                    <div>
+                                                        <div>
+                                                            <div class="card">
+                                                                @foreach (var joseo in Model.JoseosCreados)
+                                                                {
+                                                                    <div class="card card-primary card-outline mx-4 my-3">
+                                                                        <h3 class="mx-2">@joseo.JoseoTitle</h3>
+                                                                        <span class="right badge badge-success">Estado: EN PROCESO</span>
+                                                                        <p class="card-text mx-2">
+                                                                            <span class="right badge badge-primary">ROL: Empleador</span> @joseo.JoseoDescription
+                                                                        </p>
+                                                                        <div class="text-center mx-2 my-3">
+                                                                            <a class="btn btn-app btn-lg mx-2">
+                                                                                <i class="fas fa-dollar-sign text-success fa-lg"></i> @joseo.JoseoPrice $ Dop
+                                                                            </a>
+                                                                            <a class="btn btn-app btn-lg mx-2">
+                                                                                <iconify-icon icon="ri:eye-line" width="20" height="20"></iconify-icon><br />Ver
+                                                                            </a>
+                                                                            <a class="btn btn-app btn-lg mx-2">
+                                                                                <iconify-icon icon="ph:pencil-duotone" width="20" height="20" style="color: #ffb703;"></iconify-icon><br />Editar
+                                                                            </a>
+                                                                            <a class="btn btn-app btn-lg mx-2">
+                                                                                <iconify-icon icon="gis:flag-finish" width="20" height="20"></iconify-icon><br />
+                                                                                Dar por terminado
+                                                                            </a>
+                                                                        </div>
+                                                                    </div>
+                                                                }
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <!-- /.row -->
+                                                </div><!-- /.container-fluid -->
+                                            </div>
+                                        </div>
+                                </div>
+                                <!-- /.Tab 1 -->
+                            </div>
+                            <!-- /.card -->
                         </div>
                     </div>
-                    <!-- /.card-body -->
-                    <div class="card-footer" disabled>
-                        <nav aria-label="Contacts Page Navigation" disabled>
-                            <ul class="pagination pagination-lg">
-                                <li class="page-item disabled"><a class="page-link" href="#">Primero</a></li>
-                                <li class="page-item disabled"><a class="page-link" href="#"><</a></li>
-                                <li class="page-item active disabled" aria-current="page">
-                                    <span class="page-link">1</span>
-                                </li>
-                                <li class="page-item disabled"><a class="page-link" href="#">2</a></li>
-                                <li class="page-item disabled"><a class="page-link" href="#">3</a></li>
-                                <li class="page-item disabled"><a class="page-link" href="#">></a></li>
-                                <li class="page-item disabled"><a class="page-link" href="#">Último</a></li>
-                            </ul>
-                        </nav>
-                    </div>
-                    <!-- /.card-footer -->
-                </div>
-                <!-- /.card -->
-
+                </section>
             </section>
             <!-- /.content -->
         </div>

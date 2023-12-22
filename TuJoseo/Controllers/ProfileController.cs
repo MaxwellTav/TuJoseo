@@ -1,7 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
+using Microsoft.EntityFrameworkCore.SqlServer.Query.Internal;
 using Microsoft.Extensions.Configuration;
 using System.Security.Claims;
+using System.Text;
 using TuJoseo.Models;
 
 namespace TuJoseo.Controllers
@@ -123,28 +125,64 @@ namespace TuJoseo.Controllers
         }
 
         [HttpPost]
-        public IActionResult SaveChangesUser([FromBody]UserEditModel user)
+        public IActionResult SaveChangesUser([FromBody] UserEditModel user)
         {
-            string query = @$"UPDATE UserTable
-                              SET
-                                  UserName = '{user.UserName}',
-                                  UserEducation = '{user.UserEducation}',
-                                  UserLocation = '{user.UserLocation}',
-                                  UserHabilities = '{user.UserSkills}',
-                                  UserRol = '{user.UserRole}',
-                                  UserPhone = '{user.UserPhone}' 
-                              WHERE UserID = '{user.UserID}';";
+            StringBuilder queryBuilder = new StringBuilder("UPDATE UserTable SET ");
+
+            // Lista para almacenar los parámetros
+            List<SqlParameter> parameters = new List<SqlParameter>();
+
+            // Agregar cada parámetro individualmente
+            AddParameter("UserName", user.UserName, queryBuilder, parameters);
+            AddParameter("UserEducation", user.UserEducation, queryBuilder, parameters);
+            AddParameter("UserLocation", user.UserLocation, queryBuilder, parameters);
+            AddParameter("UserHabilities", user.UserSkills, queryBuilder, parameters);
+            AddParameter("UserRol", user.UserRole, queryBuilder, parameters);
+            AddParameter("UserPhone", user.UserPhone, queryBuilder, parameters);
+
+            // Quitar la última coma y espacio si hay al menos un campo actualizado
+            if (queryBuilder.Length > 0 && queryBuilder[queryBuilder.Length - 1] == ' ')
+            {
+                queryBuilder.Length -= 2;
+            }
+
+            // Agregar WHERE clause
+            queryBuilder.Append($" WHERE UserID = '{user.UserID}'");
+
+            // Construir la consulta final
+            string query = queryBuilder.ToString();
 
             using (SqlConnection con = new SqlConnection(ConnectionString))
             {
                 con.Open();
                 using (SqlCommand cmd = new SqlCommand(query, con))
                 {
-                    cmd.ExecuteNonQuery();
+                    // Agregar parámetros al comando
+                    cmd.Parameters.AddRange(parameters.ToArray());
+
+                    try
+                    {
+                        cmd.ExecuteNonQuery();
+                    }
+                    catch
+                    {
+                    }
                 }
             }
 
-            return View(user);
+            TempData["Success"] = "Se han guardado los cambios!";
+            return RedirectToAction("Index", "Profile");
+        }
+
+        // Método para agregar parámetros a la lista y construir la parte SET de la consulta
+        private void AddParameter(string columnName, string columnValue, StringBuilder queryBuilder, List<SqlParameter> parameters)
+        {
+            if (!string.IsNullOrEmpty(columnValue))
+            {
+                // Agregar al SET solo si el valor no es nulo o vacío
+                queryBuilder.Append($"{columnName} = @{columnName}, ");
+                parameters.Add(new SqlParameter($"@{columnName}", columnValue));
+            }
         }
     }
 }

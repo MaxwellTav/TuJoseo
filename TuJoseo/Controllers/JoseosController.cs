@@ -60,7 +60,7 @@ namespace TuJoseo.Controllers
         public IActionResult SearchJoseo()
         {
             List<JoseoModel> joseos = new List<JoseoModel>();
-            string query = "SELECT * FROM JoseosTable;";
+            string query = @$"SELECT * FROM JoseosTable;";
 
             using (SqlConnection con = new SqlConnection(ConnectionString))
             {
@@ -91,14 +91,21 @@ namespace TuJoseo.Controllers
 
             return View(joseos);
         }
+
         public IActionResult SearchOwnJoseo()
         {
-            List<JoseoModel> joseos = new List<JoseoModel>();
-            string query = "SELECT * FROM JoseosTable;";
+            string userID = TempData["UserID"].ToString();
 
+            List<JoseoModel> joseos = new List<JoseoModel>();
+            MainOwnJoseoModel mainOwnJoseoModel = new MainOwnJoseoModel()
+            {
+                MisJoseos = new List<JoseoModel>(),
+                JoseosCreados = new List<JoseoModel>()
+            };
+            string queryMisJoseos = @$"SELECT * FROM JoseosTable Where JoseadorRealID = {userID};";
             using (SqlConnection con = new SqlConnection(ConnectionString))
             {
-                using (SqlCommand cmd = new SqlCommand(query, con))
+                using (SqlCommand cmd = new SqlCommand(queryMisJoseos, con))
                 {
                     con.Open();
                     using (SqlDataReader reader = cmd.ExecuteReader())
@@ -118,12 +125,45 @@ namespace TuJoseo.Controllers
 
                                 joseos.Add(joseo);
                             }
+                            mainOwnJoseoModel.MisJoseos = joseos;
                         }
                     }
                 }
             }
 
-            return View(joseos);
+            List<JoseoModel> joseoscreado = new List<JoseoModel>();
+
+            string queryJoseosCreados = @$"SELECT * FROM JoseosTable Where JoseadorID = {userID};";
+            using (SqlConnection concreado = new SqlConnection(ConnectionString))
+            {
+                using (SqlCommand cmdcreado = new SqlCommand(queryJoseosCreados, concreado))
+                {
+                    concreado.Open();
+                    using (SqlDataReader reader = cmdcreado.ExecuteReader())
+                    {
+                        if (reader.HasRows)
+                        {
+                            while (reader.Read())
+                            {
+                                JoseoModel joseo = new JoseoModel()
+                                {
+                                    JoseoID = reader.GetInt32(0),
+                                    JoseoTitle = reader.GetString(1),
+                                    JoseoDescription = reader.GetString(2),
+                                    JoseoPrice = reader.GetString(3),
+                                    JoseadorID = reader.GetString(4)
+                                };
+
+                                joseoscreado.Add(joseo);
+                            }
+                            mainOwnJoseoModel.JoseosCreados = joseoscreado;
+                        }
+                    }
+                }
+            }
+
+            TempData["UserID"] = userID;
+            return View(mainOwnJoseoModel);
         }
 
         public IActionResult SearchJoseador()

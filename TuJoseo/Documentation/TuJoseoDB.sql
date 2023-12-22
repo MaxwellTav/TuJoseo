@@ -136,7 +136,8 @@ JoseoStartTime DATETIME DEFAULT GETDATE() Not Null,
 JoseoEstimatedTime DateTime Not Null,
 JoseoFinishTime DateTime,
 JoseoContratoID Varchar(10),
-JoseoStatus Varchar(10) Not Null);
+JoseoStatus Varchar(10) Not Null,
+JoseadorRealID Varchar(10));
 
 -- Ejemplo 1
 INSERT INTO JoseosTable (JoseoTitle, JoseoDescription, JoseoPrice, JoseadorID, JoseoStartTime, JoseoEstimatedTime, JoseoFinishTime, JoseoContratoID, JoseoStatus)
@@ -172,7 +173,7 @@ VALUES ('Desarrollador Full Stack para Plataforma Educativa Online', 'Buscamos u
 
 
 Drop Table JoseosTable;
-SELECT TOP 5 * FROM JoseosTable;
+SELECT TOP 5 * FROM JoseosTable Where JoseadorRealID = '0';
 SELECT * FROM JoseosTable Where JoseoID = '1';
 
 

@@ -121,5 +121,30 @@ namespace TuJoseo.Controllers
             TempData["UserID"] = userID;
             return Json(new { success = true });
         }
+
+        [HttpPost]
+        public IActionResult SaveChangesUser([FromBody]UserEditModel user)
+        {
+            string query = @$"UPDATE UserTable
+                              SET
+                                  UserName = '{user.UserName}',
+                                  UserEducation = '{user.UserEducation}',
+                                  UserLocation = '{user.UserLocation}',
+                                  UserHabilities = '{user.UserSkills}',
+                                  UserRol = '{user.UserRole}',
+                                  UserPhone = '{user.UserPhone}' 
+                              WHERE UserID = '{user.UserID}';";
+
+            using (SqlConnection con = new SqlConnection(ConnectionString))
+            {
+                con.Open();
+                using (SqlCommand cmd = new SqlCommand(query, con))
+                {
+                    cmd.ExecuteNonQuery();
+                }
+            }
+
+            return View(user);
+        }
     }
 }

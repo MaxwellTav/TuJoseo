@@ -91,14 +91,46 @@ namespace TuJoseo.Controllers
 
             return View(joseos);
         }
+        public IActionResult SearchOwnJoseo()
+        {
+            List<JoseoModel> joseos = new List<JoseoModel>();
+            string query = "SELECT * FROM JoseosTable;";
+
+            using (SqlConnection con = new SqlConnection(ConnectionString))
+            {
+                using (SqlCommand cmd = new SqlCommand(query, con))
+                {
+                    con.Open();
+                    using (SqlDataReader reader = cmd.ExecuteReader())
+                    {
+                        if (reader.HasRows)
+                        {
+                            while (reader.Read())
+                            {
+                                JoseoModel joseo = new JoseoModel()
+                                {
+                                    JoseoID = reader.GetInt32(0),
+                                    JoseoTitle = reader.GetString(1),
+                                    JoseoDescription = reader.GetString(2),
+                                    JoseoPrice = reader.GetString(3),
+                                    JoseadorID = reader.GetString(4)
+                                };
+
+                                joseos.Add(joseo);
+                            }
+                        }
+                    }
+                }
+            }
+
+            return View(joseos);
+        }
 
         public IActionResult SearchJoseador()
         {
-
-
             return View();
         }
-
+        
         [HttpPost]
         public IActionResult SeeJoseo(int joseoID)
         {
@@ -201,7 +233,7 @@ namespace TuJoseo.Controllers
             return View(mjm);
         }
 
-        public IActionResult SeeJoseador()
+        public IActionResult CreateJoseo()
         {
             return View();
         }

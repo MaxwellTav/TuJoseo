@@ -60,7 +60,7 @@ namespace TuJoseo.Controllers
         public IActionResult SearchJoseo()
         {
             List<JoseoModel> joseos = new List<JoseoModel>();
-            string query = @$"SELECT * FROM JoseosTable;";
+            string query = @$"SELECT * FROM JoseosTable WHERE JoseadorRealID IS NULL;";
 
             using (SqlConnection con = new SqlConnection(ConnectionString))
             {
@@ -114,13 +114,14 @@ namespace TuJoseo.Controllers
                         {
                             while (reader.Read())
                             {
-                                JoseoModel joseo = new JoseoModel()
+                                    JoseoModel joseo = new JoseoModel()
                                 {
                                     JoseoID = reader.GetInt32(0),
                                     JoseoTitle = reader.GetString(1),
                                     JoseoDescription = reader.GetString(2),
                                     JoseoPrice = reader.GetString(3),
-                                    JoseadorID = reader.GetString(4)
+                                    JoseadorID = reader.GetString(4),
+                                    JoseadorRealID = reader.GetString(10)
                                 };
 
                                 joseos.Add(joseo);

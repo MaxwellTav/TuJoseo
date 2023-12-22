@@ -175,6 +175,5 @@ VALUES ('Desarrollador Full Stack para Plataforma Educativa Online', 'Buscamos u
 Drop Table JoseosTable;
 SELECT TOP 5 * FROM JoseosTable Where JoseadorRealID = '0';
 SELECT * FROM JoseosTable Where JoseoID = '1';
-
-
+SELECT * FROM JoseosTable Where JoseadorRealID = 1;
 --_________________________________________________________________________________________________________

@@ -12,5 +12,6 @@
         public DateTime JoseoFinishTime { get; set; } = DateTime.Now;
         public string? JoseoContratoID { get; set; } = string.Empty;
         public string JoseoStatus { get; set; } = string.Empty;
+        public string JoseadorRealID { get; set; } = string.Empty;
     }
 }

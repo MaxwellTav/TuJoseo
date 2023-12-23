@@ -1,9 +1,11 @@
-﻿<!DOCTYPE html>
+﻿@model CreateJoseoModel
+
+<!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Joseo | Joseo</title>
+    <title>Crear Joseo</title>
 
     <!-- Google Font: Source Sans Pro -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
@@ -33,16 +35,16 @@
                             </div>
                             <div class="card-body">
                                 <div class="form-group">
-                                    <label for="inputName">Nombre del proyecto</label>
-                                    <input type="text" id="inputName" class="form-control">
+                                    <label for="joseoTitle">Nombre del proyecto</label>
+                                    <input type="text" id="joseoTitle" class="form-control">
                                 </div>
                                 <div class="form-group">
-                                    <label for="inputDescription">Descripción del proyecto</label>
-                                    <textarea id="inputDescription" class="form-control" rows="4"></textarea>
+                                    <label for="joseoDescription">Descripción del proyecto</label>
+                                    <textarea id="joseoDescription" class="form-control" rows="4"></textarea>
                                 </div>
                                 <div class="form-group">
-                                    <label for="inputStatus">Estado</label>
-                                    <select id="inputStatus" class="form-control custom-select">
+                                    <label for="joseoStatus">Estado</label>
+                                    <select id="joseoStatus" class="form-control custom-select">
                                         <option selected disabled>Seleccione uno</option>
                                         <option>Desde cero</option>
                                         <option>Idea base</option>
@@ -59,8 +61,8 @@
                                     <input type="text" id="inputClientCompany" class="form-control">
                                 </div>
                                 <div class="form-group">
-                                    <label for="inputProjectLeader">Líder del proyecto</label>
-                                    <input type="text" id="inputProjectLeader" class="form-control" disabled>
+                                    <label for="joseadorID" hidden>Líder del proyecto</label>
+                                    <input type="text" id="joseadorID" class="form-control" hidden value="@TempData["UserID"]">
                                 </div>
                             </div>
                             <!-- /.card-body -->
@@ -80,12 +82,12 @@
                             </div>
                             <div class="card-body">
                                 <div class="form-group">
-                                    <label for="inputEstimatedBudget">Presupuesto estimado</label>
-                                    <input type="number" id="inputEstimatedBudget" class="form-control">
+                                    <label for="joseoPrice">Presupuesto estimado</label>
+                                    <input type="number" id="joseoPrice" class="form-control">
                                 </div>
                                 <div class="form-group">
-                                    <label for="inputEstimatedDuration">Duración estimada del proyecto (seleccionar fecha final)</label>
-                                    <input type="date" id="inputEstimatedDuration" class="form-control">
+                                    <label for="joseoEstimatedTime">Duración estimada del proyecto (seleccionar fecha final)</label>
+                                    <input type="date" id="joseoEstimatedTime" class="form-control">
                                 </div>
                             </div>
                             <!-- /.card-body -->
@@ -117,12 +119,15 @@
                         </div>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col-12">
-                        <a href="#" class="btn btn-secondary">Cancelar</a>
-                        <input type="submit" value="Crear Nuevo Joseo" class="btn btn-success float-right">
+                <form id="joseoForm" method="post">
+                    <div class="row">
+                        <div class="col-12">
+                            <a href="#" class="btn btn-secondary">Cancelar</a>
+                            <input href="@Url.Action("Index", "Home")" id="btnSaveJoseo" value="Crear Nuevo Joseo" class="btn btn-success float-right">
+                        </div>
                     </div>
-                </div>
+                </form>
+
             </section>
             <!-- /.content -->
         </div>
@@ -140,11 +145,61 @@
         </aside>
         <!-- /.control-sidebar -->
     </div>
+    
     <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
-    <!-- ./wrapper -->
+    <!-- Ajax -->
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <!-- jQuery -->
     <script src="../../plugins/jquery/jquery.min.js"></script>
     <!-- Bootstrap 4 -->
     <script src="../../plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
+
+<script>
+    $(document).ready(function () {
+        $("#btnSaveJoseo").click(function () {
+            saveJoseo();
+        });
+    });
+
+    function saveJoseo() {
+        // Obtener valores de los controles
+        var joseoTitle = $('#joseoTitle').val();
+        var joseoDescription = $('#joseoDescription').val();
+        var joseoStatus = $('#joseoStatus').val();
+        var joseoPrice = $('#joseoPrice').val();
+        var joseoEstimatedTime = $('#joseoEstimatedTime').val();
+        var joseadorID = $('#joseadorID').val();
+
+        // Construir el objeto joseo
+        var joseo = {
+            joseoTitle: joseoTitle,
+            joseoDescription: joseoDescription,
+            joseoStatus: joseoStatus,
+            joseoPrice: joseoPrice,
+            joseoEstimatedTime: joseoEstimatedTime,
+            joseadorID: joseadorID
+        };
+
+        // Realizar la solicitud AJAX
+        $.ajax({
+            type: 'POST',
+            url: '@Url.Action("CreateNewJoseo", "Joseos")',
+            data: JSON.stringify(joseo),
+            contentType: 'application/json',
+            success: function (data) {
+                // Manejar el éxito de la solicitud según tus necesidades
+                console.log(data.message);
+
+                // Redirigir a la página "Index" del controlador "Home"
+                window.location.href = '/JJoseos/SearchOwnJoseo';
+            },
+            error: function (error) {
+                // Manejar errores si es necesario
+                console.error('Error al crear el Joseo:', error.responseJSON.error);
+            }
+        });
+    }
+
+</script>

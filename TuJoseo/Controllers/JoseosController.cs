@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Microsoft.Extensions.Configuration;
 using System.Security.Cryptography.Xml;
 using TuJoseo.Models;
@@ -282,7 +283,55 @@ namespace TuJoseo.Controllers
 
         public IActionResult CreateJoseo()
         {
+            string userID = TempData["UserID"].ToString();
+            TempData["UserID"] = userID;
+
             return View();
+        }
+
+        [HttpPost]
+        public IActionResult CreateNewJoseo([FromBody] CreateJoseoModel joseo)
+        {
+            if (joseo == null)
+            {
+                TempData["Error"] = "Ninguno de los campos pueden estar nulos";
+                return View(joseo);
+            }
+
+            // Verifica que cada propiedad tenga un valor
+            if (string.IsNullOrEmpty(joseo.JoseoTitle) ||
+                string.IsNullOrEmpty(joseo.JoseoDescription) ||
+                string.IsNullOrEmpty(joseo.JoseoStatus) ||
+                joseo.JoseoPrice == null ||
+                joseo.JoseoEstimatedTime == null)
+            {
+                // Al menos una propiedad es nula o vacía, realiza la lógica necesaria (puede ser un error)
+                TempData["Error"] = "Ninguno de los campos pueden estar nulos";
+                return View(joseo);
+            }
+
+            string query = $@"Insert Into JoseosTable (JoseoTitle, JoseoDescription, JoseoStatus, JoseoPrice, JoseoEstimatedTime, JoseadorID, JoseoFinishTime, JoseoContratoID) Values
+                            ('{joseo.JoseoTitle}', 
+                            '{joseo.JoseoDescription}', 
+                            '{joseo.JoseoStatus}', 
+                            '{joseo.JoseoPrice}', 
+                            '{joseo.JoseoEstimatedTime}', 
+                            '{joseo.JoseadorID}', 
+                            '{DateTime.Now}', 
+                            '0090239');";
+
+            using (SqlConnection con = new SqlConnection(ConnectionString))
+            {
+                con.Open();
+                using (SqlCommand cmd = new SqlCommand(query, con))
+                {
+                    cmd.ExecuteNonQuery();
+                }
+            }
+
+            TempData["Success"] = "Joseo creado con exito!";
+            TempData["UserID"] = joseo.JoseadorID;
+            return RedirectToAction("Index", "Home");
         }
     }
 }

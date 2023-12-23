@@ -136,7 +136,7 @@ JoseoStartTime DATETIME DEFAULT GETDATE() Not Null,
 JoseoEstimatedTime DateTime Not Null,
 JoseoFinishTime DateTime,
 JoseoContratoID Varchar(10),
-JoseoStatus Varchar(10) Not Null,
+JoseoStatus Varchar(50) Not Null,
 JoseadorRealID Varchar(10));
 
 -- Ejemplo 1

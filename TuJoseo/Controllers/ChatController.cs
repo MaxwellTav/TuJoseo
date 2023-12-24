@@ -1,5 +1,6 @@
 ﻿ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
+using TuJoseo.Models;
 
 namespace TuJoseo.Controllers
 {
@@ -7,6 +8,8 @@ namespace TuJoseo.Controllers
     {
         public static Dictionary<int, string> Rooms =
             new Dictionary<int, string>();
+
+        public static string UserName;
 
         private readonly IConfiguration _configuration;
         private readonly string ConnectionString;
@@ -48,7 +51,38 @@ namespace TuJoseo.Controllers
 
         public IActionResult Room(int room)
         {
-            return View("Room",  room);
+            ChatModel chat = new ChatModel();
+
+            #region Tener el nombre del usuario
+            try
+            {
+                using (SqlConnection con = new SqlConnection(ConnectionString))
+                {
+                    using (SqlCommand cmd = new SqlCommand($"Select UserName From UserTable Where UserID = '{TempData["UserID"]}';", con))
+                    {
+                        con.Open();
+                        using (SqlDataReader reader = cmd.ExecuteReader())
+                        {
+                            if (reader.HasRows)
+                            {
+                                while (reader.Read())
+                                {
+                                    chat.MyUserName = reader.GetString(0);
+                                }
+                            }
+                            else
+                            {
+                                chat.MyUserName = "Usuario";
+                            }
+                        }
+                    }
+                }
+            }
+            catch
+            { chat.MyUserName = "MissingNo."; }
+            #endregion
+
+            return View("Room",  chat);
         }
     }
 }

@@ -1,23 +1,185 @@
-﻿@model int
+﻿@using Microsoft.Data.SqlClient
+@model ChatModel
 
-<h1>@TuJoseo.Controllers.ChatController.Rooms.GetValueOrDefault(Model)</h1>
+<h1>@TuJoseo.Controllers.ChatController.Rooms.GetValueOrDefault(Model.Room)</h1>
 
-<div class="row">
-    <div class="col-12">
-        <input type="text" placeholder="Usuario" id="user" />
-        <input type="text" placeholder="Mensaje" id="message" />
-        <button id="btnSend">Enviar</button>
-    </div>
-</div>
 
-<div class="row">
-    <div class="col-6">
-        <div id="messages"></div>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>CHAT</title>
+
+    <!-- Google Font: Source Sans Pro -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="../../plugins/fontawesome-free/css/all.min.css">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="../../dist/css/adminlte.min.css">
+</head>
+<body class="hold-transition sidebar-mini layout-fixed">
+    <!-- Site wrapper -->
+    <div class="wrapper">
+        <!-- Content Wrapper. Contains page content -->
+        <div class="content-wrapper">
+            <!-- Main content -->
+            <section class="content">
+
+                <!-- Default box -->
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">@TuJoseo.Controllers.ChatController.Rooms.GetValueOrDefault(Model.Room)</h3>
+                        <div class="card-tools">
+                            <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
+                                <i class="fas fa-minus"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-8 offset-2">
+                                <h2>Tus contactos</h2>
+                                <ul class="list-group">
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <!-- /.card-body -->
+                                            <div class="card-footer">
+                                                <div class="input-group">
+                                                    <span class="input-group-append">
+                                                        <input type="text" placeholder="Usuario" id="user" hidden value="@Model.MyUserName"/>
+                                                        <input type="text" placeholder="Mensaje" id="message" />
+                                                        <button id="btnSend">Enviar</button>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-6">
+                                            <div id="messages"></div>
+                                        </div>
+                                        <div class="col-6">
+                                            <div id="notifications"></div>
+                                        </div>
+                                    </div>
+
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /.card-body -->
+                    <div class="card-footer">
+                    </div>
+                    <!-- /.card-footer-->
+                </div>
+                <!-- /.card -->
+
+                <!-- /.New Chat Design -->
+                <div class="col-md-20">
+                    <div class="card card-danger shadow-lg">
+                        <div class="card-header">
+                            <h3 class="card-title">Chat</h3>
+
+                            <div class="card-tools">
+                                <button type="button" class="btn btn-tool" data-card-widget="maximize">
+                                    <i class="fas fa-expand"></i>
+                                </button>
+                            </div>
+                            <!-- /.card-tools -->
+                        </div>
+                        <!-- /.card-header -->
+                        <div class="card-body">
+                            <!-- DIRECT CHAT DANGER -->
+                            <div class="card card-danger direct-chat direct-chat-danger shadow-lg">
+                                <div class="card-header">
+
+                                    <div class="card-tools">
+                                        <span title="3 New Messages" class="badge">3</span>
+                                        <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                            <i class="fas fa-minus"></i>
+                                        </button>
+                                        <button type="button" class="btn btn-tool" title="Contacts" data-widget="chat-pane-toggle">
+                                            <i class="fas fa-comments"></i>
+                                        </button>
+                                        <button type="button" class="btn btn-tool" data-card-widget="remove">
+                                            <i class="fas fa-times"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                                <!-- /.card-header -->
+                                <div class="card-body">
+                                    <!-- Conversations are loaded here -->
+                                    <div class="direct-chat-messages">
+                                        <!-- Message. Default to the left -->
+                                        <div class="direct-chat-msg">
+                                            <div class="direct-chat-infos clearfix">
+                                                <span class="direct-chat-name float-left">Alexander Pierce</span>
+                                                <span class="direct-chat-timestamp float-right">23 Jan 2:00 pm</span>
+                                            </div>
+                                            <!-- /.direct-chat-infos -->
+                                            <img class="direct-chat-img" src="../dist/img/user1-128x128.jpg" alt="Message User Image">
+                                            <!-- /.direct-chat-img -->
+                                            <div class="direct-chat-text">
+                                                Is this template really for free? That's unbelievable!
+                                            </div>
+                                            <!-- /.direct-chat-text -->
+                                        </div>
+                                        <!-- /.direct-chat-msg -->
+                                        <!-- Message to the right -->
+                                        <div class="direct-chat-msg right">
+                                            <div class="direct-chat-infos clearfix">
+                                                <span class="direct-chat-name float-right">Sarah Bullock</span>
+                                                <span class="direct-chat-timestamp float-left">23 Jan 2:05 pm</span>
+                                            </div>
+                                            <!-- /.direct-chat-infos -->
+                                            <img class="direct-chat-img" src="../dist/img/user3-128x128.jpg" alt="Message User Image">
+                                            <!-- /.direct-chat-img -->
+                                            <div class="direct-chat-text">
+                                                You better believe it!
+                                            </div>
+                                            <!-- /.direct-chat-text -->
+                                        </div>
+                                        <!-- /.direct-chat-msg -->
+                                    </div>
+                                    <!--/.direct-chat-messages-->
+                                </div>
+                                
+                                <!-- /.card-footer-->
+                            </div>
+                            <!--/.direct-chat -->
+                        </div>
+                        <!-- /.card-body -->
+                    </div>
+                    <!-- /.card -->
+                </div>
+                <!-- /.col -->
+
+            </section>
+            <!-- /.content -->
+        </div>
+        <!-- /.content-wrapper -->
+
+        <footer class="main-footer">
+            <div class="float-right d-none d-sm-block">
+                <b>Version</b> 3.2.0
+            </div>
+        </footer>
+
+        <!-- Control Sidebar -->
+        <aside class="control-sidebar control-sidebar-dark">
+            <!-- Control sidebar content goes here -->
+        </aside>
+        <!-- /.control-sidebar -->
     </div>
-    <div class="col-6">
-        <div id="notifications"></div>
-    </div>
-</div>
+    <!-- ./wrapper -->
+    <!-- jQuery -->
+    <script src="../../plugins/jquery/jquery.min.js"></script>
+    <!-- Bootstrap 4 -->
+    <script src="../../plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
 
 <script src="~/lib/microsoft/signalr/dist/browser/signalr.min.js"></script>
 <script src="~/lib/microsoft/signalr/dist/browser/signalr.js"></script>

@@ -60,8 +60,10 @@ namespace TuJoseo.Controllers
 
         public IActionResult SearchJoseo()
         {
+            string userID = TempData["UserID"].ToString();
+
             List<JoseoModel> joseos = new List<JoseoModel>();
-            string query = @$"SELECT * FROM JoseosTable WHERE JoseadorRealID IS NULL;";
+            string query = @$"SELECT * FROM JoseosTable WHERE JoseadorRealID IS NULL AND JoseadorID != '{userID}';";
 
             using (SqlConnection con = new SqlConnection(ConnectionString))
             {
@@ -90,6 +92,7 @@ namespace TuJoseo.Controllers
                 }
             }
 
+            TempData["UserID"] = userID;
             return View(joseos);
         }
 

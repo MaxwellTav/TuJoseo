@@ -78,7 +78,7 @@
               <div class="icon">
                 <i class="ion fa-amazon-pay"></i>
               </div>
-              <a href="#" class="small-box-footer">Más información <i class="fas fa-arrow-circle-right"></i></a>
+              <a href="#" class="small-box-footer"><i class="fas fa-arrow-circle-right"></i></a>
             </div>
           </div>
           <!-- ./col -->
@@ -93,7 +93,7 @@
               <div class="icon">
                 <i class="ion ion-stats-bars"></i>
               </div>
-              <a href="#" class="small-box-footer">Más información <i class="fas fa-arrow-circle-right"></i></a>
+              <a href="#" class="small-box-footer"><i class="fas fa-arrow-circle-right"></i></a>
             </div>
           </div>
           <!-- ./col -->
@@ -108,7 +108,7 @@
               <div class="icon">
                 <i class="ion ion-person-add"></i>
               </div>
-              <a href="#" class="small-box-footer">Más información <i class="fas fa-arrow-circle-right"></i></a>
+              <a href="#" class="small-box-footer"><i class="fas fa-arrow-circle-right"></i></a>
             </div>
           </div>
           <!-- ./col -->
@@ -123,7 +123,7 @@
               <div class="icon">
                 <i class="ion ion-pie-graph"></i>
               </div>
-                            <a href="#" class="small-box-footer">Más información <i class="fas fa-arrow-circle-right"></i></a>
+                            <a href="#" class="small-box-footer"><i class="fas fa-arrow-circle-right"></i></a>
             </div>
           </div>
           <!-- ./col -->
@@ -592,8 +592,15 @@
             <div class="card-body">
                 <div class="tab-pane fade show active" id="custom-tabs-five-overlay" role="tabpanel" aria-labelledby="custom-tabs-five-overlay-tab">
                     <div class="overlay-wrapper">
-                        Se han encontrado @(Model.JOSEOS.Count) joseos en los que puedes trabajar.
-                        <div class="overlay"><i class="fas fa-3x fa-sync-alt fa-spin"></i><div class="text-bold pt-2">Analizando y buscando...</div></div>
+                            @if (Model.JOSEOS != null)
+                            {
+                                <h5 class="m-0">Se han encontrado @(Model.JOSEOS.Count) joseos en los que puedes trabajar.</h5>
+                            }
+                            else
+                            {
+                                <h5 class="m-0">No se han encontrado joseos.</h5>
+                            }
+                            <div class="overlay"><i class="fas fa-3x fa-sync-alt fa-spin"></i><div class="text-bold pt-2">Analizando y buscando...</div></div>
                     </div>
                 </div>
             </div>

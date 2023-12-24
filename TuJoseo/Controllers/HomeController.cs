@@ -171,7 +171,7 @@ namespace TuJoseo.Controllers
             #endregion
 
             #region Joseos
-            string queryJoseo = "SELECT TOP 5 * FROM JoseosTable WHERE JoseadorRealID IS NULL;";
+            string queryJoseo = @$"SELECT TOP 5 * FROM JoseosTable WHERE JoseadorRealID IS NULL AND JoseadorID != '{userID}';";
 
             try
             {

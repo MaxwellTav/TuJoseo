@@ -22,6 +22,7 @@ namespace TuJoseo.Controllers
             #region Obtener las salas
             if (Rooms.Count < 1)
             {
+                //El query que crea las salas.
                 string query = "Select UserID, UserName From UserTable;";
                 using (SqlConnection con = new SqlConnection(ConnectionString))
                 {

@@ -109,10 +109,10 @@
                                                                             <a class="btn btn-app btn-lg mx-2">
                                                                                 <i class="fas fa-dollar-sign text-success fa-lg"></i> @joseo.JoseoPrice $ Dop
                                                                             </a>
-                                                                            <a class="btn btn-app btn-lg mx-2">
+                                                                            <a class="btn btn-app btn-lg mx-2" href="@Url.Action("CreateJoseo", "Joseos", joseo)">
                                                                                 <iconify-icon icon="ph:pencil-duotone" width="20" height="20" style="color: #ffb703;"></iconify-icon><br />Editar
                                                                             </a>
-                                                                            <a class="btn btn-app btn-lg mx-2">
+                                                                            <a class="btn btn-app btn-lg mx-2 btnFinishProject" data-joseo-id="@joseo.JoseoID">
                                                                                 <iconify-icon icon="gis:flag-finish" width="20" height="20"></iconify-icon><br />
                                                                                 Dar por terminado
                                                                             </a>
@@ -160,6 +160,8 @@
         <!-- /.control-sidebar -->
     </div>
     <!-- ./wrapper -->
+    <!-- SweetAlert2 -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <!-- Iconify -->
     <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
     <!-- jQuery -->
@@ -168,3 +170,51 @@
     <script src="../../plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
+
+<script>
+    // Función para mostrar el mensaje de confirmación y ejecutar la acción
+    function showConfirmation(joseoID) {
+        Swal.fire({
+            title: '¿Seguro que desea dar por terminado el proyecto?',
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonText: 'Sí',
+            cancelButtonText: 'No',
+        }).then((result) => {
+            if (result.isConfirmed) {
+                finishProject(joseoID);
+            }
+        });
+    }
+
+    document.querySelectorAll(".btnFinishProject").forEach(function (button) {
+        button.addEventListener("click", function () {
+            var joseoID = this.getAttribute("data-joseo-id");
+            showConfirmation(joseoID);
+        });
+    });
+
+    function finishProject(joseoID) {
+        $.ajax({
+            type: 'POST',
+            url: '/Joseos/FinishProyect',
+            data: { joseoID: joseoID },
+            success: function (data) {
+                console.log('Proyecto terminado con éxito:', data);
+
+                Swal.fire({
+                    title: 'Proyecto terminado',
+                    text: 'El proyecto ha sido dado por terminado correctamente.',
+                    icon: 'success',
+                }).then(() => {
+                    // Recargar la página después de cerrar el cuadro de diálogo
+                    location.reload();
+                });
+            },
+            error: function (error) {
+                console.error('Error al dar por terminado el proyecto:', error);
+            }
+        });
+    }
+
+</script>

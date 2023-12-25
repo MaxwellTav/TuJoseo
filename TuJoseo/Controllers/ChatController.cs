@@ -47,11 +47,13 @@ namespace TuJoseo.Controllers
 
         public IActionResult Index()
         {
+            TempData["UserID"] = TempData["UserID"];
             return View();
         }
 
         public IActionResult Room(int room)
         {
+            TempData["UserID"] = TempData["UserID"];
             ChatModel chat = new ChatModel();
 
             #region Tener el nombre del usuario
@@ -83,6 +85,7 @@ namespace TuJoseo.Controllers
             { chat.MyUserName = "MissingNo."; }
             #endregion
 
+            TempData["UserID"] = TempData["UserID"];
             return View("Room",  chat);
         }
     }

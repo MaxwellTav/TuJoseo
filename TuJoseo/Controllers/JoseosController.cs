@@ -1,9 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
-using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Microsoft.Extensions.Configuration;
-using System.Security.Cryptography.Xml;
 using TuJoseo.Models;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace TuJoseo.Controllers
 {
@@ -118,7 +116,7 @@ namespace TuJoseo.Controllers
                         {
                             while (reader.Read())
                             {
-                                    JoseoModel joseo = new JoseoModel()
+                                JoseoModel joseo = new JoseoModel()
                                 {
                                     JoseoID = reader.GetInt32(0),
                                     JoseoTitle = reader.GetString(1),
@@ -175,7 +173,7 @@ namespace TuJoseo.Controllers
         {
             return View();
         }
-        
+
         [HttpPost]
         public IActionResult SeeJoseo(int joseoID)
         {
@@ -277,6 +275,7 @@ namespace TuJoseo.Controllers
                 }
             }
 
+            TempData["UserID"] = userID;
             mjm.ME = new UserModel()
             {
                 UserID = Convert.ToInt32(userID),
@@ -284,12 +283,27 @@ namespace TuJoseo.Controllers
             return View(mjm);
         }
 
-        public IActionResult CreateJoseo()
+        [HttpGet]
+        public IActionResult CreateJoseo(JoseoModel? joseo)
         {
             string userID = TempData["UserID"].ToString();
             TempData["UserID"] = userID;
 
-            return View();
+            if (joseo == null)
+                return View();
+
+            CreateJoseoModel editJoseo = new CreateJoseoModel()
+            {
+                JoseadorID = joseo.JoseadorID,
+                JoseoDescription = joseo.JoseoDescription,
+                JoseoEstimatedTime = joseo.JoseoEstimatedTime.ToString(),
+                JoseoPrice = joseo.JoseoPrice,
+                JoseoStatus = joseo.JoseoStatus,
+                JoseoTitle = joseo.JoseoTitle
+            };
+
+            TempData["UserID"] = TempData["UserID"];
+            return View(editJoseo);
         }
 
         [HttpPost]
@@ -298,6 +312,7 @@ namespace TuJoseo.Controllers
             if (joseo == null)
             {
                 TempData["Error"] = "Ninguno de los campos pueden estar nulos";
+                TempData["UserID"] = TempData["UserID"];
                 return View(joseo);
             }
 
@@ -310,6 +325,7 @@ namespace TuJoseo.Controllers
             {
                 // Al menos una propiedad es nula o vacía, realiza la lógica necesaria (puede ser un error)
                 TempData["Error"] = "Ninguno de los campos pueden estar nulos";
+                TempData["UserID"] = TempData["UserID"];
                 return View(joseo);
             }
 
@@ -336,5 +352,69 @@ namespace TuJoseo.Controllers
             TempData["UserID"] = joseo.JoseadorID;
             return RedirectToAction("Index", "Home");
         }
+
+        [HttpPost]
+        public IActionResult EditJoseo([FromBody] CreateJoseoModel joseo)
+        {
+            if (joseo == null)
+            {
+                TempData["Error"] = "Ninguno de los campos pueden estar nulos";
+                return View(joseo);
+            }
+
+            // Verifica que cada propiedad tenga un valor
+            if (string.IsNullOrEmpty(joseo.JoseoTitle) ||
+                string.IsNullOrEmpty(joseo.JoseoDescription) ||
+                string.IsNullOrEmpty(joseo.JoseoStatus) ||
+                joseo.JoseoPrice == null ||
+                joseo.JoseoEstimatedTime == null)
+            {
+                // Al menos una propiedad es nula o vacía, realiza la lógica necesaria (puede ser un error)
+                TempData["Error"] = "Ninguno de los campos pueden estar nulos";
+                return View(joseo);
+            }
+
+            string query = $@"UPDATE JoseosTable
+                  SET JoseoTitle = '{joseo.JoseoTitle}',
+                      JoseoDescription = '{joseo.JoseoDescription}',
+                      JoseoStatus = '{joseo.JoseoStatus}',
+                      JoseoPrice = '{joseo.JoseoPrice}',
+                      JoseoEstimatedTime = '{joseo.JoseoEstimatedTime}',
+                      JoseoFinishTime = '{DateTime.Now}',
+                      JoseoContratoID = '0090239'
+                  WHERE JoseoTitle = '{joseo.JoseoTitle}';";
+
+            using (SqlConnection con = new SqlConnection(ConnectionString))
+            {
+                con.Open();
+                using (SqlCommand cmd = new SqlCommand(query, con))
+                {
+                    cmd.ExecuteNonQuery();
+                }
+            }
+
+            TempData["Success"] = "Joseo creado con exito!";
+            TempData["UserID"] = joseo.JoseadorID;
+            return RedirectToAction("Index", "Home");
+        }
+
+        [HttpPost]
+        public IActionResult FinishProyect(int joseoID)
+        {
+            string query = $"DELETE FROM JoseosTable WHERE JoseoID = {joseoID};";
+
+            using (SqlConnection con = new SqlConnection(ConnectionString))
+            {
+                con.Open();
+                using (SqlCommand cmd = new SqlCommand(query, con))
+                {
+                    cmd.ExecuteNonQuery();
+                }
+            }
+
+            TempData["UserID"] = TempData["UserID"];
+            return RedirectToAction("SearchOwnJoseo", "Joseos");
+        }
+
     }
 }

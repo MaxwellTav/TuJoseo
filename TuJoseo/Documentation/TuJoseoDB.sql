@@ -8,44 +8,56 @@ Use TuJoseoDB
 --_________________________________________________________________________________________________________
 --Crear las tablas que se utilizarán.
 --######################################
+Create Table CategoryUserTable
+(CategoryUserID Int Primary Key Identity,
+CategoryUserName Varchar(100) Unique);
+
+INSERT INTO CategoryUserTable (CategoryUserName)
+VALUES ('Programador');
+
+INSERT INTO CategoryUserTable (CategoryUserName)
+VALUES ('Plomero');
+
+INSERT INTO CategoryUserTable (CategoryUserName)
+VALUES ('Soporte Técnico');
+
 --Usuario
-Create Table UserTable
-(UserID int Primary Key Identity,
-UserName Varchar(30) Not Null Unique,
-UserCompleteName Varchar(100) Not Null Unique,
-UserPassword Varchar(30) Not Null,
-UserEmail Varchar(100) Not Null Unique,
+CREATE TABLE UserTable (
+    UserID INT PRIMARY KEY IDENTITY,
+    UserName VARCHAR(30) NOT NULL UNIQUE,
+    UserCompleteName VARCHAR(100) NOT NULL UNIQUE,
+    UserPassword VARCHAR(30) NOT NULL,
+    UserEmail VARCHAR(100) NOT NULL UNIQUE,
 
-UserRememberMe int,
+    UserRememberMe INT,
 
-UserJoseosRealized int,
-UserJobQuality int,
-UserSimpaty int,
-UserStalkers int,
-UserRelevance int,
-UserKnowlegde Varchar(300),
-UserLastLogin int,
+    UserJoseosRealized INT,
+    UserJobQuality INT,
+    UserSimpaty INT,
+    UserStalkers INT,
+    UserRelevance INT,
+    UserKnowlegde VARCHAR(300),
+    UserLastLogin INT,
 
-UserUnreadNotifications int,
-UserUnreadNotificationsTime int,
-UserUnreadMessages int,
-UserUnreadMessagesTime int,
-UserUnreadReports int,
-UserUnreadReportsTime int,
+    UserUnreadNotifications INT,
+    UserUnreadNotificationsTime INT,
+    UserUnreadMessages INT,
+    UserUnreadMessagesTime INT,
+    UserUnreadReports INT,
+    UserUnreadReportsTime INT,
 
-UserEducation Varchar(500),
-UserLocation Varchar(500),
-UserHabilities Varchar(500),
-UserNotes Varchar(500),
-UserRol Varchar(100),
-UserPhone Varchar(50),
-UserPhoto Varchar(50)
+    UserEducation VARCHAR(500),
+    UserLocation VARCHAR(500),
+    UserHabilities VARCHAR(500),
+    UserNotes VARCHAR(500),
+    UserRol VARCHAR(100),
+    UserPhone VARCHAR(50),
+    UserPhoto VARCHAR(50),
+    
+    CategoryUserID INT,
+    FOREIGN KEY (CategoryUserID) REFERENCES CategoryUserTable(CategoryUserID)
 );
 
---Ejecutar pruebas.
---Pueba de los usuarios
-SELECT *
-  FROM [TuJoseoDB].[dbo].[UserTable];
 --_________________________________________________________________________________________________________
 
 --Insertarle datos de prueba a la tabla.
@@ -105,7 +117,9 @@ values (
 --Teléfono
 '8296820160',
 --Foto
-'D:\Max\Desktop\Foto.jpg'
+'D:\Max\Desktop\Foto.jpg',
+--RolTabla
+1
 );
 
 --_________________________________________________________________________________________________________
@@ -119,9 +133,6 @@ NoteDone Bit Default 0)
 
 INSERT INTO NotesTable (NoteUserID, NoteDescription, NoteTime, NoteDone)
 VALUES (1, 'Tarea hecha', GETDATE(), 0);
-
---Prueba de la tabla de notas.
-Select * From NotesTable Where NoteUserID = 1;
 
 --_________________________________________________________________________________________________________
 
@@ -171,9 +182,12 @@ VALUES ('Desarrollador de Juegos para Proyecto de Simulación Médica Interactiva'
 INSERT INTO JoseosTable (JoseoTitle, JoseoDescription, JoseoPrice, JoseadorID, JoseoStartTime, JoseoEstimatedTime, JoseoFinishTime, JoseoContratoID, JoseoStatus)
 VALUES ('Desarrollador Full Stack para Plataforma Educativa Online', 'Buscamos un desarrollador Full Stack apasionado por la educación online...', '55000', '1', GETDATE(), DATEADD(YEAR, 2, GETDATE()), '2025-07-01', 'C001', 'Abierto');
 
-
-Drop Table JoseosTable;
-SELECT TOP 5 * FROM JoseosTable Where JoseadorRealID = '0';
+--Usuarios
+SELECT * FROM [TuJoseoDB].[dbo].[UserTable];
+--Joseos
 SELECT * FROM JoseosTable Where JoseoID = '1';
-SELECT * FROM JoseosTable Where JoseadorRealID = 1;
+--Notas
+Select * From NotesTable Where NoteUserID = 1;
+--Categorías
+Select * From CategoryUserTable;
 --_________________________________________________________________________________________________________

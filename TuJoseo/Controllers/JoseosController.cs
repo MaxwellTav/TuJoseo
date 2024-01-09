@@ -17,11 +17,37 @@ namespace TuJoseo.Controllers
         }
 
         //Buscar Joseador
-        public IActionResult Index()
+        public IActionResult Index(string? search)
         {
+            JoseoAndTypesModel joseosAndTypes = new JoseoAndTypesModel();
             List<UserModel> users = new List<UserModel>();
-            string query = "SELECT UserID, UserRol, UserName, UserHabilities, UserLocation, UserPhone, UserJoseosRealized, UserJobQuality, UserSimpaty FROM [TuJoseoDB].[dbo].[UserTable];";
+            List<CategoryModel> categories = new List<CategoryModel>();
 
+            string query = "";
+            if (search == null)
+                query = "SELECT UserID, UserRol, UserName, UserHabilities, " +
+                    "UserLocation, UserPhone, UserJoseosRealized, UserJobQuality, " +
+                    "UserSimpaty FROM [TuJoseoDB].[dbo].[UserTable];";
+            else
+            {
+                try
+                {
+                    Convert.ToInt32(search);
+                    query = @$"SELECT UserID, UserRol, UserName, UserHabilities,
+                            UserLocation, UserPhone, UserJoseosRealized, UserJobQuality, 
+                            UserSimpaty FROM [TuJoseoDB].[dbo].[UserTable] 
+                            Where CategoryUserID = '{search}';";
+                }
+                catch (Exception)
+                {
+                    query = @$"SELECT UserID, UserRol, UserName, UserHabilities, 
+                                UserLocation, UserPhone, UserJoseosRealized, 
+                                UserJobQuality, UserSimpaty 
+                                FROM [TuJoseoDB].[dbo].[UserTable] 
+                                WHERE LOWER(UserName) LIKE '%{search.ToLower()}%'";
+                }
+            }
+    
             using (SqlConnection con = new SqlConnection(ConnectionString))
             {
                 using (SqlCommand cmd = new SqlCommand(query, con))
@@ -53,7 +79,35 @@ namespace TuJoseo.Controllers
                 }
             }
 
-            return View(users);
+            string queryTypes = $@"Select * From CategoryUserTable";
+            using (SqlConnection con = new SqlConnection(ConnectionString))
+            {
+                con.Open();
+                using (SqlCommand cmd = new SqlCommand(queryTypes, con))
+                {
+                    using (SqlDataReader reader = cmd.ExecuteReader())
+                    {
+                        if (reader.HasRows)
+                        {
+                            while (reader.Read())
+                            {
+                                CategoryModel category = new CategoryModel()
+                                {
+                                    ID = reader.GetInt32(0),
+                                    Name = reader.GetString(1),
+                                };
+
+                                categories.Add(category);
+                            }
+                        }
+                    }
+                }
+            }
+
+            joseosAndTypes.Users = users;
+            joseosAndTypes.Categories = categories;
+
+            return View(joseosAndTypes);
         }
 
         public IActionResult SearchJoseo()

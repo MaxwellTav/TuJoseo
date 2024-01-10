@@ -7,6 +7,7 @@
         public string UserEducation { get; set; }
         public string UserLocation { get; set; }
         public string UserSkills { get; set; }
+        public string UserRoleID { get; set; }
         public string UserRole { get; set; }
         public string UserPhone { get; set; }
     }

@@ -37,5 +37,8 @@ namespace TuJoseo.Models
         public bool Terms { get; set; } = true;
         public string UserPhone { get; set; } = "Sin información.";
         public string UserPhoto { get; set; } = "Sin información.";
+
+        //Para pasárselo al Profile.
+        public List<CategoryModel>? Categories { get; set; }
     }
 }

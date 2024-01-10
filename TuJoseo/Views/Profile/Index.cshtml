@@ -234,9 +234,25 @@
                                                 </div>
 
                                                 <div class="form-group row">
-                                                    <label for="inputRole" class="col-sm-2 col-form-label">Rol</label>
+                                                    <label for="inputPhone" class="col-sm-2 col-form-label">Rol Principal</label>
                                                     <div class="col-sm-10">
-                                                        <input type="text" class="form-control" id="inputRole" placeholder="Programador en Java">
+                                                        <input type="text" class="form-control" id="inputRole" placeholder="Programador en Java" hidden>
+                                                        <div class="dropdown btn btn-lg">
+                                                            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                                @Model.UserRol
+                                                            </button>
+                                                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                                                @{
+                                                                    foreach (var category in Model.Categories)
+                                                                    {
+                                                                        <a class="dropdown-item category-link" data-id="@category.ID" onclick="updateRole('@category.ID', '@category.Name')">@category.Name</a>
+                                                                    }
+                                                                }
+                                                            </div>
+                                                        </div>
+                                                        <!-- Campos ocultos para almacenar el ID y el nombre del rol seleccionado -->
+                                                        <input type="hidden" id="inputRoleId" name="inputRoleId" />
+                                                        <input type="hidden" id="inputRoleName" name="inputRoleName" />
                                                     </div>
                                                 </div>
 
@@ -363,6 +379,10 @@
 <script src="../../plugins/jquery/jquery.min.js"></script>
 <!-- Bootstrap 4 -->
 <script src="../../plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
 <!-- Select2 -->
 <script src="../../plugins/select2/js/select2.full.min.js"></script>
 <!-- Bootstrap4 Duallistbox -->
@@ -416,6 +436,27 @@
 }
 
 <script>
+    // Capturar el clic en los elementos de la categoría y actualizar el texto del botón
+    $(".category-link").on("click", function () {
+        var selectedText = $(this).text();
+        $("#dropdownMenuButton").text(selectedText);
+    });
+
+    function updateRole(roleID, roleName) {
+        // Actualizar el texto del botón con el nombre seleccionado
+        $('#dropdownMenuButton').text(roleName);
+        // Almacenar el ID en el campo oculto
+        $('#inputRoleId').val(roleID);
+    }
+
+    function updateRole(roleID, roleName) {
+        // Actualizar el texto del botón con el nombre seleccionado
+        $('#dropdownMenuButton').text(roleName);
+        // Almacenar el ID y el nombre en los campos ocultos
+        $('#inputRoleId').val(roleID);
+        $('#inputRoleName').val(roleName);
+    }
+
     function saveChangesUser() {
         // Obtener valores de los controles
         var userID = $('#userID').val();
@@ -423,7 +464,8 @@
         var education = $('#inputEducation').val();
         var location = $('#inputLocation').val();
         var skills = $('#inputSkills').val();
-        var role = $('#inputRole').val();
+        var roleID = $('#inputRoleId').val();
+        var roleName = $('#inputRoleName').val();
         var phone = $('#inputPhone').val();
 
         // Construir el objeto updatedUser
@@ -433,7 +475,8 @@
             UserEducation: education,
             UserLocation: location,
             UserSkills: skills,
-            UserRole: role,
+            UserRoleID: roleID,
+            UserRole: roleName,
             UserPhone: phone
         };
 
@@ -453,6 +496,44 @@
             }
         });
     }
+
+    // function saveChangesUser() {
+    //     // Obtener valores de los controles
+    //     var userID = $('#userID').val();
+    //     var userName = $('#inputUserName').val();
+    //     var education = $('#inputEducation').val();
+    //     var location = $('#inputLocation').val();
+    //     var skills = $('#inputSkills').val();
+    //     var role = $('#inputRole').val();
+    //     var phone = $('#inputPhone').val();
+
+    //     // Construir el objeto updatedUser
+    //     var updatedUser = {
+    //         UserID: userID,
+    //         UserName: userName,
+    //         UserEducation: education,
+    //         UserLocation: location,
+    //         UserSkills: skills,
+    //         UserRole: role,
+    //         UserPhone: phone
+    //     };
+
+    //     // Realizar la solicitud AJAX
+    //     $.ajax({
+    //         type: 'POST',
+    //         url: '@Url.Action("SaveChangesUser", "Profile")',
+    //         data: JSON.stringify(updatedUser),
+    //         contentType: 'application/json',
+    //         success: function (data) {
+    //             // Manejar el éxito de la solicitud según tus necesidades
+    //             console.log(data.message);
+    //         },
+    //         error: function (error) {
+    //             // Manejar errores si es necesario
+    //             console.error('Error al actualizar el usuario:', error.responseJSON.error);
+    //         }
+    //     });
+    // }
 
     $(function () {
         //Initialize Select2 Elements

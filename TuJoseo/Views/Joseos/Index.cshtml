@@ -35,7 +35,7 @@
                             <div class="col-md-8 offset-md-2">
                                 <form id="searchForm" action="@Url.Action("Index", "Joseos")" method="get">
                                     <div class="input-group">
-                                        <input type="search" name="searchTerm" id="searchTerm" class="form-control form-control-lg" placeholder="¿A quién desea buscar?">
+                                        <input type="search" name="searchTerm" id="searchTerm" class="form-control form-control-lg" placeholder="¿A quién desea buscar?" autocomplete="off">
                                         <input type="hidden" name="search" id="search" value="">
                                         <div class="input-group-append">
                                             <!-- Dropdown -->
@@ -47,7 +47,7 @@
                                                     @{
                                                         foreach (var category in Model.Categories)
                                                         {
-                                                            <a class="dropdown-item category-link" data-id="@category.ID" href="#">@category.Name</a>
+                                                            <a class="dropdown-item category-link" data-id="@category.ID">@category.Name</a>
                                                         }
                                                     }
                                                 </div>
@@ -177,6 +177,12 @@
 </html>
 
 <script>
+    // Capturar el clic en los elementos de la categoría y actualizar el texto del botón
+    $(".category-link").on("click", function () {
+        var selectedText = $(this).text();
+        $("#dropdownMenuButton").text(selectedText);
+    });
+
     $(document).ready(function () {
         // Capturar el clic en los elementos de la categoría y actualizar el formulario
         $(".category-link").on("click", function (e) {

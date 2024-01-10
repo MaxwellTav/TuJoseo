@@ -52,6 +52,35 @@ namespace TuJoseo.Controllers
 
             try
             {
+                #region Categorías
+                string categoryQuery = "Select * From CategoryUserTable;";
+                using (SqlConnection con = new SqlConnection(ConnectionString))
+                {
+                    con.Open();
+                    using (SqlCommand cmd = new SqlCommand(categoryQuery, con))
+                    {
+                        using (SqlDataReader reader = cmd.ExecuteReader())
+                        {
+                            if (reader.HasRows)
+                            {
+                                user.Categories = new List<CategoryModel>();
+
+                                while (reader.Read())
+                                {
+                                    CategoryModel category = new CategoryModel()
+                                    {
+                                        ID = reader.GetInt32(0),
+                                        Name = reader.GetString(1),
+                                    };
+
+                                    user.Categories.Add(category);
+                                }
+                            }
+                        }
+                    }
+                }
+                #endregion
+
                 using (SqlConnection con = new SqlConnection(ConnectionString))
                 {
                     using (SqlCommand cmd = new SqlCommand(query, con))
@@ -103,7 +132,6 @@ namespace TuJoseo.Controllers
                         }
                     }
                 }
-
             }
             catch (Exception ex)
             {
@@ -138,6 +166,7 @@ namespace TuJoseo.Controllers
             AddParameter("UserLocation", user.UserLocation, queryBuilder, parameters);
             AddParameter("UserHabilities", user.UserSkills, queryBuilder, parameters);
             AddParameter("UserRol", user.UserRole, queryBuilder, parameters);
+            AddParameter("CategoryUserID", user.UserRoleID, queryBuilder, parameters);
             AddParameter("UserPhone", user.UserPhone, queryBuilder, parameters);
 
             // Quitar la última coma y espacio si hay al menos un campo actualizado

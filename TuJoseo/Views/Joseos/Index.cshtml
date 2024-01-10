@@ -92,11 +92,11 @@
                                             </div>
                                             <div class="card-footer">
                                                 <div class="text-right">
-                                                    <a href="#" class="btn btn-sm bg-teal">
+                                                    <a href="~/Chat/Index" class="btn btn-sm bg-teal">
                                                         <i class="fas fa-comments"> Chat</i>
                                                     </a>
                                                     <a href="#" class="btn btn-sm btn-primary" onclick="guardarUserID('@user.UserID')">
-                                                        <i class="fas fa-user"></i> Perfíl
+                                                        <i class="fas fa-user"></i> Perfil
                                                     </a>
                                                 </div>
                                             </div>
@@ -177,6 +177,22 @@
 </html>
 
 <script>
+    function guardarUserID(userID) {
+        // Guardar el UserID en TempData
+        $.ajax({
+            type: 'POST',
+            url: '@Url.Action("GuardarUserID", "Profile")',
+            data: { userID: userID },
+            success: function (data) {
+                // Redirigir a la página de perfil
+                window.location.href = '@Url.Action("Index", "Profile")';
+            },
+            error: function () {
+                // Manejar errores si es necesario
+            }
+        });
+    }
+
     // Capturar el clic en los elementos de la categoría y actualizar el texto del botón
     $(".category-link").on("click", function () {
         var selectedText = $(this).text();
@@ -200,21 +216,6 @@
                 return false;
             }
         });
-
-        // Función para guardar el UserID
-        function guardarUserID(userID) {
-            $.ajax({
-                type: 'POST',
-                url: '@Url.Action("GuardarUserID", "Profile")',
-                data: { userID: userID },
-                success: function (data) {
-                    window.location.href = '@Url.Action("Index", "Profile")';
-                },
-                error: function () {
-                    // Manejar errores si es necesario
-                }
-            });
-        }
     });
 </script>
 

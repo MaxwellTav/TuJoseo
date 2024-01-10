@@ -112,10 +112,17 @@
                                                                             <a class="btn btn-app btn-lg mx-2" href="@Url.Action("CreateJoseo", "Joseos", joseo)">
                                                                                 <iconify-icon icon="ph:pencil-duotone" width="20" height="20" style="color: #ffb703;"></iconify-icon><br />Editar
                                                                             </a>
-                                                                            <a class="btn btn-app btn-lg mx-2 btnFinishProject" data-joseo-id="@joseo.JoseoID">
-                                                                                <iconify-icon icon="gis:flag-finish" width="20" height="20"></iconify-icon><br />
-                                                                                Dar por terminado
-                                                                            </a>
+                                                                            @* @if (!string.IsNullOrEmpty(joseo.JoseadorRealID) || joseo.JoseadorRealID != "")
+                                                                            { *@
+                                                                                <a class="btn btn-app btn-lg mx-2 btnFinishProject" data-joseo-id="@joseo.JoseoID">
+                                                                                    <iconify-icon icon="gis:flag-finish" width="20" height="20"></iconify-icon><br />
+                                                                                    Dar por terminado
+                                                                                </a>
+                                                                            @* }
+                                                                            else
+                                                                            {
+                                                                                <span class="right badge badge-warning">Vacante: Disponible</span>
+                                                                            } *@
                                                                             <form method="post" action="@Url.Action("SeeJoseo", "Joseos")">
                                                                                 <button type="submit" class="btn btn-outline-dark mx-2">
                                                                                     <iconify-icon icon="tabler:list-details" width="25" height="25" class="fa-lg"></iconify-icon>
@@ -216,5 +223,4 @@
             }
         });
     }
-
 </script>

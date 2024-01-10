@@ -467,6 +467,182 @@ namespace TuJoseo.Controllers
         [HttpPost]
         public IActionResult FinishProyect(int joseoID)
         {
+            string userID = TempData["UserID"].ToString();
+
+            #region Obtener el joseo
+            JoseoModel joseo = new JoseoModel();
+
+            string getJoseoString = @$"SELECT * FROM JoseosTable Where JoseoID = '{joseoID}'";
+
+            using (SqlConnection con = new SqlConnection(ConnectionString))
+            {
+                con.Open();
+                using (SqlCommand cmd = new SqlCommand(getJoseoString, con))
+                {
+                    using (SqlDataReader reader = cmd.ExecuteReader())
+                    {
+                        if (reader.HasRows)
+                        {
+                            try
+                            {
+
+                                while (reader.Read())
+                                {
+                                    joseo = new JoseoModel()
+                                    {
+                                        JoseoID = reader.GetInt32(0),
+                                        //Redacted (1)
+                                        //Redacted (2)
+                                        //Redacted (3)
+                                        JoseadorID = reader.GetString(4),
+                                        //Redacted (5)
+                                        //Redacted (6)
+                                        //Redacted (7)
+                                        //Redacted (8)
+                                        //Redacted (9)
+                                        JoseadorRealID = reader.GetString(10),
+                                    };
+                                }
+                            }
+                            catch
+                            {
+                                TempData["Error"] = "Aun no tiene un joseador asignado.";
+                                return RedirectToAction("Index", "Home");
+                            }
+                        }
+                    }
+                }
+            }
+            #endregion
+
+            #region Obtener los usuarios
+            UserModel user = new UserModel();
+            UserModel joseador = new UserModel();
+
+            string userString = @$"Select * From UserTable Where UserID = '{userID}'";
+            string userJoseadorString = @$"Select * From UserTable Where UserID = '{joseo.JoseadorRealID}'";
+
+            using (SqlConnection con = new SqlConnection(ConnectionString))
+            {
+                con.Open();
+                using (SqlCommand cmd = new SqlCommand(userString, con))
+                {
+                    using (SqlDataReader reader = cmd.ExecuteReader())
+                    {
+                        if (reader.HasRows)
+                        {
+                            while (reader.Read())
+                            {
+                                user = new UserModel()
+                                {
+                                    UserID = reader.GetInt32(0),
+                                    //Redacted,
+                                    //Redacted,
+                                    //Redacted,
+                                    //Redacted,
+                                    //Redacted,
+                                    UserJoseosRealized = reader.GetInt32(6),
+                                    UserJobQuality = reader.GetInt32(7),
+                                    UserSimpaty = reader.GetInt32(8),
+                                    UserRelevance = reader.GetInt32(9),
+                                    //Redacted,
+                                    //...
+                                };
+                            }
+                        }
+                    }
+                }
+            }
+
+            using (SqlConnection con = new SqlConnection(ConnectionString))
+            {
+                con.Open();
+                using (SqlCommand cmd = new SqlCommand(userJoseadorString, con))
+                {
+                    using (SqlDataReader reader = cmd.ExecuteReader())
+                    {
+                        if (reader.HasRows)
+                        {
+                            while (reader.Read())
+                            {
+                                joseador = new UserModel()
+                                {
+                                    UserID = reader.GetInt32(0),
+                                    //Redacted,
+                                    //Redacted,
+                                    //Redacted,
+                                    //Redacted,
+                                    //Redacted,
+                                    UserJoseosRealized = reader.GetInt32(6),
+                                    UserJobQuality = reader.GetInt32(7),
+                                    UserSimpaty = reader.GetInt32(8),
+                                    UserRelevance = reader.GetInt32(9),
+                                    //Redacted,
+                                    //...
+                                };
+                            }
+                        }
+                    }
+                }
+            }
+            #endregion
+
+            #region Actualizar los datos los usuarios.
+            int
+                joseosRealized = Convert.ToInt32(user.UserJoseosRealized),
+                jobQuality = Convert.ToInt32(user.UserJobQuality),
+                simpaty = Convert.ToInt32(user.UserSimpaty),
+                relevance = Convert.ToInt32(user.UserRelevance),
+
+
+                joseosRealizedJoseador = Convert.ToInt32(joseador.UserJoseosRealized),
+                jobQualityJoseador = Convert.ToInt32(joseador.UserJobQuality),
+                simpatyJoseador = Convert.ToInt32(joseador.UserSimpaty),
+                relevanceJoseador = Convert.ToInt32(joseador.UserRelevance);
+
+            string updateUserMetrics = @$"
+                Update UserTable 
+                Set 
+                    UserJoseosRealized = '{joseosRealized + 1}', 
+                    UserJobQuality = '{jobQuality + 2}', 
+                    UserSimpaty = '{simpaty + 1}', 
+                    UserRelevance = '{relevance + 1}'
+                Where UserID = '{userID}';";
+
+            string updateUserMetricsJoseador = @$"
+                Update UserTable 
+                Set 
+                    UserJoseosRealized = '{joseosRealizedJoseador + 1}', 
+                    UserJobQuality = '{jobQualityJoseador + 2}', 
+                    UserSimpaty = '{simpatyJoseador + 1}', 
+                    UserRelevance = '{relevanceJoseador + 1}'
+                Where UserID = '{joseador.UserID}';";
+
+            using (SqlConnection con = new SqlConnection(ConnectionString))
+            {
+                con.Open();
+                using (SqlCommand cmd = new SqlCommand(updateUserMetrics, con))
+                {
+                    cmd.ExecuteNonQuery();
+                }
+            }
+
+            using (SqlConnection con = new SqlConnection(ConnectionString))
+            {
+                con.Open();
+                using (SqlCommand cmd = new SqlCommand(updateUserMetricsJoseador, con))
+                {
+                    cmd.ExecuteNonQuery();
+                }
+            }
+            #endregion
+
+            #region Actualizar datos del trabajador.
+            // Aquí debes agregar el código para actualizar los datos del trabajador
+            // según lo que necesites.
+            #endregion
+
+            #region Eliminar el joseo
             string query = $"DELETE FROM JoseosTable WHERE JoseoID = {joseoID};";
 
             using (SqlConnection con = new SqlConnection(ConnectionString))
@@ -477,10 +653,12 @@ namespace TuJoseo.Controllers
                     cmd.ExecuteNonQuery();
                 }
             }
+            #endregion
 
-            TempData["UserID"] = TempData["UserID"];
+            TempData["UserID"] = userID;
             return RedirectToAction("SearchOwnJoseo", "Joseos");
         }
+
 
     }
 }

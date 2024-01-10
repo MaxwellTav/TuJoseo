@@ -155,13 +155,14 @@ namespace TuJoseo.Controllers
          UserJoseosRealized, UserJobQuality, UserSimpaty, UserStalkers, UserRelevance,
          UserKnowlegde, UserLastLogin, UserUnreadNotifications, UserUnreadNotificationsTime,
          UserUnreadMessages, UserUnreadMessagesTime, UserUnreadReports, UserUnreadReportsTime,
-         UserEducation, UserLocation, UserHabilities, UserNotes, UserRol, UserPhone)
+         UserEducation, UserLocation, UserHabilities, UserNotes, UserRol, UserPhone, UserPhoto)
         VALUES 
         ('{user.UserName}', '{user.UserCompleteName}', '{user.UserPassword}', '{user.UserEmail}', {trueorfalseformatted},
          {user.UserJoseosRealized}, {user.UserJobQuality}, {user.UserSimpaty}, {user.UserStalkers}, {user.UserRelevance},
          '{user.UserKnowledge}', {user.UserLastLogin}, {user.UserUnreadNotification}, {user.UserUnreadNotificationTime},
          {user.UserUnreadMessages}, {user.UserUnreadMessagesTime}, {user.UserUnreadReports}, {user.UserUnreadReportsTime},
-         '{user.UserEducation}', '{user.UserLocation}', '{user.UserHabilities}', '{user.UserNotes}', '{user.UserRol}', '{user.UserPhone}');";
+         '{user.UserEducation}', '{user.UserLocation}', '{user.UserHabilities}', '{user.UserNotes}', '{user.UserRol}', 
+         '{user.UserPhone}', '{user.UserPhoto}');";
 
             try
             {

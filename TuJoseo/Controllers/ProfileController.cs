@@ -146,7 +146,7 @@ namespace TuJoseo.Controllers
         }
 
         [HttpPost]
-        public ActionResult GuardarUserID(string userID)
+        public IActionResult GuardarUserID(string userID)
         {
             TempData["UserID"] = userID;
             return Json(new { success = true });

@@ -117,7 +117,7 @@ values (
 --Teléfono
 '8296820160',
 --Foto
-'D:\Max\Desktop\Foto.jpg',
+'Sin datos.',
 --RolTabla
 1
 );

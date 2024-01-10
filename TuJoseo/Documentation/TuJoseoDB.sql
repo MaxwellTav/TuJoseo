@@ -190,4 +190,6 @@ SELECT * FROM JoseosTable Where JoseoID = '1';
 Select * From NotesTable Where NoteUserID = 1;
 --Categorías
 Select * From CategoryUserTable;
+
+SELECT UserID, UserRol, UserName, UserHabilities, UserLocation, UserPhone, UserJoseosRealized, UserJobQuality, UserSimpaty FROM [TuJoseoDB].[dbo].[UserTable] Where UserName = 'Admin';
 --_________________________________________________________________________________________________________

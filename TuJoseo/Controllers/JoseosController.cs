@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
 using TuJoseo.Models;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace TuJoseo.Controllers
 {
@@ -24,10 +23,13 @@ namespace TuJoseo.Controllers
             List<CategoryModel> categories = new List<CategoryModel>();
 
             string query = "";
+            /******************************************************************************/
+            //Sin busqueda
             if (search == null)
                 query = "SELECT UserID, UserRol, UserName, UserHabilities, " +
                     "UserLocation, UserPhone, UserJoseosRealized, UserJobQuality, " +
                     "UserSimpaty FROM [TuJoseoDB].[dbo].[UserTable];";
+            //Buscar por ID
             else
             {
                 try
@@ -41,10 +43,10 @@ namespace TuJoseo.Controllers
                 catch (Exception)
                 {
                     query = @$"SELECT UserID, UserRol, UserName, UserHabilities, 
-                                UserLocation, UserPhone, UserJoseosRealized, 
-                                UserJobQuality, UserSimpaty 
-                                FROM [TuJoseoDB].[dbo].[UserTable] 
-                                WHERE LOWER(UserName) LIKE '%{search.ToLower()}%'";
+            UserLocation, UserPhone, UserJoseosRealized, 
+            UserJobQuality, UserSimpaty     
+            FROM [TuJoseoDB].[dbo].[UserTable] 
+            WHERE LOWER(UserName) LIKE '%{search.ToLower()}%'";
                 }
             }
     
@@ -110,12 +112,21 @@ namespace TuJoseo.Controllers
             return View(joseosAndTypes);
         }
 
-        public IActionResult SearchJoseo()
+        public IActionResult SearchJoseo(string? search)
         {
             string userID = TempData["UserID"].ToString();
 
             List<JoseoModel> joseos = new List<JoseoModel>();
-            string query = @$"SELECT * FROM JoseosTable WHERE JoseadorRealID IS NULL AND JoseadorID != '{userID}';";
+            string query = "";
+
+            if (string.IsNullOrEmpty(search))
+            {
+                query = @$"SELECT * FROM JoseosTable WHERE JoseadorRealID IS NULL AND JoseadorID != '{userID}';";
+            }
+            else
+            {
+                query = @$"SELECT * FROM JoseosTable WHERE JoseadorRealID IS NULL AND JoseadorID != '{userID}' AND (JoseoTitle LIKE '%{search}%' OR JoseoDescription LIKE '%{search}%');";
+            }
 
             using (SqlConnection con = new SqlConnection(ConnectionString))
             {
@@ -147,6 +158,7 @@ namespace TuJoseo.Controllers
             TempData["UserID"] = userID;
             return View(joseos);
         }
+
 
         public IActionResult SearchOwnJoseo()
         {

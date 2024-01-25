@@ -18,7 +18,15 @@ namespace TuJoseo.Controllers
         //Buscar Joseador
         public IActionResult Index(string? search)
         {
-            string userID = TempData["UserID"].ToString();
+            string userID = "";
+            try
+            {
+                userID = TempData["UserID"].ToString();
+            }
+            catch
+            {
+                userID = SetCoockie();
+            }
 
             TempData["UserID"] = SetCoockie().ToString();
 

@@ -98,14 +98,57 @@
                             <div class="card">
                                 <div class="card-header p-2">
                                     <ul class="nav nav-pills">
-                                        <li class="nav-item"><a class="nav-link active" href="#timeline" data-toggle="tab">Actividad</a></li>
+                                        <li class="nav-item"><a class="nav-link active" href="#reviews" data-toggle="tab">Reseñas</a></li>
+                                        <li class="nav-item"><a class="nav-link" href="#timeline" data-toggle="tab">Actividad</a></li>
                                         <li class="nav-item"><a class="nav-link" href="#settings" data-toggle="tab">Configuraciones</a></li>
                                     </ul>
                                 </div><!-- /.card-header -->
                                 <div class="card-body">
                                     <div class="tab-content">
+                                        <!-- /.tab-pane REVIEWS -->
+                                        <div class="active tab-pane" id="reviews">
+                                            @if (Model.Reviews != null && Model.Reviews.Count > 0)
+                                            {
+                                                <!-- The timeline -->
+                                                <div class="timeline timeline-inverse">
+                                                    @foreach (ReviewModel review in Model.Reviews)
+                                                    {
+                                                        <div>
+                                                            <i class="fas fa-envelope bg-info"></i>
+
+                                                            <div class="timeline-item">
+                                                                <span class="time"><i class="far fa-clock"></i> @review.ReviewDate.ToString("dd/MMMM/yyyy").ToUpperInvariant()</span>
+
+                                                                <h3 class="timeline-header"><a href="#">@review.ReviewCriticadorID</a> cometó</h3>
+
+                                                                <div class="timeline-body">
+                                                                    @review.ReviewDescription
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                    }
+                                                </div>
+                                            }
+                                            else
+                                            {
+                                                <div class="card card-primary card-outline">
+                                                    <h3 class="m-2 text-center">¡AQUÍ NO HAY NADA!</h3>
+                                                    <p class="card-text text-center">
+                                                        No se han encontrado comentarios...
+                                                    </p>
+                                                    <div class="text-center">
+                                                        <a class="btn btn-app btn-lg btn-warning">
+                                                            <iconify-icon icon="tabler:file-sad" width="35" height="35"></iconify-icon>
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                            }
+                                        </div>
                                         <!-- /.tab-pane -->
-                                        <div class="active tab-pane" id="timeline">
+
+                                        <!-- /.tab-pane TIMELINE-->
+                                        <div class="tab-pane" id="timeline">
                                             <!-- The timeline -->
                                             <div class="timeline timeline-inverse">
                                                 <!-- timeline time label -->
@@ -200,8 +243,8 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <!-- /.tab-pane -->
-
+                                        
+                                        <!-- /.tab-pane SETTINGS-->
                                         <div class="tab-pane" id="settings">
                                             <form class="form-horizontal">
                                                 <div class="form-group row">
@@ -352,7 +395,6 @@
                                                 </div>
                                             </form>
                                         </div>
-                                        <!-- /.tab-pane -->
                                     </div>
                                     <!-- /.tab-content -->
                                 </div><!-- /.card-body -->
@@ -375,7 +417,10 @@
     </div>
 </body>
 
-                            <!-- jQuery -->
+
+<!-- Iconify -->
+<script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
+<!-- jQuery -->
 <script src="../../plugins/jquery/jquery.min.js"></script>
 <!-- Bootstrap 4 -->
 <script src="../../plugins/bootstrap/js/bootstrap.bundle.min.js"></script>

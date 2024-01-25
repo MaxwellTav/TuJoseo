@@ -18,6 +18,10 @@ namespace TuJoseo.Controllers
         //Buscar Joseador
         public IActionResult Index(string? search)
         {
+            string userID = TempData["UserID"].ToString();
+
+            TempData["UserID"] = SetCoockie().ToString();
+
             JoseoAndTypesModel joseosAndTypes = new JoseoAndTypesModel();
             List<UserModel> users = new List<UserModel>();
             List<CategoryModel> categories = new List<CategoryModel>();
@@ -34,14 +38,19 @@ namespace TuJoseo.Controllers
             {
                 try
                 {
+                    TempData["UserID"] = userID;
+
                     Convert.ToInt32(search);
                     query = @$"SELECT UserID, UserRol, UserName, UserHabilities,
                             UserLocation, UserPhone, UserJoseosRealized, UserJobQuality, 
                             UserSimpaty FROM [TuJoseoDB].[dbo].[UserTable] 
                             Where CategoryUserID = '{search}';";
+
                 }
                 catch (Exception)
                 {
+                    TempData["UserID"] = userID;
+
                     query = @$"SELECT UserID, UserRol, UserName, UserHabilities, 
             UserLocation, UserPhone, UserJoseosRealized, 
             UserJobQuality, UserSimpaty     
@@ -49,7 +58,7 @@ namespace TuJoseo.Controllers
             WHERE LOWER(UserName) LIKE '%{search.ToLower()}%'";
                 }
             }
-    
+
             using (SqlConnection con = new SqlConnection(ConnectionString))
             {
                 using (SqlCommand cmd = new SqlCommand(query, con))
@@ -76,6 +85,10 @@ namespace TuJoseo.Controllers
 
                                 users.Add(user);
                             }
+
+                            TempData["UserID"] = userID;
+                            TempData["UserID"] = SetCoockie().ToString();
+
                         }
                     }
                 }
@@ -101,6 +114,9 @@ namespace TuJoseo.Controllers
 
                                 categories.Add(category);
                             }
+                            TempData["UserID"] = userID;
+                            TempData["UserID"] = SetCoockie().ToString();
+
                         }
                     }
                 }
@@ -109,12 +125,16 @@ namespace TuJoseo.Controllers
             joseosAndTypes.Users = users;
             joseosAndTypes.Categories = categories;
 
+            TempData["UserID"] = userID;
+            TempData["UserID"] = SetCoockie().ToString();
+
             return View(joseosAndTypes);
         }
 
         public IActionResult SearchJoseo(string? search)
         {
-            string userID = TempData["UserID"].ToString();
+            string userID = SetCoockie();
+            TempData["UserID"] = SetCoockie().ToString();
 
             List<JoseoModel> joseos = new List<JoseoModel>();
             string query = "";
@@ -156,13 +176,17 @@ namespace TuJoseo.Controllers
             }
 
             TempData["UserID"] = userID;
+            TempData["UserID"] = SetCoockie().ToString();
+
             return View(joseos);
         }
 
 
         public IActionResult SearchOwnJoseo()
         {
-            string userID = TempData["UserID"].ToString();
+
+            string userID = SetCoockie();
+            TempData["UserID"] = SetCoockie().ToString();
 
             List<JoseoModel> joseos = new List<JoseoModel>();
             MainOwnJoseoModel mainOwnJoseoModel = new MainOwnJoseoModel()
@@ -237,6 +261,9 @@ namespace TuJoseo.Controllers
 
         public IActionResult SearchJoseador()
         {
+            string userID = TempData["UserID"].ToString();
+            TempData["UserID"] = SetCoockie().ToString();
+
             return View();
         }
 
@@ -245,6 +272,7 @@ namespace TuJoseo.Controllers
         {
             var userID = TempData["UserID"].ToString();
 
+            TempData["UserID"] = SetCoockie().ToString();
             MainJoseoModel mjm = new MainJoseoModel();
             JoseoModel joseo = new JoseoModel();
             string query = @$"SELECT * FROM JoseosTable Where JoseoID = '{joseoID}';";
@@ -352,7 +380,7 @@ namespace TuJoseo.Controllers
         [HttpGet]
         public IActionResult CreateJoseo(JoseoModel? joseo)
         {
-            string userID = TempData["UserID"].ToString();
+            string userID = SetCoockie();
             TempData["UserID"] = userID;
 
             if (joseo == null)
@@ -375,6 +403,9 @@ namespace TuJoseo.Controllers
         [HttpPost]
         public IActionResult CreateNewJoseo([FromBody] CreateJoseoModel joseo)
         {
+            string userID = TempData["UserID"].ToString();
+
+            TempData["UserID"] = SetCoockie().ToString();
             if (joseo == null)
             {
                 TempData["Error"] = "Ninguno de los campos pueden estar nulos";
@@ -422,6 +453,10 @@ namespace TuJoseo.Controllers
         [HttpPost]
         public IActionResult EditJoseo([FromBody] CreateJoseoModel joseo)
         {
+            string userID = TempData["UserID"].ToString();
+
+            TempData["UserID"] = SetCoockie().ToString();
+
             if (joseo == null)
             {
                 TempData["Error"] = "Ninguno de los campos pueden estar nulos";
@@ -467,8 +502,9 @@ namespace TuJoseo.Controllers
         [HttpPost]
         public IActionResult FinishProyect(int joseoID)
         {
-            string userID = TempData["UserID"].ToString();
+            string userID = SetCoockie();
 
+            TempData["UserID"] = SetCoockie().ToString();
             #region Obtener el joseo
             JoseoModel joseo = new JoseoModel();
 
@@ -659,6 +695,99 @@ namespace TuJoseo.Controllers
             return RedirectToAction("SearchOwnJoseo", "Joseos");
         }
 
+        [HttpPost]
+        public IActionResult EnviarResena([FromBody] ReviewModel review)
+        {
+            string userID = SetCoockie();
 
+            TempData["UserID"] = userID;
+            if (review != null)
+            {
+                string query = @"INSERT INTO ReviewTable 
+                 (ReviewStars, ReviewProyectName, ReviewDescription, ReviewPerson, ReviewCriticador, ReviewDate)
+                 VALUES 
+                 (@ReviewStars, @ReviewProyectName, @ReviewDescription, @ReviewPerson, @ReviewCriticador, @ReviewDate)";
+
+
+                try
+                {
+                    using (SqlConnection con = new SqlConnection(ConnectionString))
+                    {
+                        con.Open();
+                        using (SqlCommand cmd = new SqlCommand(query, con))
+                        {
+                            // Agrega parámetros y sus valores correspondientes
+                            cmd.Parameters.AddWithValue("@ReviewStars", review.ReviewStars);
+                            cmd.Parameters.AddWithValue("@ReviewProyectName", review.ReviewProyectName);
+                            cmd.Parameters.AddWithValue("@ReviewDescription", review.ReviewDescription);
+                            cmd.Parameters.AddWithValue("@ReviewPerson", review.ReviewPersonID);
+                            cmd.Parameters.AddWithValue("@ReviewCriticador", review.ReviewCriticadorID);
+                            cmd.Parameters.AddWithValue("@ReviewDate", review.ReviewDate);
+
+                            // Abre la conexión, ejecuta el comando y cierra la conexión automáticamente
+                            cmd.ExecuteNonQuery();
+                            TempData["UserID"] = userID;
+
+                        }
+                    }
+                }
+                catch
+                {
+                    TempData["UserID"] = userID;
+                    return Json(new { success = false, message = "No se pudo enviar la reseña" });
+                }
+
+                TempData["UserID"] = userID;
+                return Json(new { success = true, message = "Reseña enviada correctamente" });
+            }
+
+            TempData["UserID"] = userID;
+            return Json(new { success = false, message = "No se pudo enviar la reseña" });
+        }
+
+        public string SetCoockie()
+        {
+            var cookieUser = Request.Cookies["UserID"];
+
+            // Si la cookie está en blanco y TempData tiene datos, asigna los datos de TempData a la cookie
+            if (string.IsNullOrEmpty(cookieUser) && TempData["UserID"] != null)
+            {
+                Response.Cookies.Append("UserID", TempData["UserID"].ToString());
+            }
+
+            // Obtén el valor actualizado de la cookie después de las operaciones anteriores
+            cookieUser = Request.Cookies["UserID"];
+
+            if (!string.IsNullOrEmpty(cookieUser))
+                TempData["UserID"] = cookieUser;
+
+            return cookieUser;
+        }
+
+
+        public string GetCurrentUser()
+        {
+            string query = "Select * From CurrentUser";
+
+            using (SqlConnection con = new SqlConnection(ConnectionString))
+            {
+                using (SqlCommand cmd = new SqlCommand(query, con))
+                {
+                    using (SqlDataReader reader = cmd.ExecuteReader())
+                    {
+                        if (reader.HasRows)
+                        {
+                            while (reader.Read())
+                            {
+                                return reader.GetString(1);
+                            }
+                        }
+                    }
+                }
+            }
+
+            return "1";
+        }
     }
 }
+

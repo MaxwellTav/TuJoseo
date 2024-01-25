@@ -40,5 +40,6 @@ namespace TuJoseo.Models
 
         //Para pasárselo al Profile.
         public List<CategoryModel>? Categories { get; set; }
+        public List<ReviewModel>? Reviews { get; set; }
     }
 }

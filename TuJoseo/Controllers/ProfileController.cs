@@ -141,6 +141,52 @@ namespace TuJoseo.Controllers
             }
             #endregion
 
+            #region Conseguir las reviews
+            string queryReviews = @$"SELECT 
+    R.ReviewID, 
+    R.ReviewStars, 
+    R.ReviewProyectName, 
+    R.ReviewDescription, 
+    R.ReviewPerson,
+    U.UserName as ReviewCriticadorName,
+    R.ReviewDate 
+FROM 
+    ReviewTable R
+INNER JOIN 
+    UserTable U ON R.ReviewCriticador = U.UserID
+WHERE R.ReviewPerson = '{user.UserID}';";
+            List<ReviewModel> reviews = new List<ReviewModel>();
+
+            using (SqlConnection con = new SqlConnection(ConnectionString))
+            {
+                con.Open();
+                using (SqlCommand cmd = new SqlCommand(queryReviews, con))
+                {
+                    using (SqlDataReader reader = cmd.ExecuteReader())
+                    {
+                        if (reader.HasRows)
+                        {
+                            while (reader.Read())
+                            {
+                                ReviewModel review = new ReviewModel()
+                                {
+                                    ReviewStars = reader.GetInt32(1),
+                                    ReviewProyectName = reader.GetString(2),
+                                    ReviewDescription = reader.GetString(3),
+                                    ReviewPersonID = reader.GetInt32(4),
+                                    ReviewCriticadorID = reader.GetString(5),
+                                    ReviewDate = reader.GetDateTime(6)
+                                };
+
+                                reviews.Add(review);
+                            }
+                            user.Reviews = reviews;
+                        }
+                    }
+                }
+            }
+            #endregion
+
             TempData["UserID"] = user.UserID;
             return View(user);
         }
@@ -155,6 +201,11 @@ namespace TuJoseo.Controllers
         [HttpPost]
         public IActionResult SaveChangesUser([FromBody] UserEditModel user)
         {
+            if (user.UserID != Request.Cookies["UserID"])
+            {
+                return View();
+            }
+
             StringBuilder queryBuilder = new StringBuilder("UPDATE UserTable SET ");
 
             // Lista para almacenar los parámetros

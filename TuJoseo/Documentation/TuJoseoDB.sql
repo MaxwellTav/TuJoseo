@@ -57,6 +57,26 @@ CREATE TABLE UserTable (
     CategoryUserID INT,
     FOREIGN KEY (CategoryUserID) REFERENCES CategoryUserTable(CategoryUserID)
 );
+--_________________________________________________________________________________________________________
+
+CREATE TABLE ReviewTable (
+    ReviewID INT PRIMARY KEY IDENTITY,
+    ReviewStars INT,
+    ReviewProyectName VARCHAR(MAX),
+    ReviewDescription VARCHAR(MAX),
+    ReviewPerson INT NOT NULL,
+	ReviewCriticador Varchar(MAX),
+    ReviewDate DATETIME DEFAULT GETDATE() NOT NULL,
+    
+    FOREIGN KEY (ReviewPerson) REFERENCES UserTable(UserID)
+);
+
+Create Table CurrentUser
+(ID Int Primary Key Identity,
+UserID Varchar Not Null);
+
+Insert CurrentUser
+Values ('1');
 
 --_________________________________________________________________________________________________________
 

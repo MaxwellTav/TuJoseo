@@ -21,8 +21,26 @@ namespace TuJoseo.Controllers
 
         public async Task<IActionResult> Index(MainHomeModel? homeModel)
         {
+            string userID;
             #region Setear usuario
-            int userID = Convert.ToInt32(TempData["UserID"]);
+
+            try
+            {
+                userID = TempData["UserID"].ToString();
+                SetCoockie();
+            }
+            catch
+            {
+                try
+                {
+                    userID = SetCoockie();
+                }
+                catch
+                {
+                    userID = GetCurrentUser();
+                }
+            }
+
             string query = $@"SELECT
        [UserID] as 'ID'
       ,[UserName] as 'Usuario'
@@ -62,14 +80,20 @@ namespace TuJoseo.Controllers
                         #region User
                         UserModel exUserModel = new UserModel()
                         {
-                            UserID = userID
+                            UserID = Convert.ToInt32(userID)
                         };
                         homeModel.USER = exUserModel;
                         #endregion
 
                         // Utiliza parámetros de consulta parametrizados
-                        cmd.Parameters.AddWithValue("@UserID", homeModel.USER.UserID);
-
+                        if (homeModel.USER.UserID != 0)
+                        {
+                            cmd.Parameters.AddWithValue("@UserID", homeModel.USER.UserID);
+                        }
+                        else
+                        {
+                            cmd.Parameters.AddWithValue("@UserID", 1);
+                        }
                         using (SqlDataReader reader = await cmd.ExecuteReaderAsync())
                         {
                             if (reader.HasRows)
@@ -121,6 +145,17 @@ namespace TuJoseo.Controllers
                 // Log the exception for debugging purposes
                 TempData["ErrorMessage"] = "Hubo un error al momento de buscar el usuario.";
                 return RedirectToAction("Index", "Login");
+            }
+            #endregion
+
+            #region GetUserDatabase
+            using (SqlConnection con = new SqlConnection(ConnectionString))
+            {
+                con.Open();
+                using (SqlCommand cmd = new SqlCommand($"Update CurrentUser Set UserID = '{userID}';", con))
+                {
+                    cmd.ExecuteNonQuery();
+                }
             }
             #endregion
 
@@ -347,6 +382,49 @@ namespace TuJoseo.Controllers
             }
 
             return RedirectToAction("Index", "Home");
+        }
+
+        public string SetCoockie()
+        {
+            var cookieUser = Request.Cookies["UserID"];
+
+            // Si la cookie está en blanco y TempData tiene datos, asigna los datos de TempData a la cookie
+            if (string.IsNullOrEmpty(cookieUser) && TempData["UserID"] != null)
+            {
+                Response.Cookies.Append("UserID", TempData["UserID"].ToString());
+            }
+
+            // Obtén el valor actualizado de la cookie después de las operaciones anteriores
+            cookieUser = Request.Cookies["UserID"];
+
+            if (!string.IsNullOrEmpty(cookieUser))
+                TempData["UserID"] = cookieUser;
+
+            return cookieUser;
+        }
+
+        public string GetCurrentUser()
+        {
+            string query = "Select * From CurrentUser";
+
+            using (SqlConnection con = new SqlConnection(ConnectionString))
+            {
+                using (SqlCommand cmd = new SqlCommand(query, con))
+                {
+                    using (SqlDataReader reader = cmd.ExecuteReader())
+                    {
+                        if (reader.HasRows)
+                        {
+                            while (reader.Read())
+                            {
+                                return reader.GetString(1);
+                            }
+                        }
+                    }
+                }
+            }
+
+            return "1";
         }
     }
 }

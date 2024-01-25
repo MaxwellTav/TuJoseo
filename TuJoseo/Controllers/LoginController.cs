@@ -17,12 +17,15 @@ namespace TuJoseo.Controllers
 
         public IActionResult Index()
         {
+            Response.Cookies.Delete("UserID");
             return View();
         }
 
         [HttpPost]
         public async Task<IActionResult> Login(UserModel user)
         {
+            Response.Cookies.Delete("UserID");
+
             string query = $@"SELECT
        [UserID] as 'ID'
       ,[UserName] as 'Usuario'
@@ -96,6 +99,7 @@ namespace TuJoseo.Controllers
                                     //user.UserHabilities = reader.GetValue(20).ToString();
                                     //user.UserNotes = reader.GetValue(21).ToString();
                                     #endregion
+                                    TempData["UserID"] = user.UserID.ToString();
                                 }
 
                                 TempData["UserID"] = user.UserID;
@@ -115,6 +119,10 @@ namespace TuJoseo.Controllers
                 // Log the exception for debugging purposes
                 TempData["Error"] = "Ocurrió un error durante el inicio de sesión. " + ex.Message;
                 return RedirectToAction("Index", "Login");
+            }
+            finally
+            {
+                TempData["UserID"] = user.UserID.ToString();
             }
         }
 

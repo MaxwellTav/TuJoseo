@@ -142,6 +142,67 @@ values (
 1
 );
 
+Insert Into UserTable
+values (
+--UserName
+'John',
+--UserCompleteName
+'John Doe',
+--UserPassword
+'321',
+
+--UserEmail
+'ex@gmail.com',
+
+--UserRememberMe
+1,
+
+--UserJoseosRealized
+53,
+--UserJobQuality
+84,
+--UserSimpaty
+92,
+--UserStalkers
+650,
+--UserRelevance (Deprecated) Relevancia de esta persona en la comunidad
+1,
+--UserKnowlegde
+'He hecho proyectos para grandes empresas... Solo soy un programador que está buscando nuevos desafíos para superar.',
+--UserLastLogin (En días), ha iniciado sesión hace 3 días.
+3,
+
+--UserUnreadNotifications
+5,
+--UserUnreadNotificationsTime (En días) (tiempo del último mensaje enviado)
+2,
+--UserUnreadMessages
+5,
+--UserUnreadMessagesTime (En días) (tiempo del último mensaje enviado)
+3,
+--UserUnreadReports
+4,
+--UserUnreadReportsTime (En días) (tiempo del último mensaje enviado)
+1,
+
+--UserEducation
+'Estudiante graduado del ITLA, Liceo Parroquial San Pablo Apostol e Infotep',
+--UserLocation
+'República Dominicana',
+--UserHabilities
+'C#, Asp .Net Core, SQL, NonSQL, MongoDB, Arquitectura MVC, Full Stack, 5 años de experiencia.',
+--UserNotes
+'Soporte técnico, programador y dominio del idioma inglés B1.',
+--UserRol
+'Programador y soporte técnico',
+--Teléfono
+'8296820160',
+--Foto
+'Sin datos.',
+--RolTabla
+1
+);
+
 --_________________________________________________________________________________________________________
 --Notas
 Create Table NotesTable

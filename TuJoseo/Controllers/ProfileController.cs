@@ -359,6 +359,23 @@ WHERE R.ReviewPerson = '{user.UserID}';";
             }
             #endregion
 
+            #region Sumar el stalker.
+            int currentStalker = user.UserStalkers;
+            currentStalker++;
+            string queryStalker = @$"Update UserTable
+                                     Set UserStalkers = {currentStalker} 
+                                     Where UserID = {user.UserID};";
+
+            using (SqlConnection con = new SqlConnection(ConnectionString))
+            {
+                con.Open();
+                using (SqlCommand cmd = new SqlCommand(queryStalker, con))
+                {
+                    cmd.ExecuteNonQuery();
+                }
+            }
+            #endregion
+
             TempData["UserID"] = user.UserID;
             return View(user);
         }

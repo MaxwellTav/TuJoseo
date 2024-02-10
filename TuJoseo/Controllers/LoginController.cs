@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
+using System.Text.RegularExpressions;
 using TuJoseo.Models;
 
 namespace TuJoseo.Controllers
@@ -181,6 +182,10 @@ namespace TuJoseo.Controllers
                 else if (string.IsNullOrEmpty(user.UserName) || string.IsNullOrEmpty(user.UserPassword) || string.IsNullOrEmpty(user.UserConfirmPassword) || string.IsNullOrEmpty(user.UserCompleteName))
                 {
                     TempData["Error"] = "Por que hay campos vacios?";
+                }
+                else if (!Regex.IsMatch(user.UserPassword, @"^(?=.*[A-Z])(?=.*\d).{8,}$"))
+                {
+                    TempData["Error"] = "La contrasena debe tener al menos una letra mayuscula, un numero y al menos 8 caracteres.";
                 }
                 else if (!user.Terms)
                 {

@@ -216,6 +216,25 @@ INSERT INTO NotesTable (NoteUserID, NoteDescription, NoteTime, NoteDone)
 VALUES (1, 'Tarea hecha', GETDATE(), 0);
 
 --_________________________________________________________________________________________________________
+Create Table NotificationTable
+(NotificationID Int Primary Key Identity,
+NotificationTitle Varchar(Max),
+NotificationBody Varchar(Max),
+NotificationDate DateTime Default GetDate(),
+NotificationSeen Bit Default 0,
+
+NotificationUserProperty Int,
+Foreign Key(NotificationUserProperty) References UserTable(UserID));
+
+Insert Into NotificationTable Values 
+('Notificación Creada', 'Este es un ejemplo de cómo se verían las notificaciones implementadas con la base de datos', default, default, 1);
+
+SELECT NotificationTable.*, UserTable.UserName
+FROM NotificationTable
+INNER JOIN UserTable ON NotificationTable.NotificationUserProperty = UserTable.UserID
+WHERE NotificationTable.NotificationUserProperty = 1;
+
+--_________________________________________________________________________________________________________
 
 --Joseos
 Create Table JoseosTable
@@ -266,7 +285,7 @@ VALUES ('Desarrollador Full Stack para Plataforma Educativa Online', 'Buscamos u
 --Usuarios
 SELECT * FROM [TuJoseoDB].[dbo].[UserTable];
 --Joseos
-SELECT * FROM JoseosTable Where JoseoID = '1';
+SELECT * FROM JoseosTable Where JoseoID = '2';
 --Notas
 Select * From NotesTable Where NoteUserID = 1;
 --Categorías

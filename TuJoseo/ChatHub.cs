@@ -8,10 +8,10 @@ namespace TuJoseo
         {
             await Clients.Group(room).SendAsync("ReceiveMessage", user, message);
         }
+
         public async Task AddToGroup(string room)
         {
             await Groups.AddToGroupAsync(Context.ConnectionId, room);
-
             await Clients.Group(room).SendAsync("ShwoWho", $"{Context.ConnectionId} se ha conectado");
         }
     }

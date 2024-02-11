@@ -202,7 +202,12 @@ namespace TuJoseo.Controllers
                 MisJoseos = new List<JoseoModel>(),
                 JoseosCreados = new List<JoseoModel>()
             };
-            string queryMisJoseos = @$"SELECT * FROM JoseosTable Where JoseadorRealID = {userID};";
+
+            string queryMisJoseos = @$"SELECT JoseosTable.*, UserTable.UserCompleteName AS UserName
+FROM JoseosTable
+INNER JOIN UserTable ON UserTable.UserID = JoseosTable.JoseadorRealID
+WHERE JoseosTable.JoseadorRealID = {userID};";
+
             using (SqlConnection con = new SqlConnection(ConnectionString))
             {
                 using (SqlCommand cmd = new SqlCommand(queryMisJoseos, con))
@@ -221,7 +226,8 @@ namespace TuJoseo.Controllers
                                     JoseoDescription = reader.GetString(2),
                                     JoseoPrice = reader.GetString(3),
                                     JoseadorID = reader.GetString(4),
-                                    JoseadorRealID = reader.GetString(10)
+                                    JoseadorRealID = reader.GetString(10),
+                                    JoseadorRealName = reader.GetString(11),
                                 };
 
                                 joseos.Add(joseo);
@@ -234,7 +240,11 @@ namespace TuJoseo.Controllers
 
             List<JoseoModel> joseoscreado = new List<JoseoModel>();
 
-            string queryJoseosCreados = @$"SELECT * FROM JoseosTable Where JoseadorID = {userID};";
+            string queryJoseosCreados = @$"SELECT JoseosTable.*, UserTable.UserCompleteName AS UserName
+FROM JoseosTable
+LEFT JOIN UserTable ON UserTable.UserID = JoseosTable.JoseadorRealID
+WHERE JoseosTable.JoseadorID = {userID};";
+
             using (SqlConnection concreado = new SqlConnection(ConnectionString))
             {
                 using (SqlCommand cmdcreado = new SqlCommand(queryJoseosCreados, concreado))
@@ -254,6 +264,16 @@ namespace TuJoseo.Controllers
                                     JoseoPrice = reader.GetString(3),
                                     JoseadorID = reader.GetString(4)
                                 };
+
+
+                                try
+                                {
+                                    joseo.JoseadorRealName = reader.GetString(11);
+                                }
+                                catch
+                                {
+                                    joseo.JoseadorRealName = "";
+                                }
 
                                 joseoscreado.Add(joseo);
                             }

@@ -100,10 +100,24 @@
                                                                 {
                                                                     <div class="card card-primary card-outline mx-4 my-3">
                                                                         <h3 class="mx-2">@joseo.JoseoTitle</h3>
-                                                                        <span class="right badge badge-success">Estado: EN PROCESO</span>
                                                                         <p class="card-text mx-2">
-                                                                            <span class="right badge badge-primary">ROL: Empleador</span>
+                                                                            @* <span class="right badge badge-primary">ROL: Empleador</span> *@
                                                                             @joseo.JoseoDescription
+
+                                                                            <br />
+                                                                            <br />
+                                                                            @if (string.IsNullOrEmpty(joseo.JoseadorRealName))
+                                                                            {
+                                                                                <span class="right badge badge-success">Estado: BUSCANDO JOSEADOR <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span></span>
+                                                                                <span class="right badge badge-dark">¡Nadie ha aceptado el joseo aún!</span>
+                                                                            }
+                                                                            else
+                                                                            {
+                                                                                <span class="right badge badge-success">
+                                                                                    Estado: EN PROCESO   <span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span>
+                                                                                </span>
+                                                                                <span class="right badge badge-info">Joseador asignado: @joseo.JoseadorRealName</span>
+                                                                            }
                                                                         </p>
                                                                         <div class="text-center mx-2 my-3">
                                                                             <a class="btn btn-app btn-lg mx-2">
@@ -112,17 +126,14 @@
                                                                             <a class="btn btn-app btn-lg mx-2" href="@Url.Action("CreateJoseo", "Joseos", joseo)">
                                                                                 <iconify-icon icon="ph:pencil-duotone" width="20" height="20" style="color: #ffb703;"></iconify-icon><br />Editar
                                                                             </a>
-                                                                            @* @if (!string.IsNullOrEmpty(joseo.JoseadorRealID) || joseo.JoseadorRealID != "")
-                                                                            { *@
+
+                                                                            @if (!string.IsNullOrEmpty(joseo.JoseadorRealName))
+                                                                            {
                                                                                 <a class="btn btn-app btn-lg mx-2 btnFinishProject" data-joseo-id="@joseo.JoseoID">
                                                                                     <iconify-icon icon="gis:flag-finish" width="20" height="20"></iconify-icon><br />
                                                                                     Dar por terminado
                                                                                 </a>
-                                                                            @* }
-                                                                            else
-                                                                            {
-                                                                                <span class="right badge badge-warning">Vacante: Disponible</span>
-                                                                            } *@
+                                                                            }
                                                                             <form method="post" action="@Url.Action("SeeJoseo", "Joseos")">
                                                                                 <button type="submit" class="btn btn-outline-dark mx-2">
                                                                                     <iconify-icon icon="tabler:list-details" width="25" height="25" class="fa-lg"></iconify-icon>

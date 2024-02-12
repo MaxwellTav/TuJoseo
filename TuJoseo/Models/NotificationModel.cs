@@ -2,7 +2,7 @@
 {
     public class NotificationModel
     {
-        public string NotificationID { get; set; }
+        public int NotificationID { get; set; }
         public string NotificationTitle { get; set; }
         public string NotificationBody { get; set; }
         public bool NotificationSeen { get; set; }

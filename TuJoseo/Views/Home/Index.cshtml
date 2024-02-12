@@ -84,29 +84,41 @@
                                         <span class="float-right text-muted text-sm">12 hours</span>
                                     </a>
                                     <div class="dropdown-divider"></div> *@
-                                    @foreach (var notification in Model.Notifications)
+                                    @if (Model.Notifications.Count > 0 && Model.Notifications != null)
                                     {
-                                        <div class="dropdown-divider thicker-divider"></div>
-                                        @switch (notification.NotificationType)
+                                        @foreach (var notification in Model.Notifications)
                                         {
-                                            case NotificationType.Review:
-                                                <a href="#" class="dropdown-item">
-                                                    <i class="fas fa-file mr-2"></i> @(notification.NotificationTitle)
-                                                    <br />
-
-                                                    <span class="text-muted text-sm">
-                                                        @(notification.NotificationBody.Length > 38 ? notification.NotificationBody.Substring(0, 38) : notification.NotificationBody)...
+                                            <div class="dropdown-divider thicker-divider"></div>
+                                            @switch (notification.NotificationType)
+                                            {
+                                                case NotificationType.Review:
+                                                    <a href="#" class="dropdown-item">
+                                                        <i class="fas fa-file mr-2"></i> @(notification.NotificationTitle)
                                                         <br />
-                                                        <b>¿Dar review?</b>
-                                                        <br />
-                                                        <button class="btn btn-success">👍</button>
-                                                        <button class="btn btn-danger">👎</button>
-                                                    </span>
 
-                                                </a>
-                                            break;
+                                                        <span class="text-muted text-sm">
+                                                            @(notification.NotificationBody.Length > 38 ? notification.NotificationBody.Substring(0, 38) : notification.NotificationBody)...
+                                                            <br />
+                                                            <b>¿Dar review?</b>
+                                                            <br />
+
+                                                            <a class="btn btn-primary" onclick="mostrarAlerta('@notification.ReferenceID')">
+                                                                👍
+                                                            </a>
+                                                            <a class="btn btn-danger" onclick="mostrarAlerta('@notification.ReferenceID')">
+                                                                👎
+                                                            </a>
+                                                        </span>
+
+                                                    </a>
+                                                    break;
+                                            }
+
                                         }
-
+                                    }
+                                    else
+                                    {
+                                        <i class="fas fa-file mr-2"></i> <b>SIN NOTIFICACIONES.</b>
                                     }
                                     <a href="#" class="dropdown-item dropdown-footer">Ver todas las notificaciones</a>
                                 </div>
@@ -506,7 +518,7 @@
 
                                                 <!-- General tools such as edit or delete-->
                                                 <div class="tools">
-                                                    @* <i class="fas fa-edit" id="@note.NoteID"></i> *@
+                                                    @* <i class="fas fa-edit" id="@note.NoteID"></i>
                                                     @* <a href="@Url.Action("DeleteNote", "Home")" class="fas fa-trash"></a> *@
 
                                                     <form method="post" action="@Url.Action("DeleteNote", "Home")">
@@ -754,6 +766,56 @@
 <script src="~/lib/microsoft/signalr/dist/browser/signalr.js"></script>
 
 <script>
+    function enviarResena(stars, nombreProyecto, descripcionReview, personaReview, personaCritica) {
+        const data = {
+            reviewStars: stars,
+            reviewProyectName: nombreProyecto,
+            reviewDescription: descripcionReview,
+            reviewPersonID: personaReview,
+            reviewCriticadorID: personaCritica,
+            reviewDate: obtenerFechaHoyServidor()
+        };
+
+        $.ajax({
+            url: '/joseos/EnviarResena',
+            type: 'POST',
+            contentType: 'application/json',
+            data: JSON.stringify(data),
+            success: function (response) {
+                // Imprime la respuesta del servidor en la consola
+                console.log('Respuesta del servidor:', response);
+
+                if (response.success) {
+                    // Si la reseña se envió correctamente, muestra el mensaje de éxito
+                    Swal.fire('¡Reseña enviada!', 'Gracias por tu reseña.', 'success');
+                } else {
+                    // Si hubo un error, muestra el mensaje de error
+                    Swal.fire('Error', response.message, 'error');
+                }
+            },
+            error: function (error) {
+                // Imprime el error en la consola
+                console.error('Error al enviar la reseña:', error);
+
+                // Muestra un mensaje de error genérico al usuario
+                Swal.fire('Error', 'Hubo un problema al enviar la reseña.', 'error');
+            }
+        });
+    }
+
+
+    function obtenerFechaHoyServidor() {
+        const hoy = new Date();
+        const dia = hoy.getDate();
+        const mes = hoy.getMonth() + 1; // Sumamos 1 porque los meses comienzan desde 0
+        const anio = hoy.getFullYear();
+
+        // Formato 'YYYY-MM-DD'
+        const fechaFormateada = `${anio}-${mes < 10 ? '0' : ''}${mes}-${dia < 10 ? '0' : ''}${dia}`;
+
+        return fechaFormateada;
+    }
+
     // JavaScript para verificar el tamaño de la pantalla y mostrar/ocultar el preloader
     window.onload = function () {
         var preloader = document.getElementById('preloader');
@@ -786,5 +848,60 @@
             // Puedes agregar aquí tu lógica adicional si es necesario
         }
     });
+
+    function mostrarAlerta(userId) {
+        Swal.fire({
+            title: '¡Califica a este usuario!',
+            html:
+                '<div>' +
+                '   <input type="radio" name="stars" value="1"> 🤬 ' +
+                '   <input type="radio" name="stars" value="2"> 🙁 ' +
+                '   <input type="radio" name="stars" value="3"> 😐 ' +
+                '   <input type="radio" name="stars" value="4"> 🙂 ' +
+                '   <input type="radio" name="stars" value="5"> ✔ ' +
+                '   <input type="radio" name="stars" value="6"> ✨ ' +
+                '</div>' +
+                '<input hidden type="text" id="nombreProyecto" class="swal2-input" placeholder="Nombre del Proyecto">' +
+                '<input type="text" id="descripcionReview" class="swal2-input" placeholder="¡Cuéntanos la experiencia!">' +
+                '<input hidden type="text" id="personaReview" class="swal2-input" placeholder="Persona a la que le das la Review" value="' + userId + '">' +
+                '<input hidden type="text" id="personaCritica" class="swal2-input" placeholder="Persona que está criticando" value="@TempData["UserID"]">',
+            showCancelButton: true,
+            confirmButtonText: 'Enviar Reseña',
+            cancelButtonText: 'Cancelar',
+            preConfirm: () => {
+                // Obtén el valor del radio seleccionado
+                const stars = document.querySelector('input[name="stars"]:checked');
+
+                if (!stars) {
+                    // Si no se seleccionó ninguna estrella, puedes manejarlo aquí
+                    Swal.fire('Error', 'Por favor, selecciona una calificación.', 'error');
+                    return false; // Detener el proceso
+                }
+
+                const starsValue = stars.value;
+
+                // Resto del código
+                const nombreProyecto = document.getElementById('nombreProyecto').value;
+                const descripcionReview = document.getElementById('descripcionReview').value;
+                const personaReview = document.getElementById('personaReview').value;
+                const personaCritica = document.getElementById('personaCritica').value;
+
+                // Validar si personaReview y personaCritica son las mismas
+                if (personaReview.toString() === personaCritica) {
+                    Swal.fire('Error', '¡Debes seleccionar a alguien más que no seas tú!', 'error');
+                    return false;
+                }
+
+                // Validar si no está en blanco.
+                if (descripcionReview.toString() === "") {
+                    Swal.fire('Error', '¡Dame algo para reseñar!, no puede estar en blanco.', 'error');
+                    return false;
+                }
+
+                // Resto del código para enviar la reseña
+                enviarResena(starsValue, nombreProyecto, descripcionReview, personaReview, personaCritica);
+            }
+        });
+    }
 </script>
 </html>

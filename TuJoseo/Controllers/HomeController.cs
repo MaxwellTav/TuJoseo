@@ -279,7 +279,12 @@ namespace TuJoseo.Controllers
                                 notification.NotificationSeen = false;
 
                                 //Data.
-                                notification.ReferenceID = reader.GetInt32(0);
+                                if (reader.GetInt32(1).ToString() == userID)
+                                    notification.ReferenceID = reader.GetInt32(3);
+                                else
+                                    notification.ReferenceID = reader.GetInt32(1);
+
+                                notification.NotificationID = reader.GetInt32(0);
                                 notification.NotificationType = NotificationType.Review;
                                 
                                 homeModel.Notifications.Add(notification);

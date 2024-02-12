@@ -133,8 +133,30 @@ namespace TuJoseo.Controllers
                 }
             }
 
-            //Eliminar la notificación.
-            DeleteNotification(review.NotificationID);
+            #region Acción luego de utilizar la notificación.
+            //Deprecated
+            //DeleteNotification(review.NotificationID);
+
+            string valueToModify = "";
+
+            if (userID.ToString() == review.ReviewPersonID.ToString())
+                valueToModify = "PReviewJoseadorSeen";
+            else
+                valueToModify = "PReviewJoseadorRealSeen";
+
+            string updateReviewID = $@"UPDATE PendingReviewTable
+                           SET {valueToModify} = 1
+                           WHERE PReviewID = '{review.NotificationID}';";
+
+            using (SqlConnection con = new SqlConnection(ConnectionString))
+            {
+                con.Open();
+                using (SqlCommand cmd = new SqlCommand(updateReviewID, con))
+                {
+                    cmd.ExecuteNonQuery();
+                }
+            }
+            #endregion
 
             TempData["UserID"] = userID;
             return Ok(new { success = true });

@@ -9,6 +9,7 @@
         public string ReviewCriticadorID { get; set; }
         public DateTime ReviewDate { get; set; } = DateTime.Now;
         public int NotificationID { get; set; }
+        public bool SoyCriticadorPrincipal { get; set; } = true;
     }
 }
 

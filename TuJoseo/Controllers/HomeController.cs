@@ -256,9 +256,9 @@ namespace TuJoseo.Controllers
             homeModel.Notifications = new List<NotificationModel>();
 
             //Joseos terminados.
-            string queryPendingReview = $@"Select * From PendingReviewTable 
-                                    Where   PReviewJoseadorID = '{userID}' Or
-                                            PReviewJoseadorRealID = '{userID}';";
+            string queryPendingReview = $@"SELECT * FROM PendingReviewTable 
+                              WHERE (PReviewJoseadorID = '{userID}' AND PReviewJoseadorSeen = 0) OR 
+                                    (PReviewJoseadorRealID = '{userID}' AND PReviewJoseadorRealSeen = 0);";
 
             using (SqlConnection con = new SqlConnection(ConnectionString))
             {

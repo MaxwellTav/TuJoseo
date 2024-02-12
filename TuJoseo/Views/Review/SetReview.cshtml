@@ -177,9 +177,9 @@
     $('#ReviewCriticadorID').change(function () {
         var isChecked = $(this).prop('checked');
         if (isChecked) {
-            $(this).attr('data-on', '@Model.UserName');
+            $(this).attr('data-on', '@Model.UserID');
         } else {
-            $(this).attr('data-on', 'Anónimo');
+            $(this).attr('data-on', '1');
         }
     });
 });

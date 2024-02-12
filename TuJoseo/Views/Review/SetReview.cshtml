@@ -1,4 +1,4 @@
-﻿
+﻿@model UserModelReview
 
 <!DOCTYPE html>
 <html lang="es">
@@ -70,10 +70,10 @@
                     <h2 class="headline text-danger">👍💬</h2>
 
                     <div class="error-content">
-                        <h3> ¿Cómo calificas a Usuario?</h3>
+                        <h3> ¿Cómo calificas a @(Model.UserNameOther)?</h3>
 
                         <p>
-                            ¿Cómo fue la experiencia de trabajar con Usuario?
+                            ¿Cómo fue la experiencia de trabajar con este usuario?
                         </p>
 
                         <form class="search-form">
@@ -91,7 +91,7 @@
                                   <label for="star1" title="text">1 star</label>
                                 </div>
                                 
-                                <input name="usuario" id="usuario" type="checkbox" checked data-toggle="toggle" data-on="Usuario" data-off="Anónimo" data-width="100">
+                                <input name="usuario" id="usuario" type="checkbox" checked data-toggle="toggle" data-on="@Model.UserName" data-off="Anónimo" data-width="100">
                             <div class="input-group">
 
                                 <textarea name="reviewdescription" id="reviewdescription" class="form-control" id="exampleFormControlTextarea1" rows="4" placeholder="Escriba su comentario aquí."></textarea>

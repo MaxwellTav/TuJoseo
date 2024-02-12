@@ -192,7 +192,6 @@ namespace TuJoseo.Controllers
 
         public IActionResult SearchOwnJoseo()
         {
-
             string userID = SetCoockie();
             TempData["UserID"] = SetCoockie().ToString();
 
@@ -704,6 +703,49 @@ WHERE JoseosTable.JoseadorID = {userID};";
             #region Actualizar datos del trabajador.
             // Aquí debes agregar el código para actualizar los datos del trabajador
             // según lo que necesites.
+            #endregion
+
+            #region Crear la notificación
+            string queryGetJoseo = $"Select JoseoTitle, JoseadorID, JoseadorRealID From JoseosTable Where JoseoID = '{joseoID}';";
+            PendingReviewModel pendingReview = new PendingReviewModel();
+
+            //Get the proyect
+            using (SqlConnection con = new SqlConnection(ConnectionString))
+            {
+                con.Open();
+                using (SqlCommand cmd = new SqlCommand(queryGetJoseo, con))
+                {
+                    using (SqlDataReader reader = cmd.ExecuteReader())
+                    {
+                        if (reader.HasRows)
+                        {
+                            while (reader.Read())
+                            {
+                                pendingReview.PReviewProyectID = joseoID;
+                                pendingReview.PReviewJoseadorID = reader.GetString(1);
+                                pendingReview.PReviewJoseadorRealID = reader.GetString(2);
+                                pendingReview.PReviewProyectName = reader.GetString(0);
+                            }
+                        }
+                    }
+                }
+            }
+
+            //Insert the data.
+            string queryInsertReview = @$"Insert Into PendingReviewTable Values 
+                                            ('{pendingReview.PReviewJoseadorID}',
+                                            Default,
+                                            '{pendingReview.PReviewJoseadorRealID}',
+                                            Default,
+                                            '{pendingReview.PReviewProyectName}');";
+            using (SqlConnection con = new SqlConnection(ConnectionString))
+            {
+                con.Open();
+                using (SqlCommand cmd = new SqlCommand(queryInsertReview, con))
+                {
+                    cmd.ExecuteNonQuery();
+                }
+            }
             #endregion
 
             #region Eliminar el joseo

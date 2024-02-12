@@ -59,6 +59,19 @@ CREATE TABLE UserTable (
 );
 --_________________________________________________________________________________________________________
 
+Create Table PendingReviewTable
+(PReviewID Int Primary Key Identity,
+PReviewJoseadorID Int Not Null,
+PReviewJoseadorSeen Bit Default 0,
+PReviewJoseadorRealID Int Not Null,
+PReviewJoseadorRealSeen Bit Default 0,
+PReviewProyectName Varchar(Max),
+
+Foreign Key (PReviewJoseadorID) References UserTable(UserID),
+Foreign Key (PReviewJoseadorRealID) References UserTable(UserID));
+
+--_________________________________________________________________________________________________________
+
 CREATE TABLE ReviewTable (
     ReviewID INT PRIMARY KEY IDENTITY,
     ReviewStars INT,
@@ -285,7 +298,7 @@ VALUES ('Desarrollador Full Stack para Plataforma Educativa Online', 'Buscamos u
 --Usuarios
 SELECT * FROM [TuJoseoDB].[dbo].[UserTable];
 --Joseos
-SELECT * FROM JoseosTable Where JoseoID = '2';
+SELECT * FROM JoseosTable ;
 --Notas
 Select * From NotesTable Where NoteUserID = 1;
 --Categorías
@@ -293,3 +306,16 @@ Select * From CategoryUserTable;
 
 SELECT UserID, UserRol, UserName, UserHabilities, UserLocation, UserPhone, UserJoseosRealized, UserJobQuality, UserSimpaty FROM [TuJoseoDB].[dbo].[UserTable] Where UserName = 'Admin';
 --_________________________________________________________________________________________________________
+
+
+SELECT JoseosTable.*, UserTable.UserCompleteName AS UserName
+FROM JoseosTable
+INNER JOIN UserTable ON UserTable.UserID = JoseosTable.JoseadorRealID
+WHERE JoseosTable.JoseadorRealID = 1;
+
+SELECT * FROM JoseosTable Where JoseadorID = 1;
+
+SELECT JoseosTable.*, UserTable.UserCompleteName AS UserName
+FROM JoseosTable
+LEFT JOIN UserTable ON UserTable.UserID = JoseosTable.JoseadorRealID
+WHERE JoseosTable.JoseadorID = 1;

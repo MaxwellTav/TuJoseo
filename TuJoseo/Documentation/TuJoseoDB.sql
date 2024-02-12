@@ -70,6 +70,9 @@ PReviewProyectName Varchar(Max),
 Foreign Key (PReviewJoseadorID) References UserTable(UserID),
 Foreign Key (PReviewJoseadorRealID) References UserTable(UserID));
 
+Insert Into PendingReviewTable Values 
+(1, Default, 2, Default, 'Proyecto de ejemplo');
+
 --_________________________________________________________________________________________________________
 
 CREATE TABLE ReviewTable (

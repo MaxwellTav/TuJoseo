@@ -4,6 +4,14 @@
 }
 <html>
 <head>
+    <style>
+        .thicker-divider {
+            height: 3px; /* ajusta esta altura según lo grueso que desees el divisor */
+            margin: 0.5rem 0; /* ajusta el espacio vertical según sea necesario */
+            background-color: #000; /* puedes cambiar el color del divisor si lo deseas */
+        }
+    </style>
+
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -52,15 +60,65 @@
                 <div class="col-sm-6">
                     <h5 class="m-0 justify-content-center">Tu Joseo - ¡El trabajo viene a ti!</h5>
                 </div><!-- /.col -->
+
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
                         <li class="breadcrumb-item"></li>
+                            <!-- Notifications Dropdown Menu -->
+                            <li class="nav-item dropdown ml-auto">
+                                <!-- Añade la clase ml-auto para alinear a la derecha -->
+                                <a class="nav-link" data-toggle="dropdown" href="#">
+                                    <i class="far fa-bell"></i>
+                                    <span class="badge badge-warning navbar-badge">@Model.Notifications.Count</span>
+                                </a>
+                                <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
+                                    <span class="dropdown-header">@Model.Notifications.Count Notificationes</span>
+                                    <div class="dropdown-divider"></div>
+                                    @* <a href="#" class="dropdown-item">
+                                        <i class="fas fa-envelope mr-2"></i> 4 new messages
+                                        <span class="float-right text-muted text-sm">3 mins</span>
+                                    </a>
+                                    <div class="dropdown-divider"></div>
+                                    <a href="#" class="dropdown-item">
+                                        <i class="fas fa-users mr-2"></i> 8 friend requests
+                                        <span class="float-right text-muted text-sm">12 hours</span>
+                                    </a>
+                                    <div class="dropdown-divider"></div> *@
+                                    @foreach (var notification in Model.Notifications)
+                                    {
+                                        <div class="dropdown-divider thicker-divider"></div>
+                                        @switch (notification.NotificationType)
+                                        {
+                                            case NotificationType.Review:
+                                                <a href="#" class="dropdown-item">
+                                                    <i class="fas fa-file mr-2"></i> @(notification.NotificationTitle)
+                                                    <br />
+
+                                                    <span class="text-muted text-sm">
+                                                        @(notification.NotificationBody.Length > 38 ? notification.NotificationBody.Substring(0, 38) : notification.NotificationBody)...
+                                                        <br />
+                                                        <b>¿Dar review?</b>
+                                                        <br />
+                                                        <button class="btn btn-success">👍</button>
+                                                        <button class="btn btn-danger">👎</button>
+                                                    </span>
+
+                                                </a>
+                                            break;
+                                        }
+
+                                    }
+                                    <a href="#" class="dropdown-item dropdown-footer">Ver todas las notificaciones</a>
+                                </div>
+                            </li>
+
                     </ol>
                 </div>
                 <!-- /.col -->
             </div><!-- /.row -->
         </div><!-- /.container-fluid -->
     </div>
+
     <!-- /.content-header -->
     <!-- Main content -->
     <section class="content">

@@ -252,6 +252,44 @@ namespace TuJoseo.Controllers
             }
             #endregion
 
+            #region Notificaciones
+            homeModel.Notifications = new List<NotificationModel>();
+
+            //Joseos terminados.
+            string queryPendingReview = $@"Select * From PendingReviewTable 
+                                    Where   PReviewJoseadorID = '{userID}' Or
+                                            PReviewJoseadorRealID = '{userID}';";
+
+            using (SqlConnection con = new SqlConnection(ConnectionString))
+            {
+                con.Open();
+                using (SqlCommand cmd = new SqlCommand(queryPendingReview, con))
+                {
+                    using (SqlDataReader reader = cmd.ExecuteReader())
+                    {
+                        if (reader.HasRows)
+                        {
+                            while (reader.Read())
+                            {
+                                NotificationModel notification = new NotificationModel();
+
+                                notification.NotificationTitle = "¡Review pendiente!";
+                                notification.NotificationBody = $"{reader.GetString(5)}";
+
+                                notification.NotificationSeen = false;
+
+                                //Data.
+                                notification.ReferenceID = reader.GetInt32(0);
+                                notification.NotificationType = NotificationType.Review;
+                                
+                                homeModel.Notifications.Add(notification);
+                            }
+                        }
+                    }
+                }
+            }
+            #endregion
+
             #region Claims (Deprecated)
             //ClaimsPrincipal c = HttpContext.User;
             //if (c.Identity != null)

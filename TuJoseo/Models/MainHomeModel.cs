@@ -7,5 +7,7 @@
         public NotesModel? NOTES { get; set; }
         public List<JoseoModel>? JOSEOS { get; set; }
         public int Room { get; set; } = 0;
+
+        public List<NotificationModel>? Notifications { get; set; }
     }
 }

@@ -100,7 +100,6 @@ namespace TuJoseo.Controllers
             return RedirectToAction("Index", "Home");
         }
 
-
         [HttpPost]
         public IActionResult SendReview([FromBody] ReviewModel review)
         {
@@ -117,7 +116,26 @@ namespace TuJoseo.Controllers
                 review.ReviewDescription = "Sin descripción...";
             #endregion
 
+            string updateReviewQuery = $@"Insert Into ReviewTable Values 
+                                        ('{review.ReviewStars}', 
+                                        '{review.ReviewProyectName}', 
+                                        '{review.ReviewDescription}',
+                                        '{review.ReviewPersonID}',
+                                        '{review.ReviewCriticadorID}',
+                                        Default);";
+
+            using (SqlConnection con = new SqlConnection(ConnectionString))
+            {
+                con.Open();
+                using (SqlCommand cmd = new SqlCommand(updateReviewQuery, con))
+                {
+                    cmd.ExecuteNonQuery();
+                }
+            }
+
             //Eliminar la notificación.
+            DeleteNotification(review.NotificationID);
+
             TempData["UserID"] = userID;
             return Ok(new { success = true });
         }

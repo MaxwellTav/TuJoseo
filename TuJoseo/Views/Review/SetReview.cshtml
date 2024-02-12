@@ -87,10 +87,11 @@
                               <label for="star3" title="text">3 stars</label>
                               <input type="radio" id="star2" name="rate" value="2" />
                               <label for="star2" title="text">2 stars</label>
-                              <input type="radio" id="star1" name="rate" value="1" />
-                              <label for="star1" title="text">1 star</label>
+                              <input type="radio" checked id="star1" name="rate" value="1" />
+                              <label for="star1" checked title="text">1 star</label>
                             </div>
                             
+                            publicador por
                             <input name="ReviewCriticadorID" id="ReviewCriticadorID" type="checkbox" checked data-toggle="toggle" data-on="@Model.UserName" data-off="Anónimo" data-width="100">
                             <div class="input-group">
                                 <textarea name="reviewdescription" id="reviewdescription" class="form-control" id="exampleFormControlTextarea1" rows="4" placeholder="Escriba su comentario aquí."></textarea>
@@ -145,7 +146,7 @@
         var formData = {
             ReviewStars: $('input[name="rate"]:checked').val(),
             ReviewDescription: $('#reviewdescription').val(),
-            ReviewCriticadorID: $('#ReviewCriticadorName').prop('checked') ? '@Model.UserName' : 'Anónimo',
+            ReviewCriticadorID: $('#ReviewCriticadorID').prop('checked') ? '@Model.UserName' : 'Anónimo',
             ReviewProyectName: '@Model.ProyectName',
             ReviewPersonID: '@Model.UserIDOther',
             NotificationID: '@Model.NotificationID'
@@ -173,7 +174,7 @@
 
     });
 
-    $('#ReviewCriticadorName').change(function () {
+    $('#ReviewCriticadorID').change(function () {
         var isChecked = $(this).prop('checked');
         if (isChecked) {
             $(this).attr('data-on', '@Model.UserName');

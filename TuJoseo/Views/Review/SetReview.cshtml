@@ -144,14 +144,13 @@
 
         // Obtén los valores del formulario
         var formData = {
-            ReviewStars: $('input[name="rate"]:checked').val(),
-            ReviewDescription: $('#reviewdescription').val(),
-            ReviewCriticadorID: $('#ReviewCriticadorID').prop('checked') ? '@Model.UserName' : 'Anónimo',
-            ReviewProyectName: '@Model.ProyectName',
-            ReviewPersonID: '@Model.UserIDOther',
-            NotificationID: '@Model.NotificationID'
-            // Asegúrate de obtener los demás valores necesarios
-        };
+                ReviewStars: $('input[name="rate"]:checked').val(),
+                ReviewDescription: $('#reviewdescription').val(),
+                ReviewCriticadorID: '@Model.UserID',
+                ReviewProyectName: '@Model.ProyectName',
+                ReviewPersonID: '@Model.UserIDOther',
+                NotificationID: '@Model.NotificationID'
+            };
 
         // Realiza la petición AJAX
         $.ajax({

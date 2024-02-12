@@ -38,9 +38,9 @@ namespace TuJoseo.Controllers
             /******************************************************************************/
             //Sin busqueda
             if (search == null)
-                query = "SELECT UserID, UserRol, UserName, UserHabilities, " +
-                    "UserLocation, UserPhone, UserJoseosRealized, UserJobQuality, " +
-                    "UserSimpaty FROM [TuJoseoDB].[dbo].[UserTable];";
+                query = "SELECT UserID, UserRol, UserName, UserHabilities, UserLocation, UserPhone, UserJoseosRealized, UserJobQuality, UserSimpaty " +
+            "FROM [TuJoseoDB].[dbo].[UserTable] " +
+            $"WHERE UserID != '{userID}';";
             //Buscar por ID
             else
             {
@@ -49,21 +49,18 @@ namespace TuJoseo.Controllers
                     TempData["UserID"] = userID;
 
                     Convert.ToInt32(search);
-                    query = @$"SELECT UserID, UserRol, UserName, UserHabilities,
-                            UserLocation, UserPhone, UserJoseosRealized, UserJobQuality, 
-                            UserSimpaty FROM [TuJoseoDB].[dbo].[UserTable] 
-                            Where CategoryUserID = '{search}';";
+                    query = @$"SELECT UserID, UserRol, UserName, UserHabilities, UserLocation, UserPhone, UserJoseosRealized, UserJobQuality, UserSimpaty " +
+                $"FROM [TuJoseoDB].[dbo].[UserTable] " +
+                $"WHERE CategoryUserID = '{search}' AND UserID != '{userID}';";
 
                 }
                 catch (Exception)
                 {
                     TempData["UserID"] = userID;
 
-                    query = @$"SELECT UserID, UserRol, UserName, UserHabilities, 
-            UserLocation, UserPhone, UserJoseosRealized, 
-            UserJobQuality, UserSimpaty     
-            FROM [TuJoseoDB].[dbo].[UserTable] 
-            WHERE LOWER(UserName) LIKE '%{search.ToLower()}%'";
+                    query = @$"SELECT UserID, UserRol, UserName, UserHabilities, UserLocation, UserPhone, UserJoseosRealized, UserJobQuality, UserSimpaty " +
+                 $"FROM [TuJoseoDB].[dbo].[UserTable] " +
+                 $"WHERE LOWER(UserName) LIKE '%{search.ToLower()}%' AND UserID != '{userID}';";
                 }
             }
 
@@ -430,7 +427,7 @@ WHERE JoseosTable.JoseadorID = {userID};";
         [HttpPost]
         public IActionResult CreateNewJoseo([FromBody] CreateJoseoModel joseo)
         {
-            string userID = TempData["UserID"].ToString();
+            string userID = SetCoockie();
 
             TempData["UserID"] = SetCoockie().ToString();
             if (joseo == null)
@@ -453,15 +450,17 @@ WHERE JoseosTable.JoseadorID = {userID};";
                 return View(joseo);
             }
 
-            string query = $@"Insert Into JoseosTable (JoseoTitle, JoseoDescription, JoseoStatus, JoseoPrice, JoseoEstimatedTime, JoseadorID, JoseoFinishTime, JoseoContratoID) Values
-                            ('{joseo.JoseoTitle}', 
-                            '{joseo.JoseoDescription}', 
-                            '{joseo.JoseoStatus}', 
-                            '{joseo.JoseoPrice}', 
-                            '{joseo.JoseoEstimatedTime}', 
-                            '{joseo.JoseadorID}', 
-                            '{DateTime.Now}', 
-                            '0090239');";
+            string formattedDateTime = DateTime.Now.ToString("yyyy-MM-ddTHH:mm:ss");
+            string query = $@"INSERT INTO JoseosTable (JoseoTitle, JoseoDescription, JoseoStatus, JoseoPrice, JoseoEstimatedTime, JoseadorID, JoseoFinishTime, JoseoContratoID) 
+                  VALUES ('{joseo.JoseoTitle}', 
+                          '{joseo.JoseoDescription}', 
+                          '{joseo.JoseoStatus}', 
+                          '{joseo.JoseoPrice}', 
+                          '{joseo.JoseoEstimatedTime}', 
+                          '{joseo.JoseadorID}', 
+                          '{formattedDateTime}', 
+                          '0090239');";
+
 
             using (SqlConnection con = new SqlConnection(ConnectionString))
             {

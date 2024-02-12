@@ -119,7 +119,12 @@
                                                             <div class="timeline-item">
                                                                 <span class="time"><i class="far fa-clock"></i> @review.ReviewDate.ToString("dd/MMMM/yyyy").ToUpperInvariant()</span>
 
-                                                                <h3 class="timeline-header"><a href="#">@review.ReviewCriticadorID</a> cometó</h3>
+                                                                <h3 class="timeline-header"><a href="#">@review.ReviewCriticadorID</a> comentó</h3>
+
+                                                                @for (int i = 0; i < review.ReviewStars; i++)
+                                                                {
+                                                                <a>⭐</a>
+                                                                }
 
                                                                 <div class="timeline-body">
                                                                     @review.ReviewDescription

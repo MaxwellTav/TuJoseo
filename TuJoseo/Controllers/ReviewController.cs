@@ -77,6 +77,7 @@ namespace TuJoseo.Controllers
                 }
             }
 
+            UserReview.NotificationID = notificationID;
             TempData["UserID"] = userID;
             return View(UserReview);
         }
@@ -98,5 +99,28 @@ namespace TuJoseo.Controllers
             TempData["UserID"] = userID;
             return RedirectToAction("Index", "Home");
         }
+
+
+        [HttpPost]
+        public IActionResult SendReview([FromBody] ReviewModel review)
+        {
+            string userID = TempData["UserID"].ToString();
+            #region Formato y condiciones.
+            if (review.ReviewStars == 0 ||
+                string.IsNullOrEmpty(review.ReviewCriticadorID) ||
+                review.ReviewPersonID < 1)
+            {
+                return BadRequest(new { success = false });
+            }
+
+            if (string.IsNullOrEmpty(review.ReviewDescription))
+                review.ReviewDescription = "Sin descripción...";
+            #endregion
+
+            //Eliminar la notificación.
+            TempData["UserID"] = userID;
+            return Ok(new { success = true });
+        }
+
     }
 }

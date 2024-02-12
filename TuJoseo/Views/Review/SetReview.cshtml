@@ -77,23 +77,22 @@
                         </p>
 
                         <form class="search-form">
-                            <br />
-                                <div class="rate">
-                                  <input type="radio" id="star5" name="rate" value="5" />
-                                  <label for="star5" title="text">5 stars</label>
-                                  <input type="radio" id="star4" name="rate" value="4" />
-                                  <label for="star4" title="text">4 stars</label>
-                                  <input type="radio" id="star3" name="rate" value="3" />
-                                  <label for="star3" title="text">3 stars</label>
-                                  <input type="radio" id="star2" name="rate" value="2" />
-                                  <label for="star2" title="text">2 stars</label>
-                                  <input type="radio" id="star1" name="rate" value="1" />
-                                  <label for="star1" title="text">1 star</label>
-                                </div>
-                                
-                                <input name="usuario" id="usuario" type="checkbox" checked data-toggle="toggle" data-on="@Model.UserName" data-off="Anónimo" data-width="100">
+                        <br />
+                            <div class="rate">
+                              <input type="radio" id="star5" name="rate" value="5" />
+                              <label for="star5" title="text">5 stars</label>
+                              <input type="radio" id="star4" name="rate" value="4" />
+                              <label for="star4" title="text">4 stars</label>
+                              <input type="radio" id="star3" name="rate" value="3" />
+                              <label for="star3" title="text">3 stars</label>
+                              <input type="radio" id="star2" name="rate" value="2" />
+                              <label for="star2" title="text">2 stars</label>
+                              <input type="radio" id="star1" name="rate" value="1" />
+                              <label for="star1" title="text">1 star</label>
+                            </div>
+                            
+                            <input name="ReviewCriticadorID" id="ReviewCriticadorID" type="checkbox" checked data-toggle="toggle" data-on="@Model.UserName" data-off="Anónimo" data-width="100">
                             <div class="input-group">
-
                                 <textarea name="reviewdescription" id="reviewdescription" class="form-control" id="exampleFormControlTextarea1" rows="4" placeholder="Escriba su comentario aquí."></textarea>
 
                                 <div class="input-group-append">
@@ -130,5 +129,62 @@
     <script src="../../plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
     <!-- Bootstrap4 Toggle -->
     <script src="https://cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.6.1/js/bootstrap4-toggle.min.js"></script>
+    <!-- Ajax -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </body>
 </html>
+@section Scripts {
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+    $('.search-form').submit(function (event) {
+        event.preventDefault(); // Previene el comportamiento por defecto del envío del formulario
+
+        // Obtén los valores del formulario
+        var formData = {
+            ReviewStars: $('input[name="rate"]:checked').val(),
+            ReviewDescription: $('#reviewdescription').val(),
+            ReviewCriticadorID: $('#ReviewCriticadorName').prop('checked') ? '@Model.UserName' : 'Anónimo',
+            ReviewProyectName: '@Model.ProyectName',
+            ReviewPersonID: '@Model.UserIDOther',
+            NotificationID: '@Model.NotificationID'
+            // Asegúrate de obtener los demás valores necesarios
+        };
+
+        // Realiza la petición AJAX
+        $.ajax({
+            type: 'POST',
+            url: '@Url.Action("SendReview", "Review")',
+            data: JSON.stringify(formData),
+            contentType: 'application/json',
+            success: function (response) {
+                if (response.success) {
+                    window.location.href = '@Url.Action("Index", "Home")'; // Redirige a la página de inicio si la revisión se envió correctamente
+                } else {
+                    // Vuelve a cargar la página con el mismo modelo
+                    location.reload();
+                }
+            },
+            error: function (error) {
+                console.error(error);
+            }
+        });
+
+    });
+
+    $('#ReviewCriticadorName').change(function () {
+        var isChecked = $(this).prop('checked');
+        if (isChecked) {
+            $(this).attr('data-on', '@Model.UserName');
+        } else {
+            $(this).attr('data-on', 'Anónimo');
+        }
+    });
+});
+
+    </script>
+}
+
+
+

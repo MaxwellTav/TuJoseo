@@ -121,12 +121,16 @@
 
                                                                 <h3 class="timeline-header"><a href="#">@review.ReviewCriticadorID</a> cometó</h3>
 
+                                                                @for (int i = 0; i < review.ReviewStars; i++)
+                                                                {
+                                                                <a>⭐</a>
+                                                                }
+
                                                                 <div class="timeline-body">
                                                                     @review.ReviewDescription
                                                                 </div>
                                                             </div>
                                                         </div>
-
                                                     }
                                                 </div>
                                             }

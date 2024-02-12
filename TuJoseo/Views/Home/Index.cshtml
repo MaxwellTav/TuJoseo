@@ -766,90 +766,7 @@
 <script src="~/lib/microsoft/signalr/dist/browser/signalr.js"></script>
 
 <script>
-    function enviarResena(stars, nombreProyecto, descripcionReview, personaReview, personaCritica) {
-        const data = {
-            reviewStars: stars,
-            reviewProyectName: nombreProyecto,
-            reviewDescription: descripcionReview,
-            reviewPersonID: personaReview,
-            reviewCriticadorID: personaCritica,
-            reviewDate: obtenerFechaHoyServidor()
-        };
-
-        $.ajax({
-            url: '/joseos/EnviarResena',
-            type: 'POST',
-            contentType: 'application/json',
-            data: JSON.stringify(data),
-            success: function (response) {
-                // Imprime la respuesta del servidor en la consola
-                console.log('Respuesta del servidor:', response);
-
-                if (response.success) {
-                    // Si la reseña se envió correctamente, muestra el mensaje de éxito
-                    Swal.fire('¡Reseña enviada!', 'Gracias por tu reseña.', 'success');
-                } else {
-                    // Si hubo un error, muestra el mensaje de error
-                    Swal.fire('Error', response.message, 'error');
-                }
-            },
-            error: function (error) {
-                // Imprime el error en la consola
-                console.error('Error al enviar la reseña:', error);
-
-                // Muestra un mensaje de error genérico al usuario
-                Swal.fire('Error', 'Hubo un problema al enviar la reseña.', 'error');
-            }
-        });
-    }
-
-
-    function obtenerFechaHoyServidor() {
-        const hoy = new Date();
-        const dia = hoy.getDate();
-        const mes = hoy.getMonth() + 1; // Sumamos 1 porque los meses comienzan desde 0
-        const anio = hoy.getFullYear();
-
-        // Formato 'YYYY-MM-DD'
-        const fechaFormateada = `${anio}-${mes < 10 ? '0' : ''}${mes}-${dia < 10 ? '0' : ''}${dia}`;
-
-        return fechaFormateada;
-    }
-
-    // JavaScript para verificar el tamaño de la pantalla y mostrar/ocultar el preloader
-    window.onload = function () {
-        var preloader = document.getElementById('preloader');
-
-        // Si el ancho de la pantalla es menor que 768px (puedes ajustar este valor según tus necesidades)
-        if (window.innerWidth < 768) {
-            preloader.style.display = 'none'; // Oculta el preloader en dispositivos móviles
-        } else {
-            preloader.style.display = 'block'; // Muestra el preloader en PC
-        }
-    };
-
-    document.getElementById("message").addEventListener("keydown", function (e) {
-        if (e.key === "Enter") {
-            e.preventDefault(); // Evitar el comportamiento predeterminado (recargar la página)
-            // Puedes agregar aquí tu lógica adicional si es necesario
-        }
-    });
-
-    document.getElementById("note").addEventListener("keydown", function (e) {
-        if (e.key === "Enter") {
-            e.preventDefault(); // Evitar el comportamiento predeterminado (recargar la página)
-            // Puedes agregar aquí tu lógica adicional si es necesario
-        }
-    });
-
-    document.getElementById("joseoID").addEventListener("keydown", function (e) {
-        if (e.key === "Enter") {
-            e.preventDefault(); // Evitar el comportamiento predeterminado (recargar la página)
-            // Puedes agregar aquí tu lógica adicional si es necesario
-        }
-    });
-
-    function mostrarAlerta(userId) {
+    @* function mostrarAlerta(userId) {
         Swal.fire({
             title: '¡Califica a este usuario!',
             html:
@@ -903,5 +820,87 @@
             }
         });
     }
+
+    function enviarResena(stars, nombreProyecto, descripcionReview, personaReview, personaCritica) {
+        const data = {
+            reviewStars: stars,
+            reviewProyectName: nombreProyecto,
+            reviewDescription: descripcionReview,
+            reviewPersonID: personaReview,
+            reviewCriticadorID: personaCritica,
+            reviewDate: obtenerFechaHoyServidor()
+        };
+
+        $.ajax({
+            url: '/joseos/EnviarResena',
+            type: 'POST',
+            contentType: 'application/json',
+            data: JSON.stringify(data),
+            success: function (response) {
+                // Imprime la respuesta del servidor en la consola
+                console.log('Respuesta del servidor:', response);
+
+                if (response.success) {
+                    // Si la reseña se envió correctamente, muestra el mensaje de éxito
+                    Swal.fire('¡Reseña enviada!', 'Gracias por tu reseña.', 'success');
+                } else {
+                    // Si hubo un error, muestra el mensaje de error
+                    Swal.fire('Error', response.message, 'error');
+                }
+            },
+            error: function (error) {
+                // Imprime el error en la consola
+                console.error('Error al enviar la reseña:', error);
+
+                // Muestra un mensaje de error genérico al usuario
+                Swal.fire('Error', 'Hubo un problema al enviar la reseña.', 'error');
+            }
+        });
+    }
+
+    function obtenerFechaHoyServidor() {
+        const hoy = new Date();
+        const dia = hoy.getDate();
+        const mes = hoy.getMonth() + 1; // Sumamos 1 porque los meses comienzan desde 0
+        const anio = hoy.getFullYear();
+
+        // Formato 'YYYY-MM-DD'
+        const fechaFormateada = `${anio}-${mes < 10 ? '0' : ''}${mes}-${dia < 10 ? '0' : ''}${dia}`;
+
+        return fechaFormateada;
+    } *@
+
+    // JavaScript para verificar el tamaño de la pantalla y mostrar/ocultar el preloader
+    window.onload = function () {
+        var preloader = document.getElementById('preloader');
+
+        // Si el ancho de la pantalla es menor que 768px (puedes ajustar este valor según tus necesidades)
+        if (window.innerWidth < 768) {
+            preloader.style.display = 'none'; // Oculta el preloader en dispositivos móviles
+        } else {
+            preloader.style.display = 'block'; // Muestra el preloader en PC
+        }
+    };
+
+    document.getElementById("message").addEventListener("keydown", function (e) {
+        if (e.key === "Enter") {
+            e.preventDefault(); // Evitar el comportamiento predeterminado (recargar la página)
+            // Puedes agregar aquí tu lógica adicional si es necesario
+        }
+    });
+
+    document.getElementById("note").addEventListener("keydown", function (e) {
+        if (e.key === "Enter") {
+            e.preventDefault(); // Evitar el comportamiento predeterminado (recargar la página)
+            // Puedes agregar aquí tu lógica adicional si es necesario
+        }
+    });
+
+    document.getElementById("joseoID").addEventListener("keydown", function (e) {
+        if (e.key === "Enter") {
+            e.preventDefault(); // Evitar el comportamiento predeterminado (recargar la página)
+            // Puedes agregar aquí tu lógica adicional si es necesario
+        }
+    });
 </script>
 </html>
